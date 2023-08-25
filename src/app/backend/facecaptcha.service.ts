@@ -59,25 +59,25 @@ export class FacecaptchaService {
 		return this.http.post(url, body.toString(), { headers, observe: 'response' });
 	}
 
-  getProductionKey(appkey: string, modulo: string) {
+  getProductionKey(appkey: string) {
     const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/3d/initialize`;
 
 		const body = {
 			appkey: appkey,
-			platform: modulo
+			platform: 'web'
 		}
 
 		return this.http.post(url,body);
 	}
 
-  getSessionToken(session) {
+  getSessionToken(appkey: string, userAgent: string) {
     const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/3d/session-token`;
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     var body = JSON.stringify({
-      appkey: session.appkey,
-      userAgent: session.userAgent,
+      appkey: appkey,
+      userAgent: userAgent,
     });
 
     return this.http.post(url, body, { headers, observe: 'response' });
