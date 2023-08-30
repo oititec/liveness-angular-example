@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SampleApp } from 'src/assets/sample-app';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-liveness3d',
@@ -14,6 +15,7 @@ export class Liveness3dComponent implements OnInit {
 
   constructor(
     private facecaptchaService: FacecaptchaService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -30,6 +32,6 @@ export class Liveness3dComponent implements OnInit {
     window.localStorage.removeItem('appkey');
     window.localStorage.removeItem('hasLiveness');
 
-    window.location.href = '/';
+    this.router.navigateByUrl('/');
   };
 }

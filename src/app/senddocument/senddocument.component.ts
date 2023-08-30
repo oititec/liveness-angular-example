@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-senddocument',
@@ -31,6 +32,7 @@ export class SenddocumentComponent implements OnInit {
 
   constructor(
     private facecaptchaService: FacecaptchaService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -410,6 +412,6 @@ export class SenddocumentComponent implements OnInit {
     window.localStorage.removeItem('appkey');
     window.localStorage.removeItem('hasLiveness');
 
-    window.location.href = '/';
+    this.router.navigateByUrl('/');
   };
 }

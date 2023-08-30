@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appkey',
@@ -14,11 +15,12 @@ export class AppkeyComponent implements OnInit {
 
   constructor(
     private facecaptchaService: FacecaptchaService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
     if (window.localStorage.getItem('appkey')) {
-      window.location.href='/home';
+      this.router.navigateByUrl('/home');
     }
   }
 
@@ -36,7 +38,7 @@ export class AppkeyComponent implements OnInit {
       window.localStorage.setItem('appkey', this.appkey);
 
       setTimeout(() => {
-        window.location.href='/home';
+        this.router.navigateByUrl('/home');
       }, 1000);
     },
     (err: any) => {

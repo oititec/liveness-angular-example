@@ -33,5 +33,4 @@ export class HomeComponent implements OnInit {
       id.classList.remove('disabled') :
       id.classList.add('disabled');
   }
-
 }

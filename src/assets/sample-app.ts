@@ -75,18 +75,23 @@ export var SampleApp = (function () {
   };
 
   const getProductionKey = async (facecaptchaService) => {
-    await facecaptchaService.getProductionKey(appkey).subscribe((res: any) => {
-      env.ProductionKeyText = JSON.parse(
-        Crypto.decChData(res, appkey)
-      ).productionKey;
+    console.log(appkey)
+    if (appkey === null) {
+      window.location.reload()
+    } else {
+      await facecaptchaService.getProductionKey(appkey).subscribe((res: any) => {
+        env.ProductionKeyText = JSON.parse(
+          Crypto.decChData(res, appkey)
+        ).productionKey;
 
-      resultProductKey = env.ProductionKeyText;
+        resultProductKey = env.ProductionKeyText;
 
-      loadAssets();
-    },
-    (err: any) => {
-      console.log(err)
-    });
+        loadAssets();
+      },
+      (err: any) => {
+        console.log(err)
+      });
+    }
   };
 
   const getSessionToken = async (facecaptchaService) => {

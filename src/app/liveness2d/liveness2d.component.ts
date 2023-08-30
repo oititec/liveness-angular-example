@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service'
 import { Crypto } from '../crypto/crypto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-liveness2d',
@@ -13,33 +14,34 @@ export class Liveness2dComponent implements OnInit {
   ErrorIcon: string = "/assets/img/error.png";
   SuccessIcon: string = "/assets/img/success.png"
 
-  private handleShowModal: boolean = false;
-  private modalCssClasses: string = 'fade modal';
+  handleShowModal: boolean = false;
+  modalCssClasses: string = 'fade modal';
 
-  private appkey: any = window.localStorage.getItem('appkey');
+  appkey: any = window.localStorage.getItem('appkey');
 
-  private liveness2DArea: any = false;
-  private video: any = false;
-  private divLoader: any = false;
-  private divMsg: any = false;
-  private imgMsg: any = false;
-  private spanMsg: any = false;
-  private imgChallenge: any = false;
+  liveness2DArea: any = false;
+  video: any = false;
+  divLoader: any = false;
+  divMsg: any = false;
+  imgMsg: any = false;
+  spanMsg: any = false;
+  imgChallenge: any = false;
 
-  private showIniciar: boolean = true;
-  private isLoaded: boolean = false;
-  private message: string = '';
-  private emojiBase64: string = '';
-  private msgBase64: string = '';
-  private challenge: any;
-  private fcvarSnaps: string = '';
-  private fcvarFirstSnap: string = '';
-  private livenessSuccess: boolean = false;
-  private livenessError: boolean = false;
-  private errorMessage: string = '';
+  showIniciar: boolean = true;
+  isLoaded: boolean = false;
+  message: string = '';
+  emojiBase64: string = '';
+  msgBase64: string = '';
+  challenge: any;
+  fcvarSnaps: string = '';
+  fcvarFirstSnap: string = '';
+  livenessSuccess: boolean = false;
+  livenessError: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private facecaptchaService: FacecaptchaService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -102,7 +104,7 @@ export class Liveness2dComponent implements OnInit {
     window.localStorage.removeItem('appkey');
     window.localStorage.removeItem('hasLiveness');
 
-    window.location.href = '/';
+    this.router.navigateByUrl('/');
   }
 
   startCapture() {
