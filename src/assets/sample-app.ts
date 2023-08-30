@@ -75,7 +75,6 @@ export var SampleApp = (function () {
   };
 
   const getProductionKey = async (facecaptchaService) => {
-    console.log(appkey)
     if (appkey === null) {
       window.location.reload()
     } else {
