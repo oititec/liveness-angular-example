@@ -1,27 +1,57 @@
-# LivenessAngularExample
+# CertiFace para Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.29.
+Este repositório contém o processo de liveness em 2D, 3D, envio de documentos e guia rápido de atualização.
 
-## Development server
+Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- [Visão geral](https://github.com/oititec/liveness-angular-example/blob/main/src/app/home/README.md)
+- [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
+- [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
+- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md)
 
-## Code scaffolding
+---
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Changelog Liveness 3D
 
-## Build
+- [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### FaceTec SDK: 9.6.42
 
-## Running unit tests
+_data: 10/08/2023_
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Added New Device-side and Server-side Video Injection Checks to mitigate Generative AI Threats.
+- Performance improvements on low-tier and mid-tier devices leading to Success Rate Improvements.
+- Fixes for multiple issues affecting usability when integrated into a iFrame-based Applications.
+- Various stability improvement fixes.
+- Improvements to Blind User Assistance Mode.
+- ID Scanning - The size in MB of the Back IDScan has been greatly reduced (50% or more in many cases).
 
-## Running end-to-end tests
+### FaceTec SDK: 9.6.34
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+_data: 14/06/2023_
 
-## Further help
+- Added New Device-side and Server-side Video Injection Checks to mitigate Generative AI Threats.
+- Performance improvements on low-tier and mid-tier devices leading to Success Rate Improvements.
+- Fixes for multiple issues affecting usability when integrated into a iFrame-based Applications.
+- Various stability improvement fixes.
+- Improvements to Blind User Assistance Mode.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### FaceTec SDK: 9.6.30
+
+_data: 16/05/2023_
+
+### FaceTec SDK: 9.6.26
+
+_data: 17/04/2023_
+
+### FaceTec SDK: 9.6.24
+
+_data: 31/03/2023_
+
+### FaceTec SDK: 9.6.21
+
+_data: 09/03/2023_
+
+- Added significant new Device and Server SDK AI layers to protect against sophisticated Level 5 Attacks.
+- Numerous Compatibility, Stability, and Performance Improvements.
+- Update I'm Ready Screen timer that auto-sends Users into the Face Scan UI in Blind User Assist Mode to 30 seconds to give visually impaired Users more time to prepare for the Face Scan.
