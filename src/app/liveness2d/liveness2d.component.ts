@@ -17,7 +17,7 @@ export class Liveness2dComponent implements OnInit {
   handleShowModal: boolean = false;
   modalCssClasses: string = 'fade modal';
 
-  appkey: any = window.localStorage.getItem('appkey');
+  appkey: any;
 
   liveness2DArea: any = false;
   video: any = false;
@@ -61,6 +61,7 @@ export class Liveness2dComponent implements OnInit {
   }
 
   initialState() {
+    this.appkey = window.localStorage.getItem('appkey');
     this.showIniciar = true;
     this.isLoaded = false;
     this.message = '';

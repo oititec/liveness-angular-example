@@ -22,7 +22,6 @@ export var SampleApp = (function () {
   let deviceKeyIdentifier = env.DeviceKeyIdentifier;
   let publicFaceScanEncryptionKey = env.PublicFaceScanEncryptionKey;
 
-  let appkey: any = window.localStorage.getItem('appkey');
   let userAgent: any = FaceTecSDK.createFaceTecAPIUserAgentString('');
 
   const loadAssets = () => {
@@ -68,13 +67,13 @@ export var SampleApp = (function () {
     SampleAppUtilities.formatUIForDevice();
   };
 
-  const onLivenessCheckPressed = (facecaptchaService) => {
+  const onLivenessCheckPressed = (facecaptchaService, appkey) => {
     SampleAppUtilities.fadeOutMainUIAndPrepareForSession();
 
-    getSessionToken(facecaptchaService);
+    getSessionToken(facecaptchaService, appkey);
   };
 
-  const getProductionKey = async (facecaptchaService) => {
+  const getProductionKey = async (facecaptchaService, appkey) => {
     if (appkey === null) {
       window.location.reload()
     } else {
@@ -93,7 +92,7 @@ export var SampleApp = (function () {
     }
   };
 
-  const getSessionToken = async (facecaptchaService) => {
+  const getSessionToken = async (facecaptchaService, appkey) => {
     let result: any;
 
     await facecaptchaService.getSessionToken(appkey, userAgent).subscribe((res: any) => {
@@ -141,10 +140,6 @@ export var SampleApp = (function () {
 
   const setLatestServerResult = (responseJSON) => {};
 
-  const getAppKey = () => {
-    return appkey;
-  };
-
   return {
     status,
     loadAssets,
@@ -156,7 +151,6 @@ export var SampleApp = (function () {
     setIDScanResult,
     getLatestEnrollmentIdentifier,
     setLatestServerResult,
-    getAppKey,
   };
 })();
 

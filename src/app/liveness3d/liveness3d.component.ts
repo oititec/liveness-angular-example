@@ -13,19 +13,23 @@ export class Liveness3dComponent implements OnInit {
 
   status: string = "";
 
+  appkey: any;
+
+
   constructor(
     private facecaptchaService: FacecaptchaService,
     private router: Router,
   ) { }
 
   ngOnInit() {
+    this.appkey = window.localStorage.getItem('appkey');
     this.status = SampleApp.status;
 
-    SampleApp.getProductionKey(this.facecaptchaService);
+    SampleApp.getProductionKey(this.facecaptchaService, this.appkey);
   }
 
   showLiveness3D() {
-    SampleApp.onLivenessCheckPressed(this.facecaptchaService);
+    SampleApp.onLivenessCheckPressed(this.facecaptchaService, this.appkey);
   };
 
   deleteAppKey() {

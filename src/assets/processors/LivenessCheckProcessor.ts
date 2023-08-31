@@ -67,7 +67,6 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     // Parte 4: Obtenha dados essenciais do FaceTecSessionResult
     //
     // TODO Inserir a appKey aqui !!!!
-    // this.appkey = this.sampleAppControllerReference.getAppkey();
     this.appkey = window.localStorage.getItem('appkey');
     var parameters = {
       appkey: this.appkey,

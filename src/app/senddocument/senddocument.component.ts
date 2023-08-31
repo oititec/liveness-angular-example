@@ -11,7 +11,7 @@ export class SenddocumentComponent implements OnInit {
   ImgIcon = "/assets/img/img-icon.png";
   ChevronRight = "/assets/img/chevron-right.png";
 
-  appkey: any = window.localStorage.getItem('appkey');
+  appkey: any;
   message: string = ''; // trocar para ''
   sendDocument: boolean = false; // trocar pra false
   isLoaded: boolean = false; // trocar pra false
@@ -36,9 +36,7 @@ export class SenddocumentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // if (this.sendDocument) {
-    //   this.sendDocument && this.onResize();
-    // }
+    this.appkey = window.localStorage.getItem('appkey');
   }
 
   handleStream (stream) {
