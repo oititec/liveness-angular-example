@@ -5,9 +5,9 @@ Este repositório contém o processo de liveness em 2D, 3D, envio de documentos 
 Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Visão geral](https://github.com/oititec/liveness-angular-example/blob/main/src/app/home/README.md)
-- [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness-2d/README.md)
-- [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness-3d/README.md)
-- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/send-documents/README.md)
+- [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
+- [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
+- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md)
 
 ---
 

@@ -79,25 +79,25 @@
 
 Atualmente o projeto possui a seguinte árvore de arquivos:
 <br>
-![image.png](https://i.ibb.co/kgDTjBR/Captura-de-tela-de-2023-04-20-17-16-45.png)
+![image.png](https://i.ibb.co/s5QmpCm/image.png)
 
 Atenção: A alteração da estrutura de arquivos do projeto poderá acarretar no não funcionamento do projeto.
 
 Para rodar o projeto no seu ambiente local, o seguinte comando deve ser utulizado:
 <br>
-`npm run dev`
+`ng serve`
 
 O projeto estará disponível no seu navegador no seguinte endereço:
 <br>
-https://localhost:8080
+https://localhost:4200
 
 Para buildar o projeto para ser publicado, o seguinte comando deve ser utulizado:
 `npm run build`
 
-Será gerado na árvore de arquivos um diretório chamado dist e dentro dele contém os arquivos para serem publicados no servidor web.
+Será gerado na árvore de arquivos um diretório chamado dist/liveness-angular-example e dentro dele contém os arquivos para serem publicados no servidor web.
 
 ##Para visualização da documentação detalhada de cada processo de Liveness, use os links abaixo
 
-- [Liveness 2D](https://github.com/oititec/liveness-react-example/blob/main/src/liveness-2d/README.md)
-- [Liveness 3D](https://github.com/oititec/liveness-react-example/blob/main/src/liveness-3d/README.md)
-- [Envio de documentos](https://github.com/oititec/liveness-react-example/blob/main/src/send-documents/README.md)
+- [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
+- [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
+- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md)
