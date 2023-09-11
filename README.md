@@ -1,3 +1,5 @@
+![image.png](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/img/OitiHeader.png)
+
 # CertiFace para Angular
 
 Este repositório contém o processo de liveness em 2D, 3D, envio de documentos e guia rápido de atualização.
