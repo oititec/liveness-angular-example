@@ -96,9 +96,9 @@ export var SampleApp = (function () {
     let result: any;
 
     await facecaptchaService.getSessionToken(appkey, userAgent).subscribe((res: any) => {
-      result = res.body;
+      result = JSON.parse(Crypto.decChData(res.body, appkey));
 
-      resultSessionToken = result;
+      resultSessionToken = result.sessionToken;
 
       latestProcessor = new LivenessCheckProcessor(resultSessionToken as string, SampleApp as any);
     },
