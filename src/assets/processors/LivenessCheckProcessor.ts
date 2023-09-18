@@ -18,7 +18,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
   //
   success: boolean;
   sampleAppControllerReference: any;
-  appkey: string;
+  appkey: any;
 
   constructor(sessionToken: string, sampleAppControllerReference: any) {
     //
@@ -45,7 +45,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
   //
   // Parte 2: Manipulando o resultado de um FaceScan
   //
-  public processSessionResultWhileFaceTecSDKWaits(sessionResult: FaceTecSessionResult, faceScanResultCallback: FaceTecFaceScanResultCallback) {
+  public processSessionResultWhileFaceTecSDKWaits = (sessionResult: FaceTecSessionResult, faceScanResultCallback: FaceTecFaceScanResultCallback): void => {
 
     // Salve o resultado da sessão atual
     this.latestSessionResult = sessionResult;
@@ -84,7 +84,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     this.latestNetworkRequest.open("POST", environment.apiUrl + "/facecaptcha/service/captcha/3d/liveness");
     this.latestNetworkRequest.setRequestHeader("Content-Type", "application/json");
 
-    this.latestNetworkRequest.onreadystatechange = () => {
+    this.latestNetworkRequest.onreadystatechange = (): void => {
 
       //
       // Parte 6: Em nossa amostra, avaliamos uma resposta booleana e tratamos true como foi processada com sucesso e devemos prosseguir para a próxima etapa e lidar com todas as outras respostas cancelando.
@@ -100,7 +100,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
           if(responseJSON.codID) {
 
             // Demonstra a configuração dinâmica da mensagem da tela de sucesso.
-            FaceTecSDK.FaceTecCustomization.setOverrideResultScreenSuccessMessage("Liveness\nConfirmed");
+            FaceTecSDK.FaceTecCustomization.setOverrideResultScreenSuccessMessage("Liveness\nConfirmado");
 
             // Na v9.2.0+, basta passar scanResultBlob para a função continueToNextStep para avançar o fluxo do usuário.
             // scanResultBlob é um blob proprietário e criptografado que controla a lógica do que acontece em seguida para o usuário.
@@ -112,7 +112,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
             faceScanResultCallback.cancel();
           }
         }
-        catch {
+        catch(_e) {
           // CASE: Falha ao analisar a resposta em JSON --> Você define seus próprios contratos de API consigo mesmo e pode optar por fazer algo diferente aqui com base no erro. O código sólido do lado do servidor deve garantir que você não chegue a esse caso.
           console.log("Exception while handling API response, cancelling out.");
           faceScanResultCallback.cancel();
@@ -120,7 +120,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
       }
     };
 
-    this.latestNetworkRequest.onerror = () => {
+    this.latestNetworkRequest.onerror = (): void => {
 
       // CASE: A própria solicitação de rede está com erro --> Você define seus próprios contratos de API consigo mesmo e pode optar por fazer algo diferente aqui com base no erro.
       console.log("XHR error, cancelling.");
@@ -130,7 +130,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     //
     // Parte 7: Demonstra a atualização da Barra de Progresso com base no evento de progresso.
     //
-    this.latestNetworkRequest.upload.onprogress = (event) => {
+    this.latestNetworkRequest.upload.onprogress = (event: ProgressEvent): void => {
       var progress = event.loaded / event.total;
       faceScanResultCallback.uploadProgress(progress);
     };
@@ -150,18 +150,19 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     //
     // Parte 9: Para melhor UX, atualize o usuário se o upload estiver demorando. Você é livre para personalizar e aprimorar esse comportamento ao seu gosto.
     //
-    window.setTimeout( () => {
+    window.setTimeout(() => {
       if(this.latestNetworkRequest.readyState === XMLHttpRequest.DONE) {
         return;
       }
+
       faceScanResultCallback.uploadMessageOverride("Ainda enviando...");
     }, 6000);
-  }
+  };
 
   //
   // Parte 10: Esta função é chamada depois que o FaceTec SDK é completamente concluído. Não há parâmetros porque você já recebeu todos os dados na função processSessionWhileFaceTecSDKWaits e já lidou com todos os seus próprios resultados.
   //
-  public onFaceTecSDKCompletelyDone = () => {
+  public onFaceTecSDKCompletelyDone = (): void => {
 
     //
     // NOTA: onFaceTecSDKCompletelyDone() é chamado após você sinalizar o FaceTec SDK com success() ou cancel().
@@ -173,13 +174,13 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     if (this.success) {
       this.sampleAppControllerReference.redirectSendDocument();
     }
-  }
+  };
 
   //
-  // NOTA: Este método de conveniência pública é apenas para fins de demonstração, para que o Aplicativo de Amostra possa obter informações sobre o que está acontecendo no processador.
-  // No seu código, você pode nem querer ou precisar fazer isso.
+  // DEVELOPER NOTE:  This public convenience method is for demonstration purposes only so the Sample App can get information about what is happening in the processor.
+  // In your code, you may not even want or need to do this.
   //
-  public isSuccess = () => {
+  public isSuccess = (): boolean => {
     return this.success;
-  }
+  };
 }

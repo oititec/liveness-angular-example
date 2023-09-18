@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, VERSION } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'liveness-angular-example';
   logoOiti = '/assets/img/logo-oiti.png';
+
+  ngOnInit(): void {
+    console.log("Angular version: " + VERSION.full);
+  }
 }

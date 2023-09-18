@@ -14,7 +14,7 @@ export const UI = function(elementString: string) {
 
   // Set the display of the element to either block or restore it's original value
   const setDisplayForElement = function(el: HTMLElement) {
-    let display = "block";
+    let display: any = "block";
     if(el.getAttribute("display")) {
       display = el.getAttribute("display");
     }

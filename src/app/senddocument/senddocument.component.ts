@@ -39,7 +39,7 @@ export class SenddocumentComponent implements OnInit {
     this.appkey = window.localStorage.getItem('appkey');
   }
 
-  handleStream (stream) {
+  handleStream (stream: any) {
     setTimeout(() => {
       let video: any = document.getElementById('video');
 
@@ -57,7 +57,7 @@ export class SenddocumentComponent implements OnInit {
     }, 1000);
   };
 
-  setTypeCapture(type) {
+  setTypeCapture(type: any) {
     if (type === 1) {
       this.message = 'Carregando...';
       this.sendDocument = true;
@@ -176,7 +176,7 @@ export class SenddocumentComponent implements OnInit {
     this.message = '';
     this.processing = false;
 
-    navigator.getUserMedia =
+    (navigator as any).getUserMedia =
       (navigator as any).getUserMedia ||
       (navigator as any).webkitGetUserMedia ||
       (navigator as any).mozGetUserMedia ||
@@ -212,7 +212,7 @@ export class SenddocumentComponent implements OnInit {
 
   stopCameraStreams() {
     if (this.streams) {
-      this.streams.forEach((stream) => {
+      this.streams.forEach((stream: any) => {
         stream.stop();
       });
 
@@ -356,7 +356,7 @@ export class SenddocumentComponent implements OnInit {
     return img.src;
   };
 
-  removeSnapFromLists(index) {
+  removeSnapFromLists(index: any) {
     const snapRemoval = () => {
       this.indexTempSnap = index;
       this.showUpload = false;
@@ -376,7 +376,7 @@ export class SenddocumentComponent implements OnInit {
   };
 
   async uploadPictures() {
-    const snapsSend = this.snapsCaptures.map((snap) =>
+    const snapsSend = this.snapsCaptures.map((snap: any) =>
       snap.replace('data:image/jpeg;base64,', '')
     );
 

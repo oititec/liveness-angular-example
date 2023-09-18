@@ -2,14 +2,14 @@
 import * as CryptoJS from 'crypto-js';
 
 export const Crypto = (function () {
-  function padKey(source) {
+  function padKey(source: any) {
     if (source.length > 16) {
       return source.substring(0, 16);
     }
-    return this.padMsg(source);
+    return padMsg(source);
   }
 
-  function padMsg(source) {
+  function padMsg(source: any) {
     const paddingChar = " ";
     const size = 16;
     const x = source.length % size;
