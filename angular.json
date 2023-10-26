@@ -121,5 +121,8 @@
       }
     }
   },
-  "defaultProject": "liveness-angular-example"
+  "defaultProject": "liveness-angular-example",
+  "cli": {
+    "analytics": false
+  }
 }
