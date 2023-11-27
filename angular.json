@@ -88,13 +88,7 @@
       }
     }
   },
-<<<<<<< HEAD
   "cli": {
     "analytics": "ce25a32a-d8e7-4dd8-8059-d5a5a130148b"
-=======
-  "defaultProject": "liveness-angular-example",
-  "cli": {
-    "analytics": false
->>>>>>> 5b94b1be80bebcd2c4c270c7de9859331f18507f
   }
 }
