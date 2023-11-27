@@ -1,6 +1,5 @@
 import { FacecaptchaService } from '../app/backend/facecaptcha.service';
 import { Crypto } from 'src/assets/utilities/Crypto';
-import { FaceTecSDK } from "src/assets/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { FaceTecSessionResult, FaceTecIDScanResult } from "../assets/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { ThemeHelpers } from "src/assets/utilities/ThemeHelpers";
 import { LivenessCheckProcessor } from "./processors/LivenessCheckProcessor";

@@ -1,5 +1,3 @@
-//import { AngularSampleApp } from './../angular-sample-controller';
-import { FaceTecSDK } from "../core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { FaceTecSessionResult, FaceTecFaceScanResultCallback, FaceTecFaceScanProcessor } from "../core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { environment } from 'src/environments/environment';
 import { Crypto } from "../utilities/Crypto";
