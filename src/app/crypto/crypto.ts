@@ -1,14 +1,14 @@
 import * as CryptoJS from 'crypto-js';
 
 export const Crypto = (function () {
-  function padKey(source) {
+  function padKey(source: any) {
     if (source.length > 16) {
       return source.substring(0, 16);
     }
-    return this.padMsg(source);
+    return padMsg(source);
   }
 
-  function padMsg(source) {
+  function padMsg(source: any) {
     const paddingChar = ' ';
     const size = 16;
     const x = source.length % size;
@@ -19,7 +19,7 @@ export const Crypto = (function () {
     return source;
   }
 
-  function encryptImages(data, appkey) {
+  function encryptImages(data: any, appkey: any) {
     const key = CryptoJS.enc.Latin1.parse(padKey(appkey));
     const iv = CryptoJS.enc.Latin1.parse(
       padKey(appkey.split('').reverse().join(''))
@@ -32,7 +32,7 @@ export const Crypto = (function () {
     return encodeURIComponent(result);
   }
 
-  function decChData(data, appkey) {
+  function decChData(data: any, appkey: any) {
     const key = CryptoJS.enc.Latin1.parse(padKey(appkey));
     const iv = CryptoJS.enc.Latin1.parse(
       padKey(appkey.split('').reverse().join(''))
@@ -49,12 +49,12 @@ export const Crypto = (function () {
     return decripted2;
   }
 
-  function encChData(data, appkey) {
-    const key = CryptoJS.enc.Latin1.parse(this.padKey(appkey));
+  function encChData(data: any, appkey: any) {
+    const key = CryptoJS.enc.Latin1.parse(padKey(appkey));
     const iv = CryptoJS.enc.Latin1.parse(
-      this.padKey(appkey.split('').reverse().join(''))
+      padKey(appkey.split('').reverse().join(''))
     );
-    const result = CryptoJS.AES.encrypt(this.padMsg(data), key, {
+    const result = CryptoJS.AES.encrypt(padMsg(data), key, {
       iv: iv,
       padding: CryptoJS.pad.Pkcs7,
       mode: CryptoJS.mode.CBC,

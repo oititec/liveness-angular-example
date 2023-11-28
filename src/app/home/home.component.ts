@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     return this.hasLivenessLocalStorage !== null ? true : false;
   }
 
-  disableSendDocumentButton(id) {
+  disableSendDocumentButton(id: any) {
     this.hasLivenessLocalStorage ?
       id.classList.remove('disabled') :
       id.classList.add('disabled');

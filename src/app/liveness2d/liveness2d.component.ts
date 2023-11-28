@@ -48,7 +48,7 @@ export class Liveness2dComponent implements OnInit {
     this.initialState();
   }
 
-  handleShow(show) {
+  handleShow(show: any) {
     this.handleShowModal = show
 
     show ? this.modalCssClasses = 'fade modal show' : this.modalCssClasses = 'fade modal';
@@ -139,7 +139,7 @@ export class Liveness2dComponent implements OnInit {
     });
   };
 
-  prepareChallenge(index) {
+  prepareChallenge(index: any) {
     var me = this;
 
     this.emojiBase64 = '';
@@ -182,7 +182,7 @@ export class Liveness2dComponent implements OnInit {
     this.getLivenessCaptchaFromLib(this.appkey, this.challenge.chkey, this.fcvarSnaps);
   };
 
-  snapTick(fcvarCurCha) {
+  snapTick(fcvarCurCha: any) {
     let snapb64: any = this.snap();
 
     if (this.fcvarFirstSnap === '') {
@@ -256,7 +256,7 @@ export class Liveness2dComponent implements OnInit {
     return img.src;
   };
 
-  async getLivenessCaptchaFromLib(appkey, chkey, images) {
+  async getLivenessCaptchaFromLib(appkey: any, chkey: any, images: any) {
     let result: any = '';
 
     await this.facecaptchaService.captcha(appkey, chkey, images).subscribe((res: any) => {
@@ -289,7 +289,7 @@ export class Liveness2dComponent implements OnInit {
     });
   };
 
-  closeLiveness2D(appkey) {
+  closeLiveness2D(appkey: any) {
     const body: any = document.getElementsByTagName('body');
     const videoPlayer: any = document.getElementById('video');
 

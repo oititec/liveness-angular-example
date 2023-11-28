@@ -24,7 +24,7 @@ export class AppkeyComponent implements OnInit {
     }
   }
 
-  onHandleAppKey(event) {
+  onHandleAppKey(event: any) {
     this.appkey = event.target.value;
   }
 

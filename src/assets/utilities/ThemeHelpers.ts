@@ -1,5 +1,4 @@
 import { Config } from "../../../Config";
-import { FaceTecSDK } from "../core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { FaceTecCustomization } from "../core-sdk/FaceTecSDK.js/FaceTecCustomization";
 import { SampleAppUtilities } from "./SampleAppUtilities";
 import { SoundFileUtilities } from "./SoundFileUtilities";
@@ -1699,7 +1698,7 @@ export var ThemeHelpers = (function() {
     // Neste operador ternário é definido qual tema será usado caso a variável wasSDKConfiguredWithConfigWizard
     // esteja configurada como true no arquivo Config.js
     currentTheme = Config.wasSDKConfiguredWithConfigWizard ? "Oiti-Dark" : "FaceTec Theme";
-    
+
     return currentTheme;
   }
 

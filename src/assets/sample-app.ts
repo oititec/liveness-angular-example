@@ -1,12 +1,11 @@
 import { FacecaptchaService } from '../app/backend/facecaptcha.service';
 import { Crypto } from 'src/assets/utilities/Crypto';
-import { FaceTecSDK } from "src/assets/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { FaceTecSessionResult, FaceTecIDScanResult } from "../assets/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { ThemeHelpers } from "src/assets/utilities/ThemeHelpers";
-import { LivenessCheckProcessor } from "src/assets/processors/LivenessCheckProcessor";
+import { LivenessCheckProcessor } from "./processors/LivenessCheckProcessor";
 import { Config } from '../../Config';
 import { SampleAppUtilities } from "src/assets/utilities/SampleAppUtilities";
-import * as FaceTecStringsPtBr from "src/assets/core-sdk-optional/FaceTecStrings.pt-br";
+// import * as FaceTecStringsPtBr from "src/assets/core-sdk-optional/FaceTecStrings.pt-br";
 import { environment as env } from 'src/environments/environment';
 
 export var SampleApp = (function () {
@@ -50,30 +49,30 @@ export var SampleApp = (function () {
     );
 
     // Inicialize o FaceTec Browser SDK e configure os recursos da interface do usuário.
-    FaceTecSDK.initializeInProductionMode(env.ProductionKeyText, env.DeviceKeyIdentifier, env.PublicFaceScanEncryptionKey,
-      function(initializedSuccessfully: boolean) {
-        if(initializedSuccessfully) {
-          SampleAppUtilities.enableControlButtons();
+    // FaceTecSDK.initializeInProductionMode(env.ProductionKeyText, env.DeviceKeyIdentifier, env.PublicFaceScanEncryptionKey,
+    //   function(initializedSuccessfully: boolean) {
+    //     if(initializedSuccessfully) {
+    //       SampleAppUtilities.enableControlButtons();
 
-          //FaceTecSDK.configureLocalization({"localizationJSON": "br"});
+    //       //FaceTecSDK.configureLocalization({"localizationJSON": "br"});
 
-          // Set localization
-          FaceTecSDK.configureLocalization(FaceTecStringsPtBr);
+    //       // Set localization
+    //       // FaceTecSDK.configureLocalization(FaceTecStringsPtBr);
 
-        }
-        SampleAppUtilities.displayStatus(FaceTecSDK.getFriendlyDescriptionForFaceTecSDKStatus(FaceTecSDK.getStatus()));
-      });
+    //     }
+    //     SampleAppUtilities.displayStatus(FaceTecSDK.getFriendlyDescriptionForFaceTecSDKStatus(FaceTecSDK.getStatus()));
+    //   });
 
-    SampleAppUtilities.formatUIForDevice();
+    // SampleAppUtilities.formatUIForDevice();
   };
 
-  const onLivenessCheckPressed = (facecaptchaService, appkey) => {
+  const onLivenessCheckPressed = (facecaptchaService: any, appkey: any) => {
     SampleAppUtilities.fadeOutMainUIAndPrepareForSession();
 
     getSessionToken(facecaptchaService, appkey);
   };
 
-  const getProductionKey = async (facecaptchaService, appkey) => {
+  const getProductionKey = async (facecaptchaService: any, appkey: any) => {
     if (appkey === null) {
       window.location.reload()
     } else {
@@ -92,7 +91,7 @@ export var SampleApp = (function () {
     }
   };
 
-  const getSessionToken = async (facecaptchaService, appkey) => {
+  const getSessionToken = async (facecaptchaService: any, appkey: any) => {
     let result: any;
 
     await facecaptchaService.getSessionToken(appkey, userAgent).subscribe((res: any) => {
@@ -126,11 +125,11 @@ export var SampleApp = (function () {
     SampleAppUtilities.displayStatus('Enviado com sucesso');
   };
 
-  const setLatestSessionResult = (sessionResult) => {
+  const setLatestSessionResult = (sessionResult: any) => {
     latestSessionResult = sessionResult;
   };
 
-  const setIDScanResult = (idScanResult) => {
+  const setIDScanResult = (idScanResult: any) => {
     latestIDScanResult = idScanResult;
   };
 
@@ -138,7 +137,7 @@ export var SampleApp = (function () {
     return latestEnrollmentIdentifier;
   };
 
-  const setLatestServerResult = (responseJSON) => {};
+  const setLatestServerResult = (responseJSON: any) => {};
 
   return {
     status,

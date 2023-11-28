@@ -19,7 +19,7 @@ export class FacecaptchaService {
       this.livenessCheck.setAttribute('disabled', '');
   }
 
-  disableInitializationMessage(text) {
+  disableInitializationMessage(text: string) {
     location.pathname === '/liveness-3D.html/index.html' &&
       (this.initializationMessage.innerHTML = text);
   }
@@ -112,14 +112,14 @@ export class FacecaptchaService {
 		return encodeURIComponent(result);
 	}
 
-	private padKey(source) {
+	private padKey(source: any) {
 		if (source.length > 16) {
 			return source.substring(0, 16);
 		}
 		return this.padMsg(source);
 	}
 
-	private padMsg(source) {
+	private padMsg(source: any) {
 		const paddingChar = ' ';
 		const size = 16;
 		const x = source.length % size;

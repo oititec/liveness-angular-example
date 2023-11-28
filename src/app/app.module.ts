@@ -9,6 +9,7 @@ import { AppkeyComponent } from './appkey/appkey.component';
 import { Liveness2dComponent } from './liveness2d/liveness2d.component';
 import { Liveness3dComponent } from './liveness3d/liveness3d.component';
 import { SenddocumentComponent } from './senddocument/senddocument.component';
+import { FaceTecSDK as FaceTecSDKType } from 'src/assets/core-sdk/FaceTecSDK.js/FaceTecSDK';
 
 @NgModule({
   declarations: [
@@ -28,3 +29,7 @@ import { SenddocumentComponent } from './senddocument/senddocument.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+declare global {
+  const FaceTecSDK: typeof FaceTecSDKType;
+}

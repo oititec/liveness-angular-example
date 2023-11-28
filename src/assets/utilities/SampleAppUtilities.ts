@@ -88,7 +88,7 @@ export const SampleAppUtilities = (function() {
       (document.getElementById("status") as HTMLElement).style.left = "unset";
       (document.getElementById("status") as HTMLElement).style.bottom = "unset";
       // Move logo above buttons
-      (document.getElementById("custom-logo-container") as HTMLElement).parentNode.insertBefore(document.getElementById("custom-logo-container"), document.getElementById("custom-logo-container").parentNode.firstChild);
+      // (document.getElementById("custom-logo-container") as HTMLElement).parentNode.insertBefore(document.getElementById("custom-logo-container"), document.getElementById("custom-logo-container").parentNode.firstChild);
       (document.getElementById("custom-logo-container") as HTMLElement).style.margin = "0px 0px 20px 0px";
       (document.querySelector("#custom-logo-container img") as HTMLElement).style.height = "40px";
       // Center control interface on screen
