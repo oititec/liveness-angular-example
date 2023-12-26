@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-12">
+    <h1 class="my-4 text-center">
+      Selecione a demonstração que deseja testar.
+    </h1>
+  </div>
+  <div class="col-12">
+    <a id="liveness-2d" [routerLink]="['/liveness-2d']" class="btn btn-outline-secondary d-block mb-3">
+      <div class="row">
+        <div class="col-auto d-flex align-items-center">
+          <img [src]="Liveness2D" alt="" aria-hidden="true" />
+        </div>
+        <div class="col">
+          <h2>Liveness 2D</h2>
+          <h3>Verificação facial utilizando o módulo FaceCaptcha.</h3>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+          <img [src]="ChevronRight" alt="" aria-hidden="true" />
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="col-12">
+    <a id="liveness-3d" [routerLink]="['/liveness-3d']" class="btn btn-outline-secondary d-block mb-3">
+      <div class="row">
+        <div class="col-auto d-flex align-items-center">
+          <img [src]="Liveness3D" alt="" aria-hidden="true" />
+        </div>
+        <div class="col">
+          <h2>Liveness 3D</h2>
+          <h3>Interação da face em tempo real.</h3>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+          <img [src]="ChevronRight" alt="" aria-hidden="true" />
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="col-12">
+    <a id="send-document" [routerLink]="['/send-document']" class="btn btn-outline-secondary d-block mb-3">
+      <div class="row">
+        <div class="col-auto d-flex align-items-center">
+          <img [src]="SendDocuments" alt="" aria-hidden="true" />
+        </div>
+        <div class="col">
+          <h2>Envio de documentos</h2>
+          <h3>Captura e análise de documentos.</h3>
+          <p className="m-0" *ngIf="!hasLiveness()">
+            *Para utilizar o envio de documentos, faça uma prova de vida
+            (Liveness 2D ou 3D) antes.
+          </p>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+          <img [src]="ChevronRight" alt="" aria-hidden="true" />
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
