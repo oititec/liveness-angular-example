@@ -8,6 +8,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class FacecaptchaService {
 	private SERVER_API_URL = environment.apiUrl;
+	private SERVER_API_URL_FLEXIBLE_API = environment.flexibleApiUrl;
 
   livenessCheck: any = document.getElementById('liveness-button');
   initializationMessage: any = document.getElementById('status');
@@ -90,6 +91,27 @@ export class FacecaptchaService {
       'appkey': appkey,
       'images': images,
     });
+  }
+
+  sendCertifaceData(ticket: string, appkey: string, documentImages: string) {
+    const url = `${this.SERVER_API_URL_FLEXIBLE_API}/certiface`;
+
+    const headers = new HttpHeaders({
+      'x-sub-org': '1',
+      'x-group': '1',
+      'x-branch': '1',
+      'x-from-sdk': 'true',
+      'Content-Type': 'application/json',
+      Accept: '*/*',
+    });
+
+    const body = JSON.stringify({
+      ticket: ticket,
+      appkey: appkey,
+      documentImages: documentImages,
+    });
+
+    return this.http.post<any>(url, body, {headers})
   }
 
   private decChData(data: string, appkey: string) {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-senddocument',
@@ -12,6 +14,8 @@ export class SenddocumentComponent implements OnInit {
   ChevronRight = "/assets/img/chevron-right.png";
 
   appkey: any;
+  apiType: any;
+  ticket: any;
   message: string = ''; // trocar para ''
   sendDocument: boolean = false; // trocar pra false
   isLoaded: boolean = false; // trocar pra false
@@ -29,14 +33,30 @@ export class SenddocumentComponent implements OnInit {
   showDesktop: boolean = false; // trocar pra false
   indexTempSnap: number = -1; // trocar para -1
   uploadResp: boolean = true; // trocar para true
+  isButtonEnabled: boolean = true; // trocar para true
 
   constructor(
     private facecaptchaService: FacecaptchaService,
     private router: Router,
+    private http: HttpClient,
   ) { }
 
   ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
+    this.apiType = window.localStorage.getItem('apiType');
+    this.ticket = window.localStorage.getItem('ticket');
+
+    let btnTipoCaptura1Foto: any = document.getElementById('btn-tipo-captura-1-foto');
+    let btnTipoCaptura2Fotos: any = document.getElementById('btn-tipo-captura-2-fotos');
+
+    this.apiType === 'flexible-api' ? (
+      btnTipoCaptura1Foto.classList.add('disabled'),
+      btnTipoCaptura2Fotos.classList.add('disabled'),
+      this.getResultFromApi()
+    ) : (
+      btnTipoCaptura1Foto?.classList.remove('disabled'),
+      btnTipoCaptura2Fotos?.classList.remove('disabled')
+    )
   }
 
   handleStream (stream: any) {
@@ -380,30 +400,81 @@ export class SenddocumentComponent implements OnInit {
       snap.replace('data:image/jpeg;base64,', '')
     );
 
-    await this.facecaptchaService.sendDocument(this.appkey, snapsSend).subscribe(
-      (res: any) => {
-        console.log(res);
+    if (this.apiType === 'flexible-api') {
+      await this.facecaptchaService.sendCertifaceData(this.ticket, this.appkey, snapsSend).subscribe(
+        (res: any) => {
+          console.log(res);
 
-        setTimeout(() => {
-          this.isLoaded = false;
-          this.uploadRequest = true;
-          this.uploadResp = false;
-        }, 1000);
+          setTimeout(() => {
+            this.isLoaded = false;
+            this.uploadRequest = true;
+            this.uploadResp = false;
+          }, 1000);
 
-        window.alert('Documento enviado com sucesso');
-      },
-      (err: any) => {
-        console.log(err);
+          window.alert('Documento enviado com sucesso');
 
-        setTimeout(() => {
-          this.isLoaded = false;
+          window.localStorage.removeItem('apiType');
+          window.localStorage.removeItem('appkey');
+          window.localStorage.removeItem('ticket');
+          window.localStorage.removeItem('errorMessage');
+          window.localStorage.removeItem('hasLiveness');
 
-          window.alert(
-            'Documento não localizado! Por favor reenvie o documento.'
-          );
-        }, 1000);
-      }
-    );
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        },
+        (err: any) => {
+          console.log(err);
+
+          setTimeout(() => {
+            this.isLoaded = false;
+
+            window.alert(
+              'Documento não localizado! Por favor reenvie o documento.'
+            );
+
+            window.location.reload();
+          }, 1000);
+        }
+      )
+    } else {
+      await this.facecaptchaService.sendDocument(this.appkey, snapsSend).subscribe(
+        (res: any) => {
+          console.log(res);
+
+          setTimeout(() => {
+            this.isLoaded = false;
+            this.uploadRequest = true;
+            this.uploadResp = false;
+          }, 1000);
+
+          window.alert('Documento enviado com sucesso');
+
+          window.localStorage.removeItem('apiType');
+          window.localStorage.removeItem('appkey');
+          window.localStorage.removeItem('ticket');
+          window.localStorage.removeItem('errorMessage');
+          window.localStorage.removeItem('hasLiveness');
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        },
+        (err: any) => {
+          console.log(err);
+
+          setTimeout(() => {
+            this.isLoaded = false;
+
+            window.alert(
+              'Documento não localizado! Por favor reenvie o documento.'
+            );
+
+            window.location.reload();
+          }, 1000);
+        }
+      );
+    }
   };
 
   deleteAppKey() {
@@ -415,4 +486,33 @@ export class SenddocumentComponent implements OnInit {
 
     this.router.navigateByUrl('/');
   };
+
+  // Este método é apenas para demonstração e não deve ser implementado de forma alguma no front
+  getResultFromApi() {
+    let btnTipoCaptura1Foto: any = document.getElementById('btn-tipo-captura-1-foto');
+    let btnTipoCaptura2Fotos: any = document.getElementById('btn-tipo-captura-2-fotos');
+
+    const url = `${environment.flexibleApiUrl}/bff-demo/result/${this.ticket !== '' ? this.ticket : 'undefined'}`;
+
+    const headers = new HttpHeaders({
+      'x-sub-org': '1',
+      'x-group': '1',
+      'x-branch': '1',
+    });
+
+    let result = this.http.get(url, { headers, observe: 'response' });
+
+    result.subscribe((res: any) => {
+      console.log(res);
+
+      btnTipoCaptura1Foto.classList.remove('disabled');
+      btnTipoCaptura2Fotos.classList.remove('disabled');
+    },
+    (err: any) => {
+      console.log(err);
+
+      btnTipoCaptura1Foto.classList.add('disabled');
+      btnTipoCaptura2Fotos.classList.add('disabled');
+    })
+  }
 }
