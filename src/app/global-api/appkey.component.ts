@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './appkey.component.html',
   styleUrls: ['./appkey.component.scss']
 })
-export class AppkeyComponent implements OnInit {
+export class AppkeyGlobalComponent implements OnInit {
   appkey: string = '';
   disabled: boolean = false;
   txtButton: string = 'Continuar';
@@ -19,9 +19,7 @@ export class AppkeyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (window.localStorage.getItem('appkey')) {
-      this.router.navigateByUrl('/home');
-    }
+    window.localStorage.setItem('apiType', 'global-api');
   }
 
   onHandleAppKey(event: any) {

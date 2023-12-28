@@ -11,26 +11,13 @@ export class HomeComponent implements OnInit {
   SendDocuments: string = '/assets/img/send-documents.png';
   ChevronRight: string = '/assets/img/chevron-right.png';
 
-  hasLivenessLocalStorage: any = window.localStorage.getItem('hasLiveness');
-
   constructor() { }
 
   ngOnInit() {
-    let lnkLiveness2D = document.getElementById('liveness-2d');
-    let lnkLiveness3D = document.getElementById('liveness-3d');
-    let lnkSendDocument = document.getElementById('send-document');
-
-    this.hasLiveness();
-    this.disableSendDocumentButton(lnkSendDocument);
-  }
-
-  hasLiveness() {
-    return this.hasLivenessLocalStorage !== null ? true : false;
-  }
-
-  disableSendDocumentButton(id: any) {
-    this.hasLivenessLocalStorage ?
-      id.classList.remove('disabled') :
-      id.classList.add('disabled');
+    window.localStorage.removeItem('apiType');
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('ticket');
+    window.localStorage.removeItem('errorMessage');
+    window.localStorage.removeItem('hasLiveness');
   }
 }

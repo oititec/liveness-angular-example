@@ -1,7 +1,9 @@
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { AppkeyComponent } from './appkey/appkey.component';
+import { AppkeyFlexibleComponent } from './flexible-api/appkey.component';
+import { AppkeyGlobalComponent } from './global-api/appkey.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { Liveness2dComponent } from './liveness2d/liveness2d.component';
 import { Liveness3dComponent } from './liveness3d/liveness3d.component';
 import { SenddocumentComponent } from './senddocument/senddocument.component';
@@ -9,10 +11,16 @@ import { SenddocumentComponent } from './senddocument/senddocument.component';
 
 const routes: Routes = [{
   path: '',
-  component: AppkeyComponent
-}, {
-  path: 'home',
   component: HomeComponent
+}, {
+  path: 'flexible-api',
+  component: AppkeyFlexibleComponent
+}, {
+  path: 'global-api',
+  component: AppkeyGlobalComponent
+}, {
+  path: 'nav-menu',
+  component: NavMenuComponent
 }, {
   path: 'liveness-2d',
   component: Liveness2dComponent
