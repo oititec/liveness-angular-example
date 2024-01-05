@@ -36,7 +36,7 @@ export class AppkeyGlobalComponent implements OnInit {
       window.localStorage.setItem('appkey', this.appkey);
 
       setTimeout(() => {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/nav-menu');
       }, 1000);
     },
     (err: any) => {
