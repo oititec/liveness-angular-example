@@ -99,6 +99,8 @@ export var SampleApp = (function () {
 
       resultSessionToken = result.sessionToken;
 
+      window.localStorage.setItem('hasLiveness', 'true');
+
       latestProcessor = new LivenessCheckProcessor(resultSessionToken as string, SampleApp as any);
     },
     (err: any) => {
