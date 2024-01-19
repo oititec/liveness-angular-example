@@ -32,6 +32,7 @@ export class SenddocumentComponent implements OnInit {
   showDesktop: boolean = false; // trocar pra false
   indexTempSnap: number = -1; // trocar para -1
   uploadResp: boolean = true; // trocar para true
+  uploadButtonText: string = 'Enviar foto'; // trocar para 'Enviar foto'
 
   constructor(
     private facecaptchaService: FacecaptchaService,
@@ -42,6 +43,14 @@ export class SenddocumentComponent implements OnInit {
     this.appkey = window.localStorage.getItem('appkey');
     this.apiType = window.localStorage.getItem('apiType');
     this.ticket = window.localStorage.getItem('ticket');
+
+    let btnTipoCaptura1Foto: any = document.getElementById('btn-tipo-captura-1-foto')
+    let btnTipoCaptura2Fotos: any = document.getElementById('btn-tipo-captura-2-fotos')
+
+    if(!this.appkey) {
+      btnTipoCaptura1Foto.classList.add('disabled');
+      btnTipoCaptura2Fotos.classList.add('disabled');
+    }
   }
 
   handleStream (stream: any) {
@@ -68,6 +77,7 @@ export class SenddocumentComponent implements OnInit {
       this.sendDocument = true;
       this.multiCapture = false;
       this.showTypeCapture = false;
+      this.uploadButtonText = 'Enviar foto';
       this.onResize();
 
       setTimeout(() => {
@@ -79,6 +89,7 @@ export class SenddocumentComponent implements OnInit {
       this.sendDocument = true;
       this.multiCapture = true;
       this.showTypeCapture = false;
+      this.uploadButtonText = 'Enviar fotos';
       this.onResize();
 
       setTimeout(() => {
@@ -387,6 +398,7 @@ export class SenddocumentComponent implements OnInit {
       this.isLoaded = false;
       this.uploadRequest = true;
       this.uploadResp = false;
+      this.uploadButtonText = `Enviar foto${this.snapsCaptures.length === 2 ? 's' : ''}`;
     }, 1000);
 
     window.alert('Documento enviado com sucesso');
@@ -407,6 +419,7 @@ export class SenddocumentComponent implements OnInit {
 
     setTimeout(() => {
       this.isLoaded = false;
+      this.uploadButtonText = `Enviar foto${this.snapsCaptures.length === 2 ? 's' : ''}`;
 
       window.alert(
         'Documento não localizado! Por favor reenvie o documento.'
@@ -417,6 +430,9 @@ export class SenddocumentComponent implements OnInit {
   }
 
   async uploadPictures() {
+    this.isLoaded = true;
+    this.uploadButtonText = 'Enviando...';
+
     const snapsSend = this.snapsCaptures.map((snap: any) =>
       snap.replace('data:image/jpeg;base64,', '')
     );
