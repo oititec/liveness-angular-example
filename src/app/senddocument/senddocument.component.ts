@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-senddocument',
@@ -12,6 +13,8 @@ export class SenddocumentComponent implements OnInit {
   ChevronRight = "/assets/img/chevron-right.png";
 
   appkey: any;
+  apiType: any;
+  ticket: any;
   message: string = ''; // trocar para ''
   sendDocument: boolean = false; // trocar pra false
   isLoaded: boolean = false; // trocar pra false
@@ -29,6 +32,7 @@ export class SenddocumentComponent implements OnInit {
   showDesktop: boolean = false; // trocar pra false
   indexTempSnap: number = -1; // trocar para -1
   uploadResp: boolean = true; // trocar para true
+  uploadButtonText: string = 'Enviar foto'; // trocar para 'Enviar foto'
 
   constructor(
     private facecaptchaService: FacecaptchaService,
@@ -37,6 +41,16 @@ export class SenddocumentComponent implements OnInit {
 
   ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
+    this.apiType = window.localStorage.getItem('apiType');
+    this.ticket = window.localStorage.getItem('ticket');
+
+    let btnTipoCaptura1Foto: any = document.getElementById('btn-tipo-captura-1-foto')
+    let btnTipoCaptura2Fotos: any = document.getElementById('btn-tipo-captura-2-fotos')
+
+    if(!this.appkey) {
+      btnTipoCaptura1Foto.classList.add('disabled');
+      btnTipoCaptura2Fotos.classList.add('disabled');
+    }
   }
 
   handleStream (stream: any) {
@@ -63,6 +77,7 @@ export class SenddocumentComponent implements OnInit {
       this.sendDocument = true;
       this.multiCapture = false;
       this.showTypeCapture = false;
+      this.uploadButtonText = 'Enviar foto';
       this.onResize();
 
       setTimeout(() => {
@@ -74,6 +89,7 @@ export class SenddocumentComponent implements OnInit {
       this.sendDocument = true;
       this.multiCapture = true;
       this.showTypeCapture = false;
+      this.uploadButtonText = 'Enviar fotos';
       this.onResize();
 
       setTimeout(() => {
@@ -187,9 +203,12 @@ export class SenddocumentComponent implements OnInit {
     const constraints = {
       audio: false,
       video: {
-        facingMode: 'environment',
+        facingMode: 'right',
         width: { exact: 640 },
         height: { exact: 480 },
+        aspectRatio: { ideal: 1 },
+        focusMode: 'manual',
+        focusDistance: 0.33,
       },
     };
 
@@ -199,6 +218,9 @@ export class SenddocumentComponent implements OnInit {
         width: { exact: 1280 },
         height: { exact: 720 },
         facingMode: 'environment',
+        aspectRatio: { ideal: 1 },
+        focusMode: 'manual',
+        focusDistance: 0.33,
       };
     }
 
@@ -375,39 +397,78 @@ export class SenddocumentComponent implements OnInit {
     this.resetSnap();
   };
 
+  uploadResponse(res: any) {
+    console.log(res);
+
+    setTimeout(() => {
+      this.isLoaded = false;
+      this.uploadRequest = true;
+      this.uploadResp = false;
+      this.uploadButtonText = `Enviar foto${this.snapsCaptures.length === 2 ? 's' : ''}`;
+    }, 1000);
+
+    window.alert('Documento enviado com sucesso');
+
+    window.localStorage.removeItem('apiType');
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('ticket');
+    window.localStorage.removeItem('errorMessage');
+    window.localStorage.removeItem('hasLiveness');
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  }
+
+  uploadError(err: any) {
+    console.log(err);
+
+    setTimeout(() => {
+      this.isLoaded = false;
+      this.uploadButtonText = `Enviar foto${this.snapsCaptures.length === 2 ? 's' : ''}`;
+
+      window.alert(
+        'Documento não localizado! Por favor reenvie o documento.'
+      );
+
+      window.location.reload();
+    }, 1000);
+  }
+
   async uploadPictures() {
+    this.isLoaded = true;
+    this.uploadButtonText = 'Enviando...';
+
     const snapsSend = this.snapsCaptures.map((snap: any) =>
       snap.replace('data:image/jpeg;base64,', '')
     );
 
-    await this.facecaptchaService.sendDocument(this.appkey, snapsSend).subscribe(
-      (res: any) => {
-        console.log(res);
-
-        setTimeout(() => {
-          this.isLoaded = false;
-          this.uploadRequest = true;
-          this.uploadResp = false;
-        }, 1000);
-
-        window.alert('Documento enviado com sucesso');
-      },
-      (err: any) => {
-        console.log(err);
-
-        setTimeout(() => {
-          this.isLoaded = false;
-
-          window.alert(
-            'Documento não localizado! Por favor reenvie o documento.'
-          );
-        }, 1000);
-      }
-    );
+    if (this.apiType === 'flexible-api') {
+      await this.facecaptchaService.sendCertifaceData(this.ticket, this.appkey, snapsSend).subscribe(
+        (res: any) => {
+          this.uploadResponse(res);
+        },
+        (err: any) => {
+          this.uploadError(err);
+        }
+      )
+    } else {
+      await this.facecaptchaService.sendDocument(this.appkey, snapsSend).subscribe(
+        (res: any) => {
+          this.uploadResponse(res);
+        },
+        (err: any) => {
+          this.uploadError(err);
+        }
+      );
+    }
   };
 
   deleteAppKey() {
+    window.localStorage.removeItem('apiType');
     window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('ticket');
+    window.localStorage.removeItem('errorMessage');
     window.localStorage.removeItem('hasLiveness');
 
     this.router.navigateByUrl('/');

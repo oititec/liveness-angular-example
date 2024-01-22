@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppkeyComponent } from './appkey.component';
+import { AppkeyGlobalComponent } from './appkey.component';
 
-describe('AppkeyComponent', () => {
-  let component: AppkeyComponent;
-  let fixture: ComponentFixture<AppkeyComponent>;
+describe('AppkeyGlobalComponent', () => {
+  let component: AppkeyGlobalComponent;
+  let fixture: ComponentFixture<AppkeyGlobalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppkeyComponent ]
+      declarations: [ AppkeyGlobalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppkeyComponent);
+    fixture = TestBed.createComponent(AppkeyGlobalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

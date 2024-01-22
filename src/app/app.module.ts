@@ -5,7 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AppkeyComponent } from './appkey/appkey.component';
+import { AppkeyFlexibleComponent } from './flexible-api/appkey.component';
+import { AppkeyGlobalComponent } from './global-api/appkey.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { Liveness2dComponent } from './liveness2d/liveness2d.component';
 import { Liveness3dComponent } from './liveness3d/liveness3d.component';
 import { SenddocumentComponent } from './senddocument/senddocument.component';
@@ -15,7 +17,9 @@ import { FaceTecSDK as FaceTecSDKType } from 'src/assets/core-sdk/FaceTecSDK.js/
   declarations: [
     AppComponent,
     HomeComponent,
-    AppkeyComponent,
+    AppkeyFlexibleComponent,
+    AppkeyGlobalComponent,
+    NavMenuComponent,
     Liveness2dComponent,
     Liveness3dComponent,
     SenddocumentComponent

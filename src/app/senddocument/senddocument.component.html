@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 mt-4">
-    <a [routerLink]="['/home']">Voltar</a>
+    <a [routerLink]="['/nav-menu']">Voltar</a>
   </div>
   <div class="coll-12 mb-4">
     <h1>Envio de documentos</h1>
@@ -123,7 +123,7 @@
           <i class="material-icons me-2" aria-hidden="true">
             outbox
           </i>
-          Enviar foto{{snapsCaptures.length === 2 ? 's' : ''}}
+          {{uploadButtonText}}
         </button>
       </div>
     </div>
