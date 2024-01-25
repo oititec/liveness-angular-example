@@ -1,3 +1,4 @@
+declare var require: any
 import { FacecaptchaService } from '../app/backend/facecaptcha.service';
 import { Crypto } from 'src/assets/utilities/Crypto';
 import { FaceTecSessionResult, FaceTecIDScanResult } from "../assets/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
@@ -5,8 +6,8 @@ import { ThemeHelpers } from "src/assets/utilities/ThemeHelpers";
 import { LivenessCheckProcessor } from "./processors/LivenessCheckProcessor";
 import { Config } from '../../Config';
 import { SampleAppUtilities } from "src/assets/utilities/SampleAppUtilities";
-// import * as FaceTecStringsPtBr from "src/assets/core-sdk-optional/FaceTecStrings.pt-br";
 import { environment as env } from 'src/environments/environment';
+const FaceTecStrings = require('src/assets/core-sdk-optional/FaceTecStrings.pt-br.js');
 
 export var SampleApp = (function () {
 
@@ -49,21 +50,18 @@ export var SampleApp = (function () {
     );
 
     // Inicialize o FaceTec Browser SDK e configure os recursos da interface do usuário.
-    // FaceTecSDK.initializeInProductionMode(env.ProductionKeyText, env.DeviceKeyIdentifier, env.PublicFaceScanEncryptionKey,
-    //   function(initializedSuccessfully: boolean) {
-    //     if(initializedSuccessfully) {
-    //       SampleAppUtilities.enableControlButtons();
+    FaceTecSDK.initializeInProductionMode(env.ProductionKeyText, env.DeviceKeyIdentifier, env.PublicFaceScanEncryptionKey,
+      function(initializedSuccessfully: boolean) {
+        if(initializedSuccessfully) {
+          SampleAppUtilities.enableControlButtons();
 
-    //       //FaceTecSDK.configureLocalization({"localizationJSON": "br"});
+          // Set localization
+          FaceTecSDK.configureLocalization(FaceTecStrings);
+        }
+        SampleAppUtilities.displayStatus(FaceTecSDK.getFriendlyDescriptionForFaceTecSDKStatus(FaceTecSDK.getStatus()));
+      });
 
-    //       // Set localization
-    //       // FaceTecSDK.configureLocalization(FaceTecStringsPtBr);
-
-    //     }
-    //     SampleAppUtilities.displayStatus(FaceTecSDK.getFriendlyDescriptionForFaceTecSDKStatus(FaceTecSDK.getStatus()));
-    //   });
-
-    // SampleAppUtilities.formatUIForDevice();
+    SampleAppUtilities.formatUIForDevice();
   };
 
   const onLivenessCheckPressed = (facecaptchaService: any, appkey: any) => {
