@@ -84,7 +84,9 @@ export var SampleApp = (function () {
         loadAssets();
       },
       (err: any) => {
-        console.log(err)
+        console.log(err);
+
+        SampleAppUtilities.displayStatus('Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.');
       });
     }
   };
@@ -110,11 +112,6 @@ export var SampleApp = (function () {
     if (!latestProcessor.isSuccess()) {
       // Redefina o identificador de inscrição.
       latestEnrollmentIdentifier = '';
-
-      // Mostrar mensagem de saída antecipada na tela. Se isso ocorrer, verifique os logs.
-      SampleAppUtilities.displayStatus(
-        'A sessão foi encerrada antecipadamente, consulte os logs para obter mais detalhes.'
-      );
 
       return;
     }

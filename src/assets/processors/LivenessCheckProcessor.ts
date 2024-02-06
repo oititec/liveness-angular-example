@@ -1,6 +1,7 @@
 import { FaceTecSessionResult, FaceTecFaceScanResultCallback, FaceTecFaceScanProcessor } from "../core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { environment } from 'src/environments/environment';
 import { Crypto } from "../utilities/Crypto";
+import { SampleAppUtilities } from "../utilities/SampleAppUtilities";
 
 //
 // Este é um exemplo de classe independente para realizar verificações de vivacidade com o FaceTec SDK.
@@ -55,6 +56,11 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
       console.log("Session was not completed successfully, cancelling.  Session Status: " + FaceTecSDK.FaceTecSessionStatus[sessionResult.status]);
       this.latestNetworkRequest.abort();
       faceScanResultCallback.cancel();
+
+      SampleAppUtilities.displayStatus(
+        'A sessão foi encerrada antecipadamente, consulte os logs para obter mais detalhes.'
+      );
+
       return;
     }
 
@@ -96,13 +102,22 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
           // Verificamos se a Sesão do servidor nos retornou uma propriedade de codID.
           // O fluxo da interface do usuário do SDK do dispositivo agora é orientado pela função continueToNextStep, que deve receber o scanResultBlob da resposta do SDK do servidor.
           if(responseJSON.codID) {
+            if (responseJSON.codID === 300.1 || responseJSON.codID === 300.2) {
+              faceScanResultCallback.cancel();
 
-            // Demonstra a configuração dinâmica da mensagem da tela de sucesso.
-            FaceTecSDK.FaceTecCustomization.setOverrideResultScreenSuccessMessage("Liveness\nConfirmado");
+              SampleAppUtilities.displayStatus('Prova de Vida Reprovada. Insira uma nova appkey e tente novamente.');
 
-            // Na v9.2.0+, basta passar scanResultBlob para a função continueToNextStep para avançar o fluxo do usuário.
-            // scanResultBlob é um blob proprietário e criptografado que controla a lógica do que acontece em seguida para o usuário.
-            faceScanResultCallback.proceedToNextStep(scanResultBlob);
+              setTimeout(() => {
+                SampleAppUtilities.disableControlButtons();
+              }, 2000)
+            } else {
+              // Demonstra a configuração dinâmica da mensagem da tela de sucesso.
+              FaceTecSDK.FaceTecCustomization.setOverrideResultScreenSuccessMessage("Liveness\nConfirmado");
+
+              // Na v9.2.0+, basta passar scanResultBlob para a função continueToNextStep para avançar o fluxo do usuário.
+              // scanResultBlob é um blob proprietário e criptografado que controla a lógica do que acontece em seguida para o usuário.
+              faceScanResultCallback.proceedToNextStep(scanResultBlob);
+            }
           }
           else {
             // CASE: resposta INESPERADA da API. Nosso código de exemplo desliga um booleano wasProcessed na raiz do objeto JSON --> Você define seus próprios contratos de API consigo mesmo e pode optar por fazer algo diferente aqui com base no erro.
