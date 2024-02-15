@@ -184,7 +184,16 @@ export class SenddocumentComponent implements OnInit {
       (navigator as any).mediaDevices.getUserMedia;
 
     // ajusta as configurações de video
-    const constraints = {
+    type ConstraintsDesktop = {
+      audio: boolean,
+      video: {
+        facingMode: string,
+        width: { exact: number },
+        height: { exact: number },
+      };
+    }
+
+    const videoDesktop: ConstraintsDesktop = {
       audio: false,
       video: {
         facingMode: 'environment',
@@ -193,13 +202,29 @@ export class SenddocumentComponent implements OnInit {
       },
     };
 
+    const constraints = videoDesktop;
+
     // se mobile, ajusta configurações de video para mobile
+    type ConstraintsMobile = {
+      width: { exact: number; };
+      height: { exact: number; };
+      facingMode: string;
+      focusMode: string;
+      advanced: [{ zoom: number; torch: boolean; }];
+    }
+
+    const videoMobile: ConstraintsMobile = {
+      width: { exact: 1280 },
+      height: { exact: 720 },
+      facingMode: 'environment',
+      focusMode: 'continuous',
+      advanced: [
+        { zoom: this.isAndroid() ? 2.0 : 1.0, torch: this.isAndroid() ? true : false },
+      ],
+    };
+
     if (this.isMobile()) {
-      constraints.video = {
-        width: { exact: 1280 },
-        height: { exact: 720 },
-        facingMode: 'environment',
-      };
+      constraints.video = videoMobile;
     }
 
     navigator.mediaDevices
@@ -224,6 +249,10 @@ export class SenddocumentComponent implements OnInit {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+  };
+
+  isAndroid() {
+    return /Android/i.test(navigator.userAgent);
   };
 
   startCapture() {
