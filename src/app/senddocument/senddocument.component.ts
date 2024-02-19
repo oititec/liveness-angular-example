@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-senddocument',
   templateUrl: './senddocument.component.html',
-  styleUrls: ['./senddocument.component.scss']
+  styleUrls: ['./senddocument.component.scss'],
 })
 export class SenddocumentComponent implements OnInit {
-  ImgIcon = "/assets/img/img-icon.png";
-  ChevronRight = "/assets/img/chevron-right.png";
+  ImgIcon = '/assets/img/img-icon.png';
+  ChevronRight = '/assets/img/chevron-right.png';
 
   appkey: any;
   message: string = ''; // trocar para ''
@@ -32,14 +32,14 @@ export class SenddocumentComponent implements OnInit {
 
   constructor(
     private facecaptchaService: FacecaptchaService,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
   }
 
-  handleStream (stream: any) {
+  handleStream(stream: any) {
     setTimeout(() => {
       let video: any = document.getElementById('video');
 
@@ -55,7 +55,7 @@ export class SenddocumentComponent implements OnInit {
       this.btnControllers = false;
       this.showUpload = false;
     }, 1000);
-  };
+  }
 
   setTypeCapture(type: any) {
     if (type === 1) {
@@ -81,7 +81,7 @@ export class SenddocumentComponent implements OnInit {
         this.isLoaded = false;
       }, 1000);
     }
-  };
+  }
 
   onResize() {
     if (
@@ -152,15 +152,21 @@ export class SenddocumentComponent implements OnInit {
         }
       }
     }
-  };
+  }
 
   startCamera() {
     if (this.multiCapture) {
       if (this.indexTempSnap !== -1) {
-        this.message = this.indexTempSnap === 1 ? 'Centralize o verso do documento' : 'Centralize a frente do documento';
+        this.message =
+          this.indexTempSnap === 1
+            ? 'Centralize o verso do documento'
+            : 'Centralize a frente do documento';
         this.isLoaded = false;
       } else {
-        this.message = this.snapsCaptures.length === 0 ? 'Centralize a frente do documento' : 'Centralize o verso do documento';
+        this.message =
+          this.snapsCaptures.length === 0
+            ? 'Centralize a frente do documento'
+            : 'Centralize o verso do documento';
         this.isLoaded = false;
       }
     } else {
@@ -185,20 +191,36 @@ export class SenddocumentComponent implements OnInit {
 
     // ajusta as configurações de video
     type ConstraintsDesktop = {
-      audio: boolean,
+      audio: boolean;
       video: {
-        facingMode: string,
-        width: { exact: number },
-        height: { exact: number },
+        facingMode: string;
+        width: {
+          min: number;
+          ideal: number;
+          max: number;
+        };
+        height: {
+          min: number;
+          ideal: number;
+          max: number;
+        };
       };
-    }
+    };
 
     const videoDesktop: ConstraintsDesktop = {
       audio: false,
       video: {
         facingMode: 'environment',
-        width: { exact: 640 },
-        height: { exact: 480 },
+        width: {
+          min: 640,
+          ideal: 640,
+          max: 640,
+        },
+        height: {
+          min: 480,
+          ideal: 480,
+          max: 480,
+        },
       },
     };
 
@@ -206,20 +228,39 @@ export class SenddocumentComponent implements OnInit {
 
     // se mobile, ajusta configurações de video para mobile
     type ConstraintsMobile = {
-      width: { exact: number; };
-      height: { exact: number; };
+      width: {
+        min: number;
+        ideal: number;
+        max: number;
+      };
+      height: {
+        min: number;
+        ideal: number;
+        max: number;
+      };
       facingMode: string;
       focusMode: string;
-      advanced: [{ zoom: number; torch: boolean; }];
-    }
+      advanced: [{ zoom: number; torch: boolean }];
+    };
 
     const videoMobile: ConstraintsMobile = {
-      width: { exact: 1280 },
-      height: { exact: 720 },
+      width: {
+        min: 1280,
+        ideal: 1920,
+        max: 2560,
+      },
+      height: {
+        min: 720,
+        ideal: 1080,
+        max: 1440,
+      },
       facingMode: 'environment',
       focusMode: 'continuous',
       advanced: [
-        { zoom: this.isAndroid() ? 2.0 : 1.0, torch: this.isAndroid() ? true : false },
+        {
+          zoom: this.isAndroid() ? 2.0 : 1.0,
+          torch: this.isAndroid() ? true : false,
+        },
       ],
     };
 
@@ -233,7 +274,7 @@ export class SenddocumentComponent implements OnInit {
       .catch((err) => {
         console.log('Sem câmera! ' + err);
       });
-  };
+  }
 
   stopCameraStreams() {
     if (this.streams) {
@@ -243,17 +284,17 @@ export class SenddocumentComponent implements OnInit {
 
       this.streams = null;
     }
-  };
+  }
 
   isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
-  };
+  }
 
   isAndroid() {
     return /Android/i.test(navigator.userAgent);
-  };
+  }
 
   startCapture() {
     this.processing = true;
@@ -270,7 +311,7 @@ export class SenddocumentComponent implements OnInit {
       this.isLoaded = false;
       this.processing = false;
     }, 1500);
-  };
+  }
 
   resetSnap() {
     const resetControls = () => {
@@ -299,20 +340,16 @@ export class SenddocumentComponent implements OnInit {
         this.stopCameraStreams();
       }
     }
-  };
+  }
 
   snapCapture() {
     this.snapTempDOM = this.snap();
-  };
+  }
 
   snapTick() {
     // Adiciona as fotos nas listas
     if (this.indexTempSnap !== -1) {
-      this.snapsCaptures.splice(
-        this.indexTempSnap,
-        0,
-        this.snapTempDOM
-      );
+      this.snapsCaptures.splice(this.indexTempSnap, 0, this.snapTempDOM);
     } else {
       this.snapsCaptures.push(this.snapTempDOM);
     }
@@ -327,7 +364,7 @@ export class SenddocumentComponent implements OnInit {
     // Limpa as listas e reinicia a câmera
     tempSnap();
     this.resetSnap();
-  };
+  }
 
   snap() {
     const video: any = document.getElementById('video');
@@ -383,7 +420,7 @@ export class SenddocumentComponent implements OnInit {
     img.src = canvas.toDataURL('image/jpeg');
 
     return img.src;
-  };
+  }
 
   removeSnapFromLists(index: any) {
     const snapRemoval = () => {
@@ -402,43 +439,45 @@ export class SenddocumentComponent implements OnInit {
 
     snapRemoval();
     this.resetSnap();
-  };
+  }
 
   async uploadPictures() {
     const snapsSend = this.snapsCaptures.map((snap: any) =>
       snap.replace('data:image/jpeg;base64,', '')
     );
 
-    await this.facecaptchaService.sendDocument(this.appkey, snapsSend).subscribe(
-      (res: any) => {
-        console.log(res);
+    await this.facecaptchaService
+      .sendDocument(this.appkey, snapsSend)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
 
-        setTimeout(() => {
-          this.isLoaded = false;
-          this.uploadRequest = true;
-          this.uploadResp = false;
-        }, 1000);
+          setTimeout(() => {
+            this.isLoaded = false;
+            this.uploadRequest = true;
+            this.uploadResp = false;
+          }, 1000);
 
-        window.alert('Documento enviado com sucesso');
-      },
-      (err: any) => {
-        console.log(err);
+          window.alert('Documento enviado com sucesso');
+        },
+        (err: any) => {
+          console.log(err);
 
-        setTimeout(() => {
-          this.isLoaded = false;
+          setTimeout(() => {
+            this.isLoaded = false;
 
-          window.alert(
-            'Documento não localizado! Por favor reenvie o documento.'
-          );
-        }, 1000);
-      }
-    );
-  };
+            window.alert(
+              'Documento não localizado! Por favor reenvie o documento.'
+            );
+          }, 1000);
+        }
+      );
+  }
 
   deleteAppKey() {
     window.localStorage.removeItem('appkey');
     window.localStorage.removeItem('hasLiveness');
 
     this.router.navigateByUrl('/');
-  };
+  }
 }
