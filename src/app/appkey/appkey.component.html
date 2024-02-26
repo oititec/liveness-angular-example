@@ -16,6 +16,16 @@
       <div class="col-12" *ngIf="errorMessage !== ''">
         {{errorMessage}}
       </div>
+      <div class="col-12">
+        <hr />
+      </div>
+      <div class="col-12">
+        <button type="button" class="btn btn-primary w-100" (click)="detectUserAgent()">Detectar userAgent</button>
+      </div>
+      <div class="col-12" *ngIf="deviceType !== ''">{{deviceType}}</div>
+      <div class="col-12" *ngIf="os !== ''">{{os}}</div>
+      <div class="col-12" *ngIf="userAgent !== ''">{{userAgent}}</div>
+      <div class="col-12" *ngIf="deviceModel !== ''">{{deviceModel}}</div>
     </div>
   </div>
 </div>
