@@ -47,14 +47,50 @@ export class SenddocumentComponent implements OnInit {
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
 
-      video.srcObject = stream;
+      const videoTrack = stream.getVideoTracks()[0];
 
-      this.streams = stream.getVideoTracks();
-      this.isLoaded = true;
-      this.showIniciar = true;
-      this.btnControllers = false;
-      this.showUpload = false;
+      this.streams = videoTrack;
+
+      video.srcObject = new MediaStream([videoTrack]);
+
+      // Adicionar zoom e tentar ajustar o foco (usando CSS e applyConstraints)
+      video.style.transform = this.isMobile() ? 'scale(2.0)' : 'scale(1.0)';
+
+      if (this.isMobile()) {
+        // Tentar ajustar o foco (nem sempre é suportado)
+        videoTrack.applyConstraints({
+          advanced: [{ focusMode: 'continuous', focusDistance: 0.5 }],
+        });
+      }
+
+      // Capturar uma foto (isso também ativará o flash)
+      const canvas: any = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.width = 2560;
+      canvas.height = 1440;
+
+      // Capturar uma foto (isso também ativará o flash)
+      video.addEventListener('loadedmetadata', () => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const photoBlob = this.dataURItoBlob(canvas.toDataURL('image/jpeg'));
+
+        // Manipular a foto (se necessário)
+        this.isLoaded = true;
+        this.showIniciar = true;
+        this.btnControllers = false;
+        this.showUpload = false;
+      });
     }, 1000);
+  }
+
+  dataURItoBlob(dataURI: any) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
   }
 
   setTypeCapture(type: any) {
@@ -190,83 +226,23 @@ export class SenddocumentComponent implements OnInit {
       (navigator as any).mediaDevices.getUserMedia;
 
     // ajusta as configurações de video
-    type ConstraintsDesktop = {
-      audio: boolean;
-      video: {
-        facingMode: string;
-        width: {
-          min: number;
-          ideal: number;
-          max: number;
-        };
-        height: {
-          min: number;
-          ideal: number;
-          max: number;
-        };
-      };
-    };
-
-    const videoDesktop: ConstraintsDesktop = {
+    const constraints = {
       audio: false,
       video: {
         facingMode: 'environment',
         width: {
-          min: 640,
-          ideal: 640,
-          max: 640,
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
         },
         height: {
-          min: 480,
-          ideal: 480,
-          max: 480,
+          min: 720,
+          ideal: 1080,
+          max: 1440,
         },
+        focusMode: 'continuous',
       },
     };
-
-    const constraints = videoDesktop;
-
-    // se mobile, ajusta configurações de video para mobile
-    type ConstraintsMobile = {
-      width: {
-        min: number;
-        ideal: number;
-        max: number;
-      };
-      height: {
-        min: number;
-        ideal: number;
-        max: number;
-      };
-      facingMode: string;
-      focusMode: string;
-      advanced: [{ zoom: number; torch: boolean }];
-    };
-
-    const videoMobile: ConstraintsMobile = {
-      width: {
-        min: 1280,
-        ideal: 1920,
-        max: 2560,
-      },
-      height: {
-        min: 720,
-        ideal: 1080,
-        max: 1440,
-      },
-      facingMode: 'environment',
-      focusMode: 'continuous',
-      advanced: [
-        {
-          zoom: this.isAndroid() ? 2.0 : 1.0,
-          torch: this.isAndroid() ? true : false,
-        },
-      ],
-    };
-
-    if (this.isMobile()) {
-      constraints.video = videoMobile;
-    }
 
     navigator.mediaDevices
       .getUserMedia(constraints)
@@ -278,9 +254,7 @@ export class SenddocumentComponent implements OnInit {
 
   stopCameraStreams() {
     if (this.streams) {
-      this.streams.forEach((stream: any) => {
-        stream.stop();
-      });
+      this.streams.stop();
 
       this.streams = null;
     }

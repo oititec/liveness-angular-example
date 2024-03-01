@@ -25,6 +25,10 @@
     ],
     "types": [
       "node",
+      "w3c-image-capture"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
     ],
   },
   "angularCompilerOptions": {
