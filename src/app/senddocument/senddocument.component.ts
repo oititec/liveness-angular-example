@@ -74,6 +74,29 @@ export class SenddocumentComponent implements OnInit {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const photoBlob = this.dataURItoBlob(canvas.toDataURL('image/jpeg'));
 
+        // Teste de autofoco
+        if (this.isMobile()) {
+          var capabilities = videoTrack.getCapabilities();
+
+          if (
+            capabilities.focusMode &&
+            capabilities.focusMode.includes('continuous')
+          ) {
+            var settings = videoTrack.getSettings();
+            settings.focusMode = 'continuous';
+            videoTrack
+              .applyConstraints({ advanced: [settings] })
+              .then(function () {
+                window.alert('Autofocus enabled');
+              })
+              .catch(function (error: any) {
+                window.alert('Error enabling autofocus: ' + error);
+              });
+          } else {
+            window.alert('Autofocus is not supported on this device.');
+          }
+        }
+
         // Manipular a foto (se necessário)
         this.isLoaded = true;
         this.showIniciar = true;
