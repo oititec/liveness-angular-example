@@ -118,30 +118,39 @@ export class SenddocumentComponent implements OnInit {
 
   setTypeCapture(type: any) {
     if (type === 1) {
-      let file: any = document.getElementById('tipo-captura-1-foto');
+      if (this.isMobile()) {
+        let file: any = document.getElementById('tipo-captura-1-foto');
 
-      file.click();
-      // this.message = 'Carregando...';
-      // this.sendDocument = true;
-      // this.multiCapture = false;
-      // this.showTypeCapture = false;
-      // this.onResize();
+        file.click();
+      } else {
+        this.message = 'Carregando...';
+        this.sendDocument = true;
+        this.multiCapture = false;
+        this.showTypeCapture = false;
+        this.onResize();
 
-      // setTimeout(() => {
-      //   this.message = '';
-      //   this.isLoaded = false;
-      // }, 1000);
+        setTimeout(() => {
+          this.message = '';
+          this.isLoaded = false;
+        }, 1000);
+      }
     } else {
-      this.message = 'Carregando...';
-      this.sendDocument = true;
-      this.multiCapture = true;
-      this.showTypeCapture = false;
-      this.onResize();
+      if (this.isMobile()) {
+        let file: any = document.getElementById('tipo-captura-1-foto'); // Definir campo de input file
 
-      setTimeout(() => {
-        this.message = '';
-        this.isLoaded = false;
-      }, 1000);
+        file.click();
+      } else {
+        this.message = 'Carregando...';
+        this.sendDocument = true;
+        this.multiCapture = true;
+        this.showTypeCapture = false;
+        this.onResize();
+
+        setTimeout(() => {
+          this.message = '';
+          this.isLoaded = false;
+        }, 1000);
+      }
     }
   }
 
