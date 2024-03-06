@@ -118,16 +118,19 @@ export class SenddocumentComponent implements OnInit {
 
   setTypeCapture(type: any) {
     if (type === 1) {
-      this.message = 'Carregando...';
-      this.sendDocument = true;
-      this.multiCapture = false;
-      this.showTypeCapture = false;
-      this.onResize();
+      let file: any = document.getElementById('tipo-captura-1-foto');
 
-      setTimeout(() => {
-        this.message = '';
-        this.isLoaded = false;
-      }, 1000);
+      file.click();
+      // this.message = 'Carregando...';
+      // this.sendDocument = true;
+      // this.multiCapture = false;
+      // this.showTypeCapture = false;
+      // this.onResize();
+
+      // setTimeout(() => {
+      //   this.message = '';
+      //   this.isLoaded = false;
+      // }, 1000);
     } else {
       this.message = 'Carregando...';
       this.sendDocument = true;
