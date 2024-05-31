@@ -58,6 +58,20 @@ export class SenddocumentComponent implements OnInit {
   }
 
   setTypeCapture(type: any) {
+    if (this.isMobile()) {
+      let capturaFoto: any = document.getElementById('captura-foto'); // voltar aqui
+
+      capturaFoto.click();
+
+      capturaFoto.addEventListener('change', () => {
+        this.startCapture();
+      });
+    }
+
+    // if (this.isMobile()) {
+    //   this.multiCapture = type === 1 ? false : true
+    // }
+
     if (type === 1) {
       this.message = 'Carregando...';
       this.sendDocument = true;
@@ -190,90 +204,46 @@ export class SenddocumentComponent implements OnInit {
       (navigator as any).mediaDevices.getUserMedia;
 
     // ajusta as configurações de video
-    type ConstraintsDesktop = {
-      audio: boolean;
-      video: {
-        facingMode: string;
-        width: {
-          min: number;
-          ideal: number;
-          max: number;
-        };
-        height: {
-          min: number;
-          ideal: number;
-          max: number;
-        };
-      };
-    };
-
-    const videoDesktop: ConstraintsDesktop = {
+    const constraints = {
       audio: false,
       video: {
         facingMode: 'environment',
         width: {
-          min: 640,
-          ideal: 640,
-          max: 640,
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
         },
         height: {
-          min: 480,
-          ideal: 480,
-          max: 480,
+          min: 720,
+          ideal: 1080,
+          max: 1440,
         },
       },
     };
-
-    const constraints = videoDesktop;
 
     // se mobile, ajusta configurações de video para mobile
-    type ConstraintsMobile = {
-      width: {
-        min: number;
-        ideal: number;
-        max: number;
-      };
-      height: {
-        min: number;
-        ideal: number;
-        max: number;
-      };
-      facingMode: string;
-      focusMode: string;
-      advanced: [{ zoom: number; torch: boolean }];
-    };
-
-    const videoMobile: ConstraintsMobile = {
-      width: {
-        min: 1280,
-        ideal: 1920,
-        max: 2560,
-      },
-      height: {
-        min: 720,
-        ideal: 1080,
-        max: 1440,
-      },
-      facingMode: 'environment',
-      focusMode: 'continuous',
-      advanced: [
-        {
-          zoom: this.isAndroid() ? 2.0 : 1.0,
-          torch: this.isAndroid() ? true : false,
+    if (!this.isMobile()) {
+      constraints.video = {
+        width: {
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
         },
-      ],
-    };
+        height: {
+          min: 720,
+          ideal: 1080,
+          max: 1440,
+        },
+        facingMode: 'environment',
+      };
 
-    if (this.isMobile()) {
-      constraints.video = videoMobile;
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => this.handleStream(stream))
+        .catch((err) => {
+          console.log('Sem câmera! ' + err);
+        });
     }
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => this.handleStream(stream))
-      .catch((err) => {
-        console.log('Sem câmera! ' + err);
-      });
   }
 
   stopCameraStreams() {
@@ -292,58 +262,99 @@ export class SenddocumentComponent implements OnInit {
     );
   }
 
-  isAndroid() {
-    return /Android/i.test(navigator.userAgent);
-  }
-
   startCapture() {
-    this.processing = true;
-    this.message = 'Processando...';
-    this.showIniciar = false;
-    this.isLoaded = true;
-
-    setTimeout(() => {
+    if (this.isMobile()) {
       this.snapCapture();
-      this.stopCameraStreams();
+    } else {
+      this.processing = true;
+      this.message = 'Processando...';
+      this.showIniciar = false;
+      this.isLoaded = true;
 
-      this.message = '';
-      this.btnControllers = true;
-      this.isLoaded = false;
-      this.processing = false;
-    }, 1500);
+      setTimeout(() => {
+        this.snapCapture();
+        this.stopCameraStreams();
+
+        this.message = '';
+        this.btnControllers = true;
+        this.isLoaded = false;
+        this.processing = false;
+      }, 1500);
+    }
   }
 
   resetSnap() {
+    const resetMobileImage = () => {
+      let imgMobile: any = document.getElementById('img-mobile');
+      imgMobile.setAttribute('src', '');
+
+      let capturaFoto: any = document.getElementById('captura-foto');
+
+      if (this.snapsCaptures.length < 1) {
+        capturaFoto.click();
+      }
+    };
+
     const resetControls = () => {
+      if (this.isMobile()) {
+        resetMobileImage();
+      }
+
       this.snapTempDOM = '';
       this.btnControllers = false;
     };
 
     const resetShowUpload = () => {
-      this.showUpload = true;
+      let capturaFoto: any = document.getElementById('captura-foto');
+      let imgMobile: any = document.getElementById('img-mobile');
+
+      if (!this.isMobile()) {
+        this.showUpload = true;
+      } else {
+        capturaFoto.value = '';
+        imgMobile.src = '';
+
+        this.showUpload = true;
+      }
     };
 
     if (this.multiCapture) {
       if (this.snapsCaptures.length < 2) {
         resetControls();
-        this.startCamera();
+
+        if (!this.isMobile()) {
+          this.startCamera();
+        } else {
+          let capturaFoto: any = document.getElementById('captura-foto');
+
+          capturaFoto.click();
+        }
       } else {
         resetShowUpload();
-        this.stopCameraStreams();
+
+        if (!this.isMobile()) {
+          this.stopCameraStreams();
+        }
       }
     } else {
       if (this.snapsCaptures.length < 1) {
         resetControls();
-        this.startCamera();
+
+        if (!this.isMobile()) {
+          this.startCamera();
+        }
       } else {
         resetShowUpload();
-        this.stopCameraStreams();
+
+        if (!this.isMobile()) {
+          this.stopCameraStreams();
+        }
       }
     }
   }
 
   snapCapture() {
-    this.snapTempDOM = this.snap();
+    return (this.snapTempDOM = this.snap());
   }
 
   snapTick() {
@@ -367,11 +378,15 @@ export class SenddocumentComponent implements OnInit {
   }
 
   snap() {
+    const capturaFoto: any = document.getElementById('captura-foto');
+    const imgMobile: any = document.getElementById('img-mobile');
+    const fotoCapturada: any = capturaFoto.files[0];
     const video: any = document.getElementById('video');
     const canvas: any = document.getElementById('fc_canvas');
     const ctx: any = canvas.getContext('2d');
+    const img: any = new Image();
 
-    let ratio = video.videoWidth / video.videoHeight;
+    let ratio = !this.isMobile() ? video.videoWidth / video.videoHeight : 0;
     let widthReal = 0;
     let heightReal = 0;
     let startX = 0;
@@ -388,7 +403,7 @@ export class SenddocumentComponent implements OnInit {
       // retrato
       ctx.canvas.width = 640;
       ctx.canvas.height = 960;
-      ratio = video.videoHeight / video.videoWidth;
+      ratio = !this.isMobile() ? video.videoWidth / video.videoHeight : 0;
       // verifica proporção
       if (ratio > 1.5) {
         widthReal = video.videoWidth;
@@ -396,30 +411,90 @@ export class SenddocumentComponent implements OnInit {
         startX = 0;
         startY = 0;
       } else {
-        widthReal = video.videoHeight / 1.5;
-        heightReal = video.videoHeight;
-        startX = (video.videoWidth - widthReal) / 2;
+        widthReal = !this.isMobile() ? video.videoHeight / 1.5 : 0;
+        heightReal = !this.isMobile() ? video.videoHeight : 0;
+        startX = (!this.isMobile() ? video.videoWidth - widthReal : 0) / 2;
         startY = 0;
       }
     }
 
-    // crop image video
-    ctx.drawImage(
-      video,
-      startX,
-      startY,
-      widthReal,
-      heightReal,
-      0,
-      0,
-      ctx.canvas.width,
-      ctx.canvas.height
-    );
+    const resizeMe = (img: any) => {
+      var width = img.width;
+      var height = img.height;
 
-    const img = new Image();
-    img.src = canvas.toDataURL('image/jpeg');
+      var max_width = 1200;
+      var max_height = 1600;
 
-    return img.src;
+      if (width > height) {
+        if (width > max_width) {
+          height = Math.round((height *= max_width / width));
+          width = max_width;
+        }
+      } else {
+        if (height > max_height) {
+          width = Math.round((width *= max_height / height));
+          height = max_height;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      return canvas.toDataURL('image/jpeg', 0.85);
+    };
+
+    if (this.isMobile()) {
+      const reader = new FileReader();
+
+      reader.readAsArrayBuffer(fotoCapturada);
+
+      reader.onload = (e: any) => {
+        let blob = new Blob([e.target.result]);
+        window.URL = window.URL || window.webkitURL;
+        let blobURL = window.URL.createObjectURL(blob);
+
+        imgMobile.src = blobURL;
+
+        imgMobile.onload = () => {
+          let resized = resizeMe(imgMobile);
+
+          let newinput = document.createElement('input');
+          newinput.type = 'hidden';
+          newinput.name = 'images[]';
+          newinput.value = resized;
+
+          setTimeout(() => {
+            this.snapTempDOM = newinput.value;
+            this.message = '';
+            this.btnControllers = true;
+            this.sendDocument = true;
+            this.isLoaded = false;
+            this.processing = false;
+
+            return imgMobile.src;
+          }, 100);
+        };
+      };
+    } else {
+      // crop image video
+      ctx.drawImage(
+        video,
+        startX,
+        startY,
+        widthReal,
+        heightReal,
+        0,
+        0,
+        ctx.canvas.width,
+        ctx.canvas.height
+      );
+
+      img.src = canvas.toDataURL('image/jpeg');
+
+      return img.src;
+    }
   }
 
   removeSnapFromLists(index: any) {
@@ -442,6 +517,8 @@ export class SenddocumentComponent implements OnInit {
   }
 
   async uploadPictures() {
+    this.isLoaded = true;
+
     const snapsSend = this.snapsCaptures.map((snap: any) =>
       snap.replace('data:image/jpeg;base64,', '')
     );
@@ -458,7 +535,9 @@ export class SenddocumentComponent implements OnInit {
             this.uploadResp = false;
           }, 1000);
 
-          window.alert('Documento enviado com sucesso');
+          window.localStorage.removeItem('appkey');
+
+          window.location.reload();
         },
         (err: any) => {
           console.log(err);
@@ -469,6 +548,8 @@ export class SenddocumentComponent implements OnInit {
             window.alert(
               'Documento não localizado! Por favor reenvie o documento.'
             );
+
+            window.location.reload();
           }, 1000);
         }
       );

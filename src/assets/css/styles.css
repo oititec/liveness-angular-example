@@ -1,18 +1,16 @@
-@import "@material-design-icons/font";
-
 .btn.btn-rounded {
   border-radius: 50px;
   font-weight: 700;
 }
 .btn.btn-success {
-  background-color: #05d758;
-  border-color: #05d758;
-  color: #1e1e1e;
+  background-color: #05D758;
+  border-color: #05D758;
+  color: #1E1E1E;
 }
 .btn.btn-secondary {
-  background-color: #f5f5f5;
-  border-color: #f5f5f5;
-  color: #1e1e1e;
+  background-color: #F5F5F5;
+  border-color: #F5F5F5;
+  color: #1E1E1E;
 }
 
 .liveness-2d .overlay {
@@ -69,7 +67,7 @@
   left: 0;
 }
 .liveness-2d-result .overlay.success {
-  background-color: #1b7d2c;
+  background-color: #1B7D2C;
   z-index: 9;
 }
 .liveness-2d-result .result-text {
@@ -168,8 +166,7 @@
   margin: 0 auto;
   height: 100vh;
 }
-.send-document-area .thumb-picture,
-.send-document-area .thumbs-group {
+.send-document-area .thumb-picture, .send-document-area .thumbs-group {
   position: absolute;
   left: 0;
   right: 0;
@@ -184,22 +181,18 @@
   color: #000;
   overflow-y: auto;
 }
-.send-document-area .thumb-picture > div,
-.send-document-area .thumbs-group > div {
+.send-document-area .thumb-picture > div, .send-document-area .thumbs-group > div {
   width: 50%;
 }
-.send-document-area .thumb-picture > div p,
-.send-document-area .thumbs-group > div p {
+.send-document-area .thumb-picture > div p, .send-document-area .thumbs-group > div p {
   text-align: center;
   font-weight: 700;
   font-size: 25px;
 }
-.send-document-area .thumb-picture > div img,
-.send-document-area .thumbs-group > div img {
+.send-document-area .thumb-picture > div img, .send-document-area .thumbs-group > div img {
   width: 100%;
 }
-.send-document-area .thumb-picture > div button,
-.send-document-area .thumbs-group > div button {
+.send-document-area .thumb-picture > div button, .send-document-area .thumbs-group > div button {
   display: flex !important;
   align-items: center;
 }
@@ -225,8 +218,7 @@
   border-bottom: 0;
   padding: 0;
 }
-.modal.show .modal-dialog .modal-content .modal-header .modal-title,
-.modal.show .modal-dialog .modal-content .modal-header .btn-close {
+.modal.show .modal-dialog .modal-content .modal-header .modal-title, .modal.show .modal-dialog .modal-content .modal-header .btn-close {
   display: none;
 }
 .modal.show .modal-dialog .modal-content .modal-body {
@@ -244,4 +236,4 @@
   .modal-sm {
     --bs-modal-width: 446px;
   }
-} /*# sourceMappingURL=styles.css.map */
+}/*# sourceMappingURL=styles.css.map */
