@@ -21,7 +21,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
-              "src/assets/css/styles.css"
+              "src/assets/css/styles.css",
+              "node_modules/@material-design-icons/font/index.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",

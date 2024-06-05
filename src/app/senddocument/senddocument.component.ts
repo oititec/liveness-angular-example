@@ -315,6 +315,7 @@ export class SenddocumentComponent implements OnInit {
         imgMobile.src = '';
 
         this.showUpload = true;
+        this.rotateCamera = false;
       }
     };
 

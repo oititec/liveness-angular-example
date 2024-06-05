@@ -51,6 +51,9 @@
       Em caso de problemas, clique aqui
     </button>
   </div>
+  <input type="file" id="captura-foto" accept="image/*" capture="camera" aria-hidden="true"
+    style="display: none; pointer-events: none;" />
+  <img id="img-mobile" src="" aria-hidden="true" style="display: none;" />
 </div>
 
 <div *ngIf="sendDocument">
@@ -138,8 +141,5 @@
     </div>
   </div>
 
-  <input type="file" id="captura-foto" accept="image/*" capture="camera" aria-hidden="true"
-    style="display: none; pointer-events: none;" />
-  <img id="img-mobile" src="" aria-hidden="true" style="display: none;" />
   <canvas id="fc_canvas" style="display: none;"></canvas>
 </div>
