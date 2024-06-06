@@ -7,7 +7,8 @@
     <p>Para começarmos, escolha o tipo de documento que deseja enviar:</p>
   </div>
   <div class="col-12">
-    <div id="btn-tipo-captura-1-foto" role="button" class="btn btn-outline-secondary d-block mb-3"
+    <div id="btn-tipo-captura-1-foto" role="button"
+      [class]="appkey === null ? 'btn btn-outline-secondary d-block mb-3 disabled' : 'btn btn-outline-secondary d-block mb-3'"
       (click)="setTypeCapture(1)" tabindex="0">
       <div class="row">
         <div class="col-auto d-flex align-items-center">
@@ -26,7 +27,8 @@
     </div>
   </div>
   <div class="col-12 mb-4">
-    <div id="btn-tipo-captura-2-fotos" role="button" class="btn btn-outline-secondary d-block mb-3"
+    <div id="btn-tipo-captura-2-fotos" role="button"
+      [class]="appkey === null ? 'btn btn-outline-secondary d-block mb-3 disabled' : 'btn btn-outline-secondary d-block mb-3'"
       (click)="setTypeCapture(2)" tabindex="0">
       <div class="row">
         <div class="col-auto d-flex align-items-center">
@@ -49,10 +51,13 @@
       Em caso de problemas, clique aqui
     </button>
   </div>
+  <input type="file" id="captura-foto" accept="image/*" capture="camera" aria-hidden="true"
+    style="display: none; pointer-events: none;" />
+  <img id="img-mobile" src="" aria-hidden="true" style="display: none;" />
 </div>
 
 <div *ngIf="sendDocument">
-  <div class="overlay"></div>
+  <div *ngIf="!isMobile()" class="overlay"></div>
 
   <div class="send-document-area">
     <div class="container">
@@ -60,17 +65,20 @@
         <span id="spanMsg">{{message}}</span>
       </div>
 
-      <video *ngIf="!showUpload" id="video" class="object-fit-contain"></video>
+      <video *ngIf="!showUpload && !isMobile()" id="video" class="object-fit-contain"></video>
 
-      <div *ngIf="snapTempDOM !== ''" id="thumb-picture" class="thumb-picture">
-        <div>
+      <div *ngIf="snapTempDOM !== ''" id="thumb-picture"
+        [class]="isMobile() ? 'thumb-picture mobile-thumb' : 'thumb-picture'">
+        <div [class]="isMobile() ? 'thumb-group-card mobile-thumb' : 'thumb-group-card'">
           <p>A foto do documento ficou boa?</p>
-          <img id="imgCamera" [src]="snapTempDOM" alt="" />
+          <div>
+            <img id="imgCamera" [src]="snapTempDOM" alt="" />
+          </div>
         </div>
       </div>
 
-      <div *ngIf="showUpload && !rotateCamera" class="thumbs-group">
-        <div class="thumb-group-card">
+      <div *ngIf="showUpload && !rotateCamera" [class]="isMobile() ? 'thumbs-group mobile-thumb' : 'thumbs-group'">
+        <div [class]="isMobile() ? 'thumb-group-card mobile-group' : 'thumb-group-card'">
           <p>
             Deseja enviar ou trocar
             {{snapsCaptures.length === 2 ? 'as' : 'a'}}
@@ -108,7 +116,7 @@
       </div>
 
       <div *ngIf="rotateCamera === false" class="d-flex btn-controllers">
-        <button *ngIf="showIniciar && !btnControllers && !showUpload" type="button" id="btnIniciar"
+        <button *ngIf="showIniciar && !btnControllers && !showUpload && !isMobile()" type="button" id="btnIniciar"
           class="btn btn-primary d-flex align-items-center btnImage btnCapture fadeIn mt-2 me-2"
           (click)="startCapture()">
           <i class="material-icons me-2" aria-hidden="true">
@@ -120,14 +128,18 @@
         <button *ngIf="showUpload && !uploadRequest"
           class="btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2" (click)="uploadPictures()"
           [disabled]="isLoaded">
-          <i class="material-icons me-2" aria-hidden="true">
+          <i *ngIf="isLoaded" class="material-icons me-2" aria-hidden="true">
+            cloud_upload
+          </i>
+          <i *ngIf="!isLoaded" class="material-icons me-2" aria-hidden="true">
             outbox
           </i>
-          Enviar foto{{snapsCaptures.length === 2 ? 's' : ''}}
+          <span *ngIf="isLoaded">Carregando...</span>
+          <span *ngIf="!isLoaded">Enviar foto{{snapsCaptures.length === 2 ? 's' : ''}}</span>
         </button>
       </div>
     </div>
   </div>
 
-  <canvas id="fc_canvas" style="display: none"></canvas>
+  <canvas id="fc_canvas" style="display: none;"></canvas>
 </div>
