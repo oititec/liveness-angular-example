@@ -536,6 +536,8 @@ export class SenddocumentComponent implements OnInit {
             this.uploadResp = false;
           }, 1000);
 
+          window.alert('Documento enviado com sucesso');
+
           window.localStorage.removeItem('appkey');
 
           window.location.reload();
