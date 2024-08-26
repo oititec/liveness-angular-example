@@ -164,9 +164,10 @@ export var ThemeHelpers = (function () {
         true;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'oiti/document_offblack.png';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -475,9 +476,10 @@ export var ThemeHelpers = (function () {
         true;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'oiti/document_offblack.png';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -787,9 +789,10 @@ export var ThemeHelpers = (function () {
         true;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'pseudo-fullscreen/document_offblack.png';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -1095,9 +1098,10 @@ export var ThemeHelpers = (function () {
         true;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'well-rounded/document_green.png';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -1336,9 +1340,10 @@ export var ThemeHelpers = (function () {
         true;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'bitcoin-exchange/document_orange.png';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -1634,9 +1639,10 @@ export var ThemeHelpers = (function () {
         false;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         '';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -1876,9 +1882,10 @@ export var ThemeHelpers = (function () {
         false;
       currentCustomization.idScanCustomization.selectionScreenDocumentImage =
         '';
-      currentCustomization.idScanCustomization.showSelectionScreenBrandingImage =
-        false;
-      currentCustomization.idScanCustomization.selectionScreenBrandingImage =
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
         '';
       currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
         backgroundColor;
@@ -2104,8 +2111,9 @@ export var ThemeHelpers = (function () {
       // Personalização de digitalização de ID
       currentLowLightCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'bitcoin-exchange/document_grey.png';
-      currentLowLightCustomization.idScanCustomization.selectionScreenBrandingImage =
-        '';
+      currentLowLightCustomization.idScanCustomization[
+        'selectionScreenBrandingImage'
+      ] = '';
       currentLowLightCustomization.idScanCustomization.captureScreenForegroundColor =
         primaryColor;
       currentLowLightCustomization.idScanCustomization.reviewScreenForegroundColor =
@@ -2230,8 +2238,9 @@ export var ThemeHelpers = (function () {
       // Personalização de digitalização de ID
       currentLowLightCustomization.idScanCustomization.selectionScreenDocumentImage =
         '';
-      currentLowLightCustomization.idScanCustomization.selectionScreenBrandingImage =
-        '';
+      currentLowLightCustomization.idScanCustomization[
+        'selectionScreenBrandingImage'
+      ] = '';
       currentLowLightCustomization.idScanCustomization.captureScreenForegroundColor =
         backgroundColor;
       currentLowLightCustomization.idScanCustomization.reviewScreenForegroundColor =
@@ -2450,8 +2459,9 @@ export var ThemeHelpers = (function () {
       // Personalização de digitalização de ID
       currentDynamicDimmingCustomization.idScanCustomization.selectionScreenDocumentImage =
         themeResourceDirectory + 'pseudo-fullscreen/document_offwhite.png';
-      currentDynamicDimmingCustomization.idScanCustomization.selectionScreenBrandingImage =
-        '';
+      currentDynamicDimmingCustomization.idScanCustomization[
+        'selectionScreenBrandingImage'
+      ] = '';
       currentDynamicDimmingCustomization.idScanCustomization.captureScreenForegroundColor =
         primaryColor;
       currentDynamicDimmingCustomization.idScanCustomization.reviewScreenForegroundColor =
@@ -2650,8 +2660,9 @@ export var ThemeHelpers = (function () {
       // Personalização de digitalização de ID
       currentDynamicDimmingCustomization.idScanCustomization.selectionScreenDocumentImage =
         '';
-      currentDynamicDimmingCustomization.idScanCustomization.selectionScreenBrandingImage =
-        '';
+      currentDynamicDimmingCustomization.idScanCustomization[
+        'selectionScreenBrandingImage'
+      ] = '';
       currentDynamicDimmingCustomization.idScanCustomization.captureScreenForegroundColor =
         backgroundColor;
       currentDynamicDimmingCustomization.idScanCustomization.reviewScreenForegroundColor =
