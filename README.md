@@ -21,14 +21,13 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 _data: 20/09/2024_
 
-- Atualização do feedback genérico.
-- Implementadas diversas melhorias na interface do usuário (UI/UX).
-- Aprimoramentos no registro de erros.
-- Correções variadas de compatibilidade, estabilidade e desempenho.
-- Pequenas melhorias nos modos de baixa luminosidade e escurecimento automático.
-- Novas verificações de injeção de vídeo foram implementadas e aprimoradas, tanto no dispositivo quanto no servidor, para mitigar ameaças de IA generativa.
-- Melhorias de desempenho em dispositivos de baixo e médio porte, resultando em uma maior taxa de sucesso.
 - Melhorias na taxa de sucesso e compatibilidade de dispositivos.
+- Melhorias de desempenho/velocidade.
+- Aumento da precisão de OCR.
+- Atualização/melhoria dos modelos oficiais de OCR.
+- Melhorias de estabilidade e gerenciamento de memória.
+- Melhorias na precisão de OCR para a maioria dos tipos de documentos.
+- Melhorias nas verificações de injeção de vídeo no dispositivo e no servidor para mitigar ameaças de IA generativa.
 
 ### [FaceTec SDK: 9.6.91](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.6.91)
 
