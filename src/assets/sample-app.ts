@@ -86,7 +86,7 @@ export var SampleApp = (function () {
 
   const getProductionKey = async (facecaptchaService: any, appkey: any) => {
     if (appkey === null) {
-      window.location.reload();
+      //window.location.reload();
     } else {
       await facecaptchaService.getProductionKey(appkey).subscribe(
         (res: any) => {
