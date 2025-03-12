@@ -1,0 +1,32 @@
+.preview-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.file-icon {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.file-icon-img {
+  width: 40px;
+  height: 40px;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #333;
+  word-break: break-word;
+  margin-top: 5px;
+}
+
+.trash-can-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.trash-can-button:focus {
+  outline: none;
+}

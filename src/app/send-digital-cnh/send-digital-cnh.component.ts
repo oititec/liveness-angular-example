@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-senddocument',
-  templateUrl: './senddocument.component.html',
-  styleUrls: ['./senddocument.component.scss'],
+  selector: 'app-send-digital-cnh',
+  templateUrl: './send-digital-cnh.component.html',
+  styleUrls: ['./send-digital-cnh.component.css'],
 })
-export class SenddocumentComponent implements OnInit {
+export class SendDigitalCnhComponent {
   ImgIcon = '/assets/img/img-icon.png';
-  QrCodeIcon = '/assets/img/qrcode-icon.png';
+  FileIcon = '/assets/img/file-icon.png';
   ChevronRight = '/assets/img/chevron-right.png';
+  ImageIcon = '/assets/img/img-icon.png';
+  PdfIcon = '/assets/img/pdf-icon.png';
+  TrashCanIcon = '/assets/img/trash-icon.png';
 
   appkey: any;
   message: string = ''; // trocar para ''
@@ -30,6 +33,12 @@ export class SenddocumentComponent implements OnInit {
   showDesktop: boolean = false; // trocar pra false
   indexTempSnap: number = -1; // trocar para -1
   uploadResp: boolean = true; // trocar para true
+  filePreview: {
+    name: string;
+    type: string;
+    icon: string;
+    base64: string;
+  } | null = null;
 
   constructor(
     private facecaptchaService: FacecaptchaService,
@@ -58,7 +67,7 @@ export class SenddocumentComponent implements OnInit {
     }, 1000);
   }
 
-  setTypeCapture(type: any) {
+  openCamera() {
     if (this.isMobile()) {
       let capturaFoto: any = document.getElementById('captura-foto'); // voltar aqui
 
@@ -68,34 +77,16 @@ export class SenddocumentComponent implements OnInit {
         this.startCapture();
       });
     }
+    this.message = 'Carregando...';
+    this.sendDocument = true;
+    this.multiCapture = false;
+    this.showTypeCapture = false;
+    this.onResize();
 
-    // if (this.isMobile()) {
-    //   this.multiCapture = type === 1 ? false : true
-    // }
-
-    if (type === 1) {
-      this.message = 'Carregando...';
-      this.sendDocument = true;
-      this.multiCapture = false;
-      this.showTypeCapture = false;
-      this.onResize();
-
-      setTimeout(() => {
-        this.message = '';
-        this.isLoaded = false;
-      }, 1000);
-    } else {
-      this.message = 'Carregando...';
-      this.sendDocument = true;
-      this.multiCapture = true;
-      this.showTypeCapture = false;
-      this.onResize();
-
-      setTimeout(() => {
-        this.message = '';
-        this.isLoaded = false;
-      }, 1000);
-    }
+    setTimeout(() => {
+      this.message = '';
+      this.isLoaded = false;
+    }, 1000);
   }
 
   onResize() {
@@ -518,15 +509,74 @@ export class SenddocumentComponent implements OnInit {
     this.resetSnap();
   }
 
-  async uploadPictures() {
-    this.isLoaded = true;
+  deleteAppKey() {
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('hasLiveness');
 
-    const snapsSend = this.snapsCaptures.map((snap: any) =>
-      snap.replace('data:image/jpeg;base64,', '')
-    );
+    this.router.navigateByUrl('/');
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+    fileInput?.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input?.files?.[0];
+
+    if (file) {
+      const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+
+      if (validTypes.includes(file.type)) {
+        const fileIcon = file.type.startsWith('image')
+          ? 'path/to/image-icon.png'
+          : 'path/to/pdf-icon.png';
+
+        this.convertToBase64(file)
+          .then((base64) => {
+            this.filePreview = {
+              name: file.name,
+              type: file.type,
+              icon: fileIcon,
+              base64: base64,
+            };
+          })
+          .catch((error) => {
+            console.error('Erro ao converter o arquivo em base64', error);
+          });
+      } else {
+        window.alert(
+          'Por favor, selecione um arquivo no formato PDF, JPEG ou PNG.'
+        );
+      }
+    }
+  }
+
+  convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result as string);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async sendDigitalCNH() {
+    this.isLoaded = true;
+    let digitalCNH: string;
+
+    if (this.filePreview && this.filePreview.base64) {
+      digitalCNH = this.filePreview.base64;
+      digitalCNH = digitalCNH.replace('data:image/jpeg;base64,', '');
+    } else {
+      digitalCNH = this.snapsCaptures[0].replace('data:image/jpeg;base64,', '');
+    }
 
     await this.facecaptchaService
-      .sendDocument(this.appkey, snapsSend)
+      .sendDigitalCNH(this.appkey, digitalCNH)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -537,7 +587,7 @@ export class SenddocumentComponent implements OnInit {
             this.uploadResp = false;
           }, 1000);
 
-          window.alert('Documento enviado com sucesso');
+          window.alert('QRCode enviado com sucesso');
 
           window.localStorage.removeItem('appkey');
 
@@ -550,7 +600,7 @@ export class SenddocumentComponent implements OnInit {
             this.isLoaded = false;
 
             window.alert(
-              'Documento não localizado! Por favor reenvie o documento.'
+              'QRCode não localizado! Por favor reenvie o documento.'
             );
 
             window.location.reload();
@@ -559,10 +609,7 @@ export class SenddocumentComponent implements OnInit {
       );
   }
 
-  deleteAppKey() {
-    window.localStorage.removeItem('appkey');
-    window.localStorage.removeItem('hasLiveness');
-
-    this.router.navigateByUrl('/');
+  removeLoadedFile() {
+    this.filePreview = null;
   }
 }
