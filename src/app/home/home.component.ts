@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     let lnkLiveness2D = document.getElementById('liveness-2d');
     let lnkLiveness3D = document.getElementById('liveness-3d');
+    let lnkLivenessIproov = document.getElementById('liveness-iproov');
     let lnkSendDocument = document.getElementById('send-document');
 
     this.hasLiveness();

@@ -5,6 +5,7 @@ import { AppkeyComponent } from './appkey/appkey.component';
 import { Liveness2dComponent } from './liveness2d/liveness2d.component';
 import { Liveness3dComponent } from './liveness3d/liveness3d.component';
 import { SenddocumentComponent } from './senddocument/senddocument.component';
+import { IproovComponent } from './iproov/iproov.component';
 
 
 const routes: Routes = [{
@@ -22,7 +23,11 @@ const routes: Routes = [{
 }, {
   path: 'send-document',
   component: SenddocumentComponent
-}];
+}, {
+  path: 'liveness-iproov',
+  component: IproovComponent
+}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],
