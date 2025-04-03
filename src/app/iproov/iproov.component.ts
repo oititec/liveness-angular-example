@@ -1,23 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-// import { Iproov } from "@iproov/web";
 import "@iproov/web"
+import { FacecaptchaService } from '../backend/facecaptcha.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-iproov',
-  standalone: true,
-  imports: [],
   templateUrl: './iproov.component.html',
-  // styleUrl: './iproov.component.css'
+  styleUrls: ['./iproov.component.scss']
 })
 export class IproovComponent implements OnInit {
+  IproovLogo: string = '/assets/img/Iproov_Logo.png';
+
+  isLoading: boolean = true;
+  showButton: boolean = false;
+  appkey: any;
+  userAgent: any;
+  sessionToken: any;
+  iproovUrl: any
+  status: any
+
+  constructor(
+    private facecaptchaService: FacecaptchaService,
+    private router: Router,
+  ) {
+    this.userAgent = window.navigator.userAgent;
+
+   }
 
 
-  ngOnInit() {
+ ngOnInit() {
+    this.status = 'Carregando...'
+    this.appkey = window.localStorage.getItem('appkey');
+    this.facecaptchaService.getSessionToken(this.appkey, this.userAgent)
+      .subscribe({
+        next: (response: any) => {
+          this.sessionToken = response.body.token;
+          this.iproovUrl = response.body.url;
+          this.isLoading = false;
+          this.status = null;
+        },
+        error: (err: any) => {
+          this.status = 'Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.';
+        }
+      });
   }
 
   startIproovValidation() {
+    this.showButton = true
+
     const content = document.querySelector('#certiface-iproov');
     const livenessIproov = document.createElement('iproov-me')
+    livenessIproov.setAttribute('token', this.sessionToken)
+    livenessIproov.setAttribute('base_url', 'https://'.concat(this.iproovUrl))
 
     const slots = `
     <div slot="grant_permission" class="w-full px-10 pt-6">
@@ -35,8 +69,8 @@ export class IproovComponent implements OnInit {
                                 </div>
                             </div>
                             <div class="grid justify-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Permissões da câmera desativadas.
-                                </h1>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Permissões da câmera desativadas.
+                                </h3>
                                 <span class="text-center pt-3">Necessário habilitar a câmera do seu sistema operacional</span>
                             </div>
                         </div>
@@ -48,46 +82,16 @@ export class IproovComponent implements OnInit {
                     </div>
                     <div slot="ready" class="grid gap-5 w-full px-10">
                         <div>
-                            <h1 class="font-highlight font-extrabold text-xl leading-10">Reconhecimento facial</h1>
-                            <span class="text-sm">Isto garante que você, é você mesmo.</span>
+                            <h3 class="font-highlight font-extrabold text-xl leading-10">Inicializado</h3>
+                            
                         </div>
-                        <div class="flex justify-start items-center gap-4">
-                            <div class="rounded-full p-4 bg-neutral-high-light border border-y-neutral-high-dark">
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                                    class="w-8 h-8 text-highlight-pure" height="1em" width="1em"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                    <path
-                                        d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1-.85.6V16h-4v-2.3l-.85-.6A4.997 4.997 0 0 1 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="items-center">
-                                <span class="font-base text-base font-bold">Escolha um ambiente bem
-                                    iluminado.</span>
-                            </div>
-                        </div>
-                        <div class="flex justify-start items-center gap-4">
-                            <div class="rounded-full p-4 bg-neutral-high-light border border-y-neutral-high-dark">
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                                    class="w-8 h-8 text-highlight-pure" height="1em" width="1em"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                    <path
-                                        d="M9 11.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm6 0a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37a9.974 9.974 0 0 0 10.41 3.97c.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="items-center">
-                                <span class="font-base text-base font-bold">Não use acessórios como
-                                    bonés, máscaras e afins.</span>
-                            </div>
+               
                         </div>
                     </div>
                     <div slot="button" class="grid w-full px-10 pt-6">
                         <button
-                            class="inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 buttonPrimary text-lg text-slate-900 hover:bg-brand-primary-medium focus:bg-brand-primary-medium p-3 px-20"
-                            type="button">Continuar</button>
+                            class="btn btn-primary btn-rounded"
+                            type="button">3D Liveness Check</button>
                     </div>
                     <div slot="progress" class="w-full px-10 pt-6">
                         <div><svg aria-hidden="true" class="animate-spin text-white fill-brand-primary-pure w-12 h-12 font-2xl"
@@ -103,20 +107,9 @@ export class IproovComponent implements OnInit {
                         </div>
                     </div>
                     <div slot="passed" class="w-full px-10 pt-6">
-                        <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
-                            <div class="flex justify-center items-center">
-                                <div class="rounded-full p-3 bg-brand-primary-pure">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                                        class="text-white w-8 h-8" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="none" d="M0 0h24v24H0z"></path>
-                                        <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-                                    </svg>
-                                </div>
+                          <div>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Enviado com sucesso</h3>
                             </div>
-                            <div class="flex justify-center items-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Tudo certo!</h1>
-                            </div>
-                        </div>
                     </div>
                     <div slot="error" class="grid gap-2 gap-y-10 w-full px-10">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
@@ -131,9 +124,9 @@ export class IproovComponent implements OnInit {
                                     </svg>
                                 </div>
                             </div>
-                            <div class="flex justify-center items-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Não foi possível avançar com
-                                    sua verificação. Uma nova sessão deve ser gerada.</h1>
+                            <div>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Não foi possível avançar com
+                                    sua verificação. Uma nova sessão deve ser gerada.</h3>
                             </div>
                             <div class="flex items-center justify-center">
                                 <a class="text-lg focus:bg-brand-primary-medium inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-100 text-slate-900 hover:bg-slate-100/80 p-3 px-20"
@@ -154,9 +147,9 @@ export class IproovComponent implements OnInit {
                                     </svg>
                                 </div>
                             </div>
-                            <div class="flex justify-center items-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Não foi possível avançar com
-                                    sua verificação. Uma nova sessão deve ser gerada.</h1>
+                            <div>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Não foi possível avançar com
+                                    sua verificação. Uma nova sessão deve ser gerada.</h3>
                             </div>
                             <div class="flex items-center justify-center">
                                 <a class="text-lg focus:bg-brand-primary-medium inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-100 text-slate-900 hover:bg-slate-100/80 p-3 px-20"
@@ -177,9 +170,9 @@ export class IproovComponent implements OnInit {
                                     </svg>
                                 </div>
                             </div>
-                            <div class="flex justify-center items-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Saiu da tela inteira sem
-                                    concluir a prova de vida. Uma nova sessão deve ser gerada.</h1>
+                            <div>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Saiu da tela inteira sem
+                                    concluir a prova de vida. Uma nova sessão deve ser gerada.</h3>
                             </div>
                             <div class="flex items-center justify-center">
                                 <a class="text-lg focus:bg-brand-primary-medium inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-100 text-slate-900 hover:bg-slate-100/80 p-3 px-20"
@@ -202,8 +195,8 @@ export class IproovComponent implements OnInit {
                                 </div>
                             </div>
                             <div class="grid justify-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Precisamos acessar sua
-                                    câmera.</h1>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Precisamos acessar sua
+                                    câmera.</h3>
                                 <span class="text-center pt-3">Em seu aparelho, habilite o uso da câmera
                                     para continuar.</span>
                             </div>
@@ -226,9 +219,9 @@ export class IproovComponent implements OnInit {
                                     </svg>
                                 </div>
                             </div>
-                            <div class="flex justify-center items-center">
-                                <h1 class="font-highlight font-extrabold text-2xl text-center">Dispositivo / Navegador não
-                                    suportado.</h1>
+                            <div>
+                                <h3 class="font-highlight font-extrabold text-2xl text-center">Dispositivo / Navegador não
+                                    suportado.</h3>
                             </div>
                             <div class="flex items-center justify-center">
                                 <a class="text-lg focus:bg-brand-primary-medium inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-100 text-slate-900 hover:bg-slate-100/80 p-3 px-20"
@@ -238,18 +231,16 @@ export class IproovComponent implements OnInit {
                     </div>
     `
 
-    livenessIproov.setAttribute('token', '7615010f99b9337bc867b1aae15a5d7f4700863a8c721afab888adef1801vi18')
-    livenessIproov.setAttribute('base_url', 'https://latam.rp.secure.iproov.me')
-    livenessIproov.setAttribute('custom_title', 'Siga as instruções')
     livenessIproov.setAttribute('filter', 'classic')
     livenessIproov.innerHTML = slots
 
     livenessIproov.addEventListener('passed', () => {
-      console.log('passed')
-      // this.completeFlow(
-      //   { ticket: '', token: this.sessionToken },
-      //   this.interceptors,
-      // )
+      window.localStorage.setItem('hasLiveness', 'true');
+      this.facecaptchaService.sendLiveness3dValidation(this.appkey, this.sessionToken).subscribe(
+        ((response: any) => {
+            console.log('ok')
+        })
+      )
     })
     livenessIproov.addEventListener('failed', () => {
       console.log('failed')
@@ -260,11 +251,13 @@ export class IproovComponent implements OnInit {
 
     content?.appendChild(livenessIproov)
 
-
   }
 
-  completeIproov() {
+  deleteAppKey() {
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('hasLiveness');
 
-  }
+    this.router.navigateByUrl('/');
+  };
 
 }

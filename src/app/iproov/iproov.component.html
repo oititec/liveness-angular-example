@@ -1,12 +1,36 @@
 <div class="row">
-
+  <div class="col-12 mt-4">
+    <a [routerLink]="['/home']">Voltar</a>
+  </div>
   <div class="col-12 my-4">
+    <div class="wrapping-box-container">
+      <div id="controls" class="controls">
 
-        <button class="btn btn-primary btn-rounded" (click)= "startIproovValidation()">
-            Iniciar Validação Iproov
-            </button>
-            
-            <div id = "certiface-iproov"></div>
+        <div class="col-12 my-4">
+
+          <button typ="button" class="btn btn-primary btn-rounded" 
+          *ngIf="!showButton" (click)= "startIproovValidation()" [disabled] = "isLoading">
+              Iniciar Validação Iproov
+              </button>
+              
+              <div *ngIf="status" class="error-message">
+                <br>
+                {{ status }}
+              </div>
+              
+              <div id = "certiface-iproov"></div>
+         </div>
+        <hr />
+        <div id="custom-logo-container">
+          <img [src]="IproovLogo" alt="Logo Iproov" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 text-center">
+    <button type="button" id="delete-appkey" variant="link" class="btn btn-link" (click)="deleteAppKey()">
+      Em caso de problemas, clique aqui
+    </button>
   </div>
 </div>
 

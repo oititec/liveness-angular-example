@@ -23,8 +23,7 @@ const routes: Routes = [{
 }, {
   path: 'send-document',
   component: SenddocumentComponent
-},
-{
+}, {
   path: 'liveness-iproov',
   component: IproovComponent
 }

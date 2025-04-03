@@ -92,6 +92,20 @@ export class FacecaptchaService {
     });
   }
 
+  sendLiveness3dValidation(appkey: string, sessionToken: string) {
+    const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/3d/liveness`;
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var body = JSON.stringify({
+      appkey: appkey,
+      sessionToken: sessionToken,
+    });
+
+    return this.http.post(url, body, { headers, observe: 'response' });
+  }
+
+
   private decChData(data: string, appkey: string) {
 		const key = CryptoJS.enc.Latin1.parse(this.padKey(appkey));
 		const iv = CryptoJS.enc.Latin1.parse(this.padKey(appkey.split('').reverse().join('')));
