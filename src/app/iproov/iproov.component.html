@@ -17,6 +17,11 @@
                 <br>
                 {{ status }}
               </div>
+
+              <div *ngIf="statusRequest">
+                <br>
+                <h3>{{ statusRequest }}</h3>
+              </div>
               
               <div id = "certiface-iproov"></div>
          </div>

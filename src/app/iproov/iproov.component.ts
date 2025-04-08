@@ -18,6 +18,7 @@ export class IproovComponent implements OnInit {
   sessionToken: any;
   iproovUrl: any
   status: any
+  statusRequest: any = null;
 
   constructor(
     private facecaptchaService: FacecaptchaService,
@@ -107,9 +108,6 @@ export class IproovComponent implements OnInit {
                         </div>
                     </div>
                     <div slot="passed" class="w-full px-10 pt-6">
-                          <div>
-                                <h3 class="font-highlight font-extrabold text-2xl text-center">Enviado com sucesso</h3>
-                            </div>
                     </div>
                     <div slot="error" class="grid gap-2 gap-y-10 w-full px-10">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
@@ -235,12 +233,18 @@ export class IproovComponent implements OnInit {
     livenessIproov.innerHTML = slots
 
     livenessIproov.addEventListener('passed', () => {
+      this.statusRequest = 'Enviando...'
       window.localStorage.setItem('hasLiveness', 'true');
       this.facecaptchaService.sendLiveness3dValidation(this.appkey, this.sessionToken).subscribe(
-        ((response: any) => {
-            console.log('ok')
-        })
-      )
+        (response: any) => {
+          this.statusRequest = 'Enviado com sucesso';
+          console.log('ok');
+        },
+        (error: any) => {
+          this.statusRequest = 'Erro ao enviar';
+          console.error('Erro:', error);
+        }
+      );
     })
     livenessIproov.addEventListener('failed', () => {
       console.log('failed')
