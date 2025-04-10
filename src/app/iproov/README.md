@@ -32,7 +32,17 @@ Ao clicar no botão Iniciar Validação Iproov, os seguintes métodos são chama
 <br>
 | Método | Descrição |
 |--|--|
-| startIproovValidation() | Responsável por iniciar a sessão de Liveness Iproov. Após a realização do Liveness 3D com sucesso, será gravado o hasLiveness no localStorage do navegador, liberando assim o usuário para fazer o envio de documentos caso desejar ao final do processo |
+| startIproovValidation() | Responsável por iniciar a sessão de Liveness Iproov. |
+<br>
+
+| Método | Descrição |
+|--|--|
+| sendLivenessValidation() | Responsável por enviar os dados da validação à API. Após a realização do Liveness 3D, será gravado o hasLiveness no localStorage do navegador, liberando assim o usuário para fazer o envio de documentos caso desejar ao final do processo.
 <br>
 
 Ao finalizar o processo (caso o envio seja feito com sucesso), uma mensagem de confirmação de envio é exibido na tela.
+
+<br>
+
+Consulte também a documentação da Iproov:
+- [GitHub](https://github.com/iProov/web)
