@@ -6,10 +6,10 @@ Este repositório contém o processo de liveness em 2D, 3D, envio de documentos 
 
 Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
-- [Visão geral](https://github.com/oititec/liveness-angular-example/blob/main/src/app/home/README.md)
 - [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
 - [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
-- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md)
+- [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md) - Este último só estará disponível ao finalizar um do processos de Liveness
 
 ---
 
@@ -17,7 +17,15 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
-### [FaceTec SDK: 9.7.50](https://github.com/oititec/liveness-react-example/blob/main/core/9.7.50)
+
+## [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+_data: 10/04/2025_
+- Implementação do Liveness 3D da Iproov no projeto
+- Novo fluxo de autenticação com reconhecimento facial
+- Consulte a documentação completa da implementação do Liveness 3D no link acima
+- [Consulte também a documentação da Iproov](https://github.com/iProov/web)
+
+### [FaceTec SDK: 9.7.50](https://github.com/oititec/liveness-angular-example/blob/main/core/9.7.50)
 
 _data: 19/02/2025_
 
@@ -31,7 +39,7 @@ _data: 19/02/2025_
 - Melhore a precisão do OCR para a maioria dos tipos de documentos.
 - Melhorias nas verificações de injeção de vídeo do lado do dispositivo e do servidor para mitigar ameaças de IA generativa.
 
-### [FaceTec SDK: 9.7.45](https://github.com/oititec/liveness-react-example/blob/main/core/9.7.45)
+### [FaceTec SDK: 9.7.45](https://github.com/oititec/liveness-angular-example/blob/main/core/9.7.45)
 
 _data: 10/01/2025_
 
