@@ -12,10 +12,11 @@ Você será direcionado para a tela abaixo:
 <br>
 ![image.png](https://i.ibb.co/gmdmHsY/Screenshot-2023-04-20-at-17-25-46-React-App.png)
 
-Você terá 3 itens no menu:
+Você terá os seguintes itens no menu:
 
 - [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
 - [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
+- [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
 - [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md) - Este último só estará disponível ao finalizar um do processos de Liveness
 
 Realize um processo de Liveness (seja ele 2D ou 3D) para que a appkey seja registrada com seu botão devido processo de Liveness. Retorne para a home e verá que o botão de Envio de documentos estará habilitado.

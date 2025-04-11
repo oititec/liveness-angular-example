@@ -8,12 +8,12 @@ Ao abrir o endereço https://localhost:4200 no seu navegador web, você cairá n
 
 Copie e cole uma appkey válida e pressione o botão continuar
 
-Você terá 3 itens no menu:
+Você terá os seguintes itens no menu:
 
-- [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/liveness-2d/README.md)
-- [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/liveness-3d/README.md)
-- Liveness 3D Iproov
-- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/send-documents/README.md) - Este último só estará disponível ao finalizar um do processos de Liveness
+- [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
+- [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
+- [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+- [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md) - Este último só estará disponível ao finalizar um do processos de Liveness
 
 ## 2 - Liveness 3D Iproov
 
@@ -44,5 +44,4 @@ Ao finalizar o processo (caso o envio seja feito com sucesso), uma mensagem de c
 
 <br>
 
-Consulte também a documentação da Iproov:
-- [GitHub](https://github.com/iProov/web)
+**Observacao: A dependencia @iproov/web-sdk se encontra em um repositório privado, requerindo acesso da equipe da Iproov. [Consulte a documentação da Iproov!](https://github.com/iProov/web)**

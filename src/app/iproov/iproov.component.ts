@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import "@iproov/web"
+import "@iproov/web-sdk"
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 
