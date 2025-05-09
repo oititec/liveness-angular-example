@@ -33,10 +33,15 @@ export class IproovComponent implements OnInit {
         this.facecaptchaService.getSessionToken(this.appkey, this.userAgent)
             .subscribe({
                 next: (response: any) => {
-                    this.sessionToken = response.body.token;
-                    this.iproovUrl = response.body.url;
-                    this.isLoading = false;
-                    this.status = null;
+                    if (response.body.vendor != 'IPROOV') {
+                        this.status = 'Parece que os dados recebidos não são compatíveis com este processo. '
+                         .concat('Por favor, entre em contato com nosso suporte.')
+                    } else {
+                        this.sessionToken = response.body.token;
+                        this.iproovUrl = response.body.url;
+                        this.isLoading = false;
+                        this.status = null;
+                    }
                 },
                 error: (err: any) => {
                     this.status = 'Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.';
@@ -76,7 +81,7 @@ export class IproovComponent implements OnInit {
                     </div>
                     <div slot="grant_button" class="grid w-full px-10 pt-6">
                         <button
-                            class="inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 buttonPrimary text-lg text-slate-900 hover:bg-brand-primary-medium focus:bg-brand-primary-medium p-3 px-20"
+                            class="btn btn-primary btn-rounded"
                             type="button">Habilitar permissão</button>
                     </div>
                     <div slot="ready" class="grid gap-5 w-full px-10">
