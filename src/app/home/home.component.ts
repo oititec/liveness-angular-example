@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,9 @@ export class HomeComponent implements OnInit {
 
   hasLivenessLocalStorage: any = window.localStorage.getItem('hasLiveness');
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
     let lnkLiveness2D = document.getElementById('liveness-2d');
@@ -34,4 +37,11 @@ export class HomeComponent implements OnInit {
       id.classList.remove('disabled') :
       id.classList.add('disabled');
   }
+
+  deleteAppKey() {
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('hasLiveness');
+
+    this.router.navigateByUrl('/');
+  };
 }
