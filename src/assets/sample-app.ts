@@ -114,6 +114,14 @@ export var SampleApp = (function () {
 
     await facecaptchaService.getSessionToken(appkey, userAgent).subscribe(
       (res: any) => {
+        if (res.body.vendor === 'IPROOV') {
+          SampleAppUtilities.handleErrorGettingServerSessionToken(
+            'Parece que os dados recebidos não são compatíveis com este processo. Por favor, entre em contato com nosso suporte.'
+          );
+
+          return;
+        }
+
         result = JSON.parse(Crypto.decChData(res.body, appkey));
 
         resultSessionToken = result.sessionToken;
