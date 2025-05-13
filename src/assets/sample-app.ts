@@ -114,6 +114,23 @@ export var SampleApp = (function () {
 
     await facecaptchaService.getSessionToken(appkey, userAgent).subscribe(
       (res: any) => {
+        /*
+        {
+            "isContingency": false,
+            "token": "7aee5f992fe01668e73b22637b411284f4d3b3971c8459b598fd6ab21801vi18",
+            "vendor": "IPROOV",
+            "livenessType": "LA",
+            "url": "latam.rp.secure.iproov.me"
+        }
+        */
+        if (res.body.vendor === 'IPROOV') {
+          SampleAppUtilities.handleErrorGettingServerSessionToken(
+            'Parece que os dados recebidos não são compatíveis com este processo. Por favor, entre em contato com nosso suporte.'
+          );
+
+          return;
+        }
+
         result = JSON.parse(Crypto.decChData(res.body, appkey));
 
         resultSessionToken = result.sessionToken;
