@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import "@iproov/web-sdk"
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-iproov',
@@ -27,26 +28,31 @@ export class IproovComponent implements OnInit {
         this.userAgent = window.navigator.userAgent;
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         this.status = 'Carregando...'
         this.appkey = window.localStorage.getItem('appkey');
-        this.facecaptchaService.getSessionToken(this.appkey, this.userAgent)
-            .subscribe({
-                next: (response: any) => {
-                    if (response.body.vendor != 'IPROOV') {
-                        this.status = 'Parece que os dados recebidos não são compatíveis com este processo. '
-                         .concat('Por favor, entre em contato com nosso suporte.')
-                    } else {
-                        this.sessionToken = response.body.token;
-                        this.iproovUrl = response.body.url;
-                        this.isLoading = false;
-                        this.status = null;
-                    }
-                },
-                error: (err: any) => {
-                    this.status = 'Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.';
-                }
-            });
+        await this.startIproovSession();
+    }
+
+    async startIproovSession(): Promise<void> {
+        try {
+            const response: any = await lastValueFrom(
+                this.facecaptchaService.getSessionToken(this.appkey, this.userAgent)
+            );
+
+            if (response.body.vendor !== 'IPROOV') {
+                this.status = 'Parece que os dados recebidos não são compatíveis com este processo. '
+                    .concat('Por favor, entre em contato com nosso suporte.')
+            } else {
+                this.sessionToken = response.body.token;
+                this.iproovUrl = response.body.url;
+                this.isLoading = false;
+                this.status = null;
+            }
+
+        } catch (err) {
+            this.status = 'Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.';
+        }
     }
 
     startIproovValidation() {
@@ -237,15 +243,12 @@ export class IproovComponent implements OnInit {
         livenessIproov.addEventListener('failed', () => {
             this.sendLivenessValidation(this.appkey, this.sessionToken, 'failed')
         })
-        livenessIproov.addEventListener('ready', () => {
-            console.log('ready')
-        })
 
         content?.appendChild(livenessIproov)
 
     }
 
-    sendLivenessValidation(appkey: any, sessionToken: any, iproovStatus: any) {
+    async sendLivenessValidation(appkey: any, sessionToken: any, iproovStatus: any) {
         this.statusRequest = 'Enviando...'
         this.facecaptchaService.sendLiveness3dValidation(appkey, sessionToken).subscribe(
             (response: any) => {
@@ -254,7 +257,19 @@ export class IproovComponent implements OnInit {
                         this.statusRequest = 'Enviado com sucesso';
                         break;
                     case 'failed':
-                        this.statusRequest = 'Não foi possível avançar com sua verificação. Uma nova sessão deve ser gerada';
+                        if (response.body.retry) {
+                            this.status = 'Vamos tentar de novo! '
+                                .concat('Esteja em um ambiente bem iluminado para uma selfie de vídeo melhor.')
+                            this.statusRequest = 'Preparando nova tentativa...';
+
+                            setTimeout(async () => {
+                                await this.refreshSessionAndRestart();
+                            }, 2500);
+
+                        } else {
+                            this.statusRequest = 'Não foi possível avançar com sua verificação. '
+                                .concat('Uma nova sessão deve ser gerada');
+                        }
                         break;
                 }
             },
@@ -273,4 +288,19 @@ export class IproovComponent implements OnInit {
         this.router.navigateByUrl('/');
     };
 
+    async refreshSessionAndRestart() {
+        const content = document.querySelector('#certiface-iproov');
+        content!.innerHTML = '';
+
+        this.isLoading = true;
+        this.sessionToken = null;
+
+        await this.startIproovSession();
+
+        this.isLoading = false;
+        this.statusRequest = null;
+
+        this.startIproovValidation();
+
+    }
 }
