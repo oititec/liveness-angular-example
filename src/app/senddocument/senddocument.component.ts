@@ -272,6 +272,7 @@ export class SenddocumentComponent implements OnInit {
       this.stopCameraStreams();
 
       this.btnControllers = true;
+      this.isLoaded = false;
     }
   }
 
