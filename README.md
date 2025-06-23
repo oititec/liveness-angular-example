@@ -17,15 +17,45 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
+### [FaceTec SDK: 9.7.63](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.63)
 
-## [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+_data: 21/05/2025_
+
+- A versão 9.7 foi lançada! A versão 9.7 foi implementada em fases e agora está amplamente disponível para todos os clientes e parceiros da FaceTec.
+- Não há mudanças drásticas, exceto certas pequenas remoções de APIs obsoletas em diversas APIs secundárias.
+- As atualizações da versão v9.6.x para a versão v9.7.x são executadas exatamente como as atualizações da versão v9.6.x.
+- Consulte o Guia de atualização da versão 9.7 para obter mais informações.
+- Melhorias na taxa de sucesso e compatibilidade de dispositivos.
+- Melhorias de desempenho/velocidade.
+- Melhorias na precisão do OCR.
+- Atualizar/melhorar modelos oficiais de OCR.
+- Melhorias na estabilidade e no gerenciamento de memória.
+- Melhore a precisão do OCR para a maioria dos tipos de documentos.
+- Melhorias nas verificações de injeção de vídeo do lado do dispositivo e do servidor para mitigar ameaças de IA generativa.
+
+_data: 13/05/2025_
+
+- A v9.7 foi lançada! A v9.7 foi implementada em fases e agora está amplamente disponível para todos os Clientes e Parceiros da FaceTec.
+- Não há alterações significativas, exceto algumas pequenas remoções de APIs obsoletas em diversas APIs secundárias.
+- As atualizações da v9.6.x para a v9.7.x são realizadas exatamente como as atualizações da v9.6.x.
+- Melhorias na Taxa de Sucesso e na Compatibilidade de Dispositivos.
+- Melhorias de Desempenho/Velocidade.
+- Melhorias na Precisão do OCR.
+- Atualização/Aprimoramento dos Modelos Oficiais de OCR.
+- Melhorias na Estabilidade e no Gerenciamento de Memória.
+- Aprimoramento da Precisão do OCR para a maioria dos Tipos de Documentos.
+- Melhorias nas Verificações de Injeção de Vídeo do Dispositivo e do Servidor para mitigar Ameaças de IA Generativa.
+
+### [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+
 _data: 10/04/2025_
+
 - Implementação do Liveness 3D da Iproov no projeto
 - Novo fluxo de autenticação com reconhecimento facial
 - Consulte a documentação completa da implementação do Liveness 3D no link acima
 - [Consulte também a documentação da Iproov](https://github.com/iProov/web)
 
-### [FaceTec SDK: 9.7.50](https://github.com/oititec/liveness-angular-example/blob/main/core/9.7.50)
+### [FaceTec SDK: 9.7.50](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.50)
 
 _data: 19/02/2025_
 
@@ -39,7 +69,7 @@ _data: 19/02/2025_
 - Melhore a precisão do OCR para a maioria dos tipos de documentos.
 - Melhorias nas verificações de injeção de vídeo do lado do dispositivo e do servidor para mitigar ameaças de IA generativa.
 
-### [FaceTec SDK: 9.7.45](https://github.com/oititec/liveness-angular-example/blob/main/core/9.7.45)
+### [FaceTec SDK: 9.7.45](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.45)
 
 _data: 10/01/2025_
 

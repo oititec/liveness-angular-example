@@ -40,7 +40,10 @@ export class SenddocumentComponent implements OnInit {
   }
 
   handleStream(stream: any) {
-    setTimeout(() => {
+    this.message = 'Aguardando foco automático';
+    this.showIniciar = false;
+
+    // setTimeout(() => {
       let video: any = document.getElementById('video');
 
       video.setAttribute('autoplay', '');
@@ -51,10 +54,16 @@ export class SenddocumentComponent implements OnInit {
 
       this.streams = stream.getVideoTracks();
       this.isLoaded = true;
-      this.showIniciar = true;
+
       this.btnControllers = false;
       this.showUpload = false;
-    }, 1000);
+
+      setTimeout(() => {
+        this.message = '';
+        this.showIniciar = true;
+      }, 1000);
+
+    // }, 1000);
   }
 
   setTypeCapture(type: any) {
@@ -187,14 +196,10 @@ export class SenddocumentComponent implements OnInit {
       this.message = 'Centralize o documento';
     }
 
-    this.showIniciar = false;
-    this.isLoaded = true;
     this.processing = true;
-
-    this.showIniciar = true;
-    this.isLoaded = false;
+    this.isLoaded = true;
+    this.showIniciar = false;
     this.message = '';
-    this.processing = false;
 
     (navigator as any).getUserMedia =
       (navigator as any).getUserMedia ||
@@ -204,46 +209,41 @@ export class SenddocumentComponent implements OnInit {
       (navigator as any).mediaDevices.getUserMedia;
 
     // ajusta as configurações de video
-    const constraints = {
-      audio: false,
-      video: {
-        facingMode: 'environment',
-        width: {
-          min: 1280,
-          ideal: 1920,
-          max: 2560,
-        },
-        height: {
-          min: 720,
-          ideal: 1080,
-          max: 1440,
-        },
+    const videoSettings = {
+      facingMode: 'environment', // 'user' para câmera frontal, 'environment' para traseira
+      width: {
+        min: 1280,
+        ideal: 1920,
+        max: 2560,
       },
+      height: {
+        min: 720,
+        ideal: 1080,
+        max: 1440,
+      },
+      // Adicionando configuração para foco automático contínuo
+      // Para mais informações: https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#focusmode
+      focusMode: 'continuous',
     };
 
-    // se mobile, ajusta configurações de video para mobile
-    if (!this.isMobile()) {
-      constraints.video = {
-        width: {
-          min: 1280,
-          ideal: 1920,
-          max: 2560,
-        },
-        height: {
-          min: 720,
-          ideal: 1080,
-          max: 1440,
-        },
-        facingMode: 'environment',
-      };
+    const constraints = {
+      audio: false,
+      video: videoSettings,
+    };
 
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((stream) => this.handleStream(stream))
-        .catch((err) => {
-          console.log('Sem câmera! ' + err);
-        });
-    }
+    // Solicita acesso à câmera com as constraints definidas
+    // Esta chamada agora ocorre para todos os dispositivos (mobile e não mobile)
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => this.handleStream(stream))
+      .catch((err) => {
+        console.error('Erro ao acessar a câmera:', err);
+        // Atualiza a mensagem para o usuário e o estado da interface
+        this.message = `Erro ao acessar a câmera (${err.name}). Verifique as permissões e tente novamente.`;
+        this.processing = false;
+        this.isLoaded = false; // Indica que o carregamento falhou ou parou
+        this.showIniciar = true; // Permite ao usuário tentar novamente
+      });
   }
 
   stopCameraStreams() {
@@ -266,20 +266,13 @@ export class SenddocumentComponent implements OnInit {
     if (this.isMobile()) {
       this.snapCapture();
     } else {
-      this.processing = true;
-      this.message = 'Processando...';
       this.showIniciar = false;
-      this.isLoaded = true;
 
-      setTimeout(() => {
-        this.snapCapture();
-        this.stopCameraStreams();
+      this.snapCapture();
+      this.stopCameraStreams();
 
-        this.message = '';
-        this.btnControllers = true;
-        this.isLoaded = false;
-        this.processing = false;
-      }, 1500);
+      this.btnControllers = true;
+      this.isLoaded = false;
     }
   }
 
