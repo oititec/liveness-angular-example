@@ -55,13 +55,17 @@ export class IproovComponent implements OnInit {
         }
     }
 
-    startIproovValidation() {
+    async startIproovValidation() {
         this.showButton = true
 
         const content = document.querySelector('#certiface-iproov');
         const livenessIproov = document.createElement('iproov-me')
         livenessIproov.setAttribute('token', this.sessionToken)
         livenessIproov.setAttribute('base_url', 'https://'.concat(this.iproovUrl))
+        livenessIproov.setAttribute('filter', 'classic')
+
+        const customLanguage = await this.getLanguage('/assets/iproov-languagues/iproov-pt_BR.json')
+        livenessIproov.setAttribute("language", customLanguage)
 
         const slots = `
     <div slot="grant_permission" class="w-full px-10 pt-6">
@@ -234,7 +238,6 @@ export class IproovComponent implements OnInit {
                     </div>
     `
 
-        livenessIproov.setAttribute('filter', 'classic')
         livenessIproov.innerHTML = slots
 
         livenessIproov.addEventListener('passed', () => {
@@ -281,13 +284,6 @@ export class IproovComponent implements OnInit {
         window.localStorage.setItem('hasLiveness', 'true');
     }
 
-    deleteAppKey() {
-        window.localStorage.removeItem('appkey');
-        window.localStorage.removeItem('hasLiveness');
-
-        this.router.navigateByUrl('/');
-    };
-
     async refreshSessionAndRestart() {
         const content = document.querySelector('#certiface-iproov');
         content!.innerHTML = '';
@@ -301,6 +297,19 @@ export class IproovComponent implements OnInit {
         this.statusRequest = null;
 
         this.startIproovValidation();
-
     }
+
+    async getLanguage(path: string) {
+        const response = await fetch(path)
+        const language = await response.text()
+
+        return language
+    }
+
+    deleteAppKey() {
+        window.localStorage.removeItem('appkey');
+        window.localStorage.removeItem('hasLiveness');
+
+        this.router.navigateByUrl('/');
+    };
 }
