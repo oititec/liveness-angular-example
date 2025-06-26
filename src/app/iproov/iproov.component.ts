@@ -97,7 +97,12 @@ export class IproovComponent implements OnInit {
                     <div slot="ready" class="grid gap-5 w-full px-10">
                         <div>
                             <h3 class="font-highlight font-extrabold text-xl leading-10">Inicializado</h3>
-                            
+                            <hr>
+                            <p><h4>Antes de começar:</h4></p>
+                            <ul class="pull-left list-disc pl-5">
+                                <li><h5 class="text-left">Escolha um ambiente bem iluminado para a validação</h5></li>
+                                <li><h5 class="text-left">Não use acessórios como bonés, máscaras e afins</h5></li>
+                            </ul>
                         </div>
                
                         </div>
@@ -261,13 +266,12 @@ export class IproovComponent implements OnInit {
                         break;
                     case 'failed':
                         if (response.body.retry) {
-                            this.status = 'Vamos tentar de novo! '
-                                .concat('Esteja em um ambiente bem iluminado para uma selfie de vídeo melhor.')
-                            this.statusRequest = 'Preparando nova tentativa...';
+                            this.statusRequest = response.body.reason
+                            this.status = 'Preparando nova tentativa...';
 
                             setTimeout(async () => {
                                 await this.refreshSessionAndRestart();
-                            }, 2500);
+                            }, 4000);
 
                         } else {
                             this.statusRequest = 'Não foi possível avançar com sua verificação. '
