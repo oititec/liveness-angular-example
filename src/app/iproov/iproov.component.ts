@@ -60,15 +60,21 @@ export class IproovComponent implements OnInit {
 
         const content = document.querySelector('#certiface-iproov');
         const livenessIproov = document.createElement('iproov-me')
+        const ELEMENTS_TO_HIDE_IN_FS = document.querySelectorAll(".hide-in-fs")
+
         livenessIproov.setAttribute('token', this.sessionToken)
         livenessIproov.setAttribute('base_url', 'https://'.concat(this.iproovUrl))
         livenessIproov.setAttribute('filter', 'classic')
 
         const customLanguage = await this.getLanguage('/assets/iproov-languagues/iproov-pt_BR.json')
         livenessIproov.setAttribute("language", customLanguage)
+        
+        livenessIproov.setAttribute('role', 'application');
+        livenessIproov.setAttribute('aria_live', 'assertive');
+        livenessIproov.setAttribute('aria-label', 'Validação facial 3D com câmera');
 
         const slots = `
-    <div slot="grant_permission" class="w-full px-10 pt-6">
+    <div slot="grant_permission" class="w-full px-10 pt-6" aria-live="polite">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
                             <div class="flex justify-center items-center">
                                 <div class="rounded-full p-3 bg-brand-primary-pure">
@@ -89,12 +95,12 @@ export class IproovComponent implements OnInit {
                             </div>
                         </div>
                     </div>
-                    <div slot="grant_button" class="grid w-full px-10 pt-6">
+                    <div slot="grant_button" class="grid w-full px-10 pt-6" aria-live="polite">
                         <button
                             class="btn btn-primary btn-rounded"
                             type="button">Habilitar permissão</button>
                     </div>
-                    <div slot="ready" class="grid gap-5 w-full px-10">
+                    <div slot="ready" class="grid gap-5 w-full px-10" aria-live="polite">
                         <div>
                             <h3 class="font-highlight font-extrabold text-xl leading-10">Inicializado</h3>
                             <hr>
@@ -107,12 +113,12 @@ export class IproovComponent implements OnInit {
                
                         </div>
                     </div>
-                    <div slot="button" class="grid w-full px-10 pt-6">
+                    <div slot="button" class="grid w-full px-10 pt-6" aria-live="polite">
                         <button
                             class="btn btn-primary btn-rounded"
                             type="button">3D Liveness Check</button>
                     </div>
-                    <div slot="progress" class="w-full px-10 pt-6">
+                    <div slot="progress" class="w-full px-10 pt-6" aria-live="polite">
                         <div><svg aria-hidden="true" class="animate-spin text-white fill-brand-primary-pure w-12 h-12 font-2xl"
                                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -127,7 +133,7 @@ export class IproovComponent implements OnInit {
                     </div>
                     <div slot="passed" class="w-full px-10 pt-6">
                     </div>
-                    <div slot="error" class="grid gap-2 gap-y-10 w-full px-10">
+                    <div slot="error" class="grid gap-2 gap-y-10 w-full px-10" aria-live="assertive">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
                             <div class="flex justify-center items-center">
                                 <div class="rounded-full p-3 bg-feedback-warning-pure">
@@ -150,7 +156,7 @@ export class IproovComponent implements OnInit {
                             </div>
                         </div>
                     </div>
-                    <div slot="failed" class="grid gap-2 gap-y-10 w-full px-10">
+                    <div slot="failed" class="grid gap-2 gap-y-10 w-full px-10" aria-live="assertive">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
                             <div class="flex justify-center items-center">
                                 <div class="rounded-full p-3 bg-feedback-warning-pure">
@@ -169,7 +175,7 @@ export class IproovComponent implements OnInit {
                             </div>
                         </div>
                     </div>
-                    <div slot="canceled" class="grid gap-2 gap-y-10 w-full px-10">
+                    <div slot="canceled" class="grid gap-2 gap-y-10 w-full px-10" aria-live="assertive">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
                             <div class="flex justify-center items-center">
                                 <div class="rounded-full p-3 bg-feedback-warning-pure">
@@ -192,7 +198,7 @@ export class IproovComponent implements OnInit {
                             </div>
                         </div>
                     </div>
-                    <div slot="permission_denied" class="w-full px-10 pt-6">
+                    <div slot="permission_denied" class="w-full px-10 pt-6" aria-live="polite">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0 py-6">
                             <div class="flex justify-center items-center">
                                 <div class="rounded-full p-3 bg-feedback-warning-pure">
@@ -218,7 +224,7 @@ export class IproovComponent implements OnInit {
                             </div>
                         </div>
                     </div>
-                    <div slot="unsupported" class="grid gap-2 gap-y-10 w-full px-10">
+                    <div slot="unsupported" class="grid gap-2 gap-y-10 w-full px-10" aria-live="assertive">
                         <div class="items-center gap-4 p-6 md:p-4 lg:p-0">
                             <div class="flex justify-center items-center">
                                 <div class="rounded-full p-3 bg-feedback-warning-pure">
@@ -245,10 +251,15 @@ export class IproovComponent implements OnInit {
 
         livenessIproov.innerHTML = slots
 
+        livenessIproov.addEventListener("started", () => {
+            ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.setAttribute("aria-hidden", "true"))
+        })
         livenessIproov.addEventListener('passed', () => {
+             ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
             this.sendLivenessValidation(this.appkey, this.sessionToken, 'passed')
         })
         livenessIproov.addEventListener('failed', () => {
+             ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
             this.sendLivenessValidation(this.appkey, this.sessionToken, 'failed')
         })
 

@@ -9,16 +9,17 @@
         <div class="col-12 my-4">
 
           <button type="button" class="btn btn-primary btn-rounded" 
-          *ngIf="!showButton" (click)= "startIproovValidation()" [disabled] = "isLoading">
+          *ngIf="!showButton" (click)= "startIproovValidation()" [disabled] = "isLoading"
+           aria-label="Iniciar a validação facial 3D com a câmera">
               Iniciar Validação Iproov
               </button>
               
-              <div *ngIf="status" class="error-message">
+              <div *ngIf="status" class="error-message" aria-live="assertive">
                 <br>
                 {{ status }}
               </div>
 
-              <div *ngIf="statusRequest">
+              <div *ngIf="statusRequest" aria-live="polite">
                 <br>
                 <h3>{{ statusRequest }}</h3>
               </div>
@@ -27,13 +28,14 @@
          </div>
         <hr />
         <div id="custom-logo-container">
-          <img [src]="IproovLogo" alt="Logo Iproov" />
+          <img [src]="IproovLogo" alt="Logotipo da solução de validação facial da Iproov" />
         </div>
       </div>
     </div>
   </div>
   <div class="col-12 text-center">
-    <button type="button" id="delete-appkey" variant="link" class="btn btn-link" (click)="deleteAppKey()">
+    <button type="button" id="delete-appkey" variant="link" class="btn btn-link" (click)="deleteAppKey()"
+    aria-label="Clique aqui se estiver com problemas. Isso removerá sua AppKey.">
       Em caso de problemas, clique aqui
     </button>
   </div>
