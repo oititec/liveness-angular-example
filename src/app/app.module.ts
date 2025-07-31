@@ -10,6 +10,7 @@ import { Liveness2dComponent } from './liveness2d/liveness2d.component';
 import { Liveness3dComponent } from './liveness3d/liveness3d.component';
 import { SenddocumentComponent } from './senddocument/senddocument.component';
 import { FaceTecSDK as FaceTecSDKType } from 'src/assets/core-sdk/FaceTecSDK.js/FaceTecSDK';
+import { SendDigitalCnhComponent } from './send-digital-cnh/send-digital-cnh.component';
 import { IproovComponent } from './iproov/iproov.component';
 
 @NgModule({
@@ -19,6 +20,8 @@ import { IproovComponent } from './iproov/iproov.component';
     AppkeyComponent,
     Liveness2dComponent,
     Liveness3dComponent,
+    SenddocumentComponent,
+    SendDigitalCnhComponent,
     SenddocumentComponent,
     IproovComponent
   ],
