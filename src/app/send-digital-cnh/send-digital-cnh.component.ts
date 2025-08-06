@@ -43,7 +43,7 @@ export class SendDigitalCnhComponent {
   constructor(
     private facecaptchaService: FacecaptchaService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
@@ -567,12 +567,12 @@ export class SendDigitalCnhComponent {
   async sendDigitalCNH() {
     this.isLoaded = true;
     let digitalCNH: string;
+    const base64Regex = /^data:(image\/[a-zA-Z]+|application\/pdf);base64,/;
 
-    if (this.filePreview && this.filePreview.base64) {
-      digitalCNH = this.filePreview.base64;
-      digitalCNH = digitalCNH.replace('data:image/jpeg;base64,', '');
+    if (this.filePreview?.base64) {
+      digitalCNH = this.filePreview.base64.replace(base64Regex, '');
     } else {
-      digitalCNH = this.snapsCaptures[0].replace('data:image/jpeg;base64,', '');
+      digitalCNH = this.snapsCaptures[0].replace(base64Regex, '');
     }
 
     await this.facecaptchaService
