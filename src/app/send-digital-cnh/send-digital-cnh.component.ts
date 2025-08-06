@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-senddocument',
-  templateUrl: './senddocument.component.html',
-  styleUrls: ['./senddocument.component.scss'],
+  selector: 'app-send-digital-cnh',
+  templateUrl: './send-digital-cnh.component.html',
+  styleUrls: ['./send-digital-cnh.component.css'],
 })
-export class SenddocumentComponent implements OnInit {
+export class SendDigitalCnhComponent {
   ImgIcon = '/assets/img/img-icon.png';
-  QrCodeIcon = '/assets/img/qrcode-icon.png';
+  FileIcon = '/assets/img/file-icon.png';
   ChevronRight = '/assets/img/chevron-right.png';
+  ImageIcon = '/assets/img/img-icon.png';
+  PdfIcon = '/assets/img/pdf-icon.png';
+  TrashCanIcon = '/assets/img/trash-icon.png';
 
   appkey: any;
   message: string = ''; // trocar para ''
@@ -30,21 +33,24 @@ export class SenddocumentComponent implements OnInit {
   showDesktop: boolean = false; // trocar pra false
   indexTempSnap: number = -1; // trocar para -1
   uploadResp: boolean = true; // trocar para true
+  filePreview: {
+    name: string;
+    type: string;
+    icon: string;
+    base64: string;
+  } | null = null;
 
   constructor(
     private facecaptchaService: FacecaptchaService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
   }
 
   handleStream(stream: any) {
-    this.message = 'Aguardando foco automático';
-    this.showIniciar = false;
-
-    // setTimeout(() => {
+    setTimeout(() => {
       let video: any = document.getElementById('video');
 
       video.setAttribute('autoplay', '');
@@ -55,19 +61,13 @@ export class SenddocumentComponent implements OnInit {
 
       this.streams = stream.getVideoTracks();
       this.isLoaded = true;
-
+      this.showIniciar = true;
       this.btnControllers = false;
       this.showUpload = false;
-
-      setTimeout(() => {
-        this.message = '';
-        this.showIniciar = true;
-      }, 1000);
-
-    // }, 1000);
+    }, 1000);
   }
 
-  setTypeCapture(type: any) {
+  openCamera() {
     if (this.isMobile()) {
       let capturaFoto: any = document.getElementById('captura-foto'); // voltar aqui
 
@@ -77,34 +77,16 @@ export class SenddocumentComponent implements OnInit {
         this.startCapture();
       });
     }
+    this.message = 'Carregando...';
+    this.sendDocument = true;
+    this.multiCapture = false;
+    this.showTypeCapture = false;
+    this.onResize();
 
-    // if (this.isMobile()) {
-    //   this.multiCapture = type === 1 ? false : true
-    // }
-
-    if (type === 1) {
-      this.message = 'Carregando...';
-      this.sendDocument = true;
-      this.multiCapture = false;
-      this.showTypeCapture = false;
-      this.onResize();
-
-      setTimeout(() => {
-        this.message = '';
-        this.isLoaded = false;
-      }, 1000);
-    } else {
-      this.message = 'Carregando...';
-      this.sendDocument = true;
-      this.multiCapture = true;
-      this.showTypeCapture = false;
-      this.onResize();
-
-      setTimeout(() => {
-        this.message = '';
-        this.isLoaded = false;
-      }, 1000);
-    }
+    setTimeout(() => {
+      this.message = '';
+      this.isLoaded = false;
+    }, 1000);
   }
 
   onResize() {
@@ -197,10 +179,14 @@ export class SenddocumentComponent implements OnInit {
       this.message = 'Centralize o documento';
     }
 
-    this.processing = true;
-    this.isLoaded = true;
     this.showIniciar = false;
+    this.isLoaded = true;
+    this.processing = true;
+
+    this.showIniciar = true;
+    this.isLoaded = false;
     this.message = '';
+    this.processing = false;
 
     (navigator as any).getUserMedia =
       (navigator as any).getUserMedia ||
@@ -210,41 +196,46 @@ export class SenddocumentComponent implements OnInit {
       (navigator as any).mediaDevices.getUserMedia;
 
     // ajusta as configurações de video
-    const videoSettings = {
-      facingMode: 'environment', // 'user' para câmera frontal, 'environment' para traseira
-      width: {
-        min: 1280,
-        ideal: 1920,
-        max: 2560,
-      },
-      height: {
-        min: 720,
-        ideal: 1080,
-        max: 1440,
-      },
-      // Adicionando configuração para foco automático contínuo
-      // Para mais informações: https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#focusmode
-      focusMode: 'continuous',
-    };
-
     const constraints = {
       audio: false,
-      video: videoSettings,
+      video: {
+        facingMode: 'environment',
+        width: {
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
+        },
+        height: {
+          min: 720,
+          ideal: 1080,
+          max: 1440,
+        },
+      },
     };
 
-    // Solicita acesso à câmera com as constraints definidas
-    // Esta chamada agora ocorre para todos os dispositivos (mobile e não mobile)
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then((stream) => this.handleStream(stream))
-      .catch((err) => {
-        console.error('Erro ao acessar a câmera:', err);
-        // Atualiza a mensagem para o usuário e o estado da interface
-        this.message = `Erro ao acessar a câmera (${err.name}). Verifique as permissões e tente novamente.`;
-        this.processing = false;
-        this.isLoaded = false; // Indica que o carregamento falhou ou parou
-        this.showIniciar = true; // Permite ao usuário tentar novamente
-      });
+    // se mobile, ajusta configurações de video para mobile
+    if (!this.isMobile()) {
+      constraints.video = {
+        width: {
+          min: 1280,
+          ideal: 1920,
+          max: 2560,
+        },
+        height: {
+          min: 720,
+          ideal: 1080,
+          max: 1440,
+        },
+        facingMode: 'environment',
+      };
+
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then((stream) => this.handleStream(stream))
+        .catch((err) => {
+          console.log('Sem câmera! ' + err);
+        });
+    }
   }
 
   stopCameraStreams() {
@@ -267,13 +258,20 @@ export class SenddocumentComponent implements OnInit {
     if (this.isMobile()) {
       this.snapCapture();
     } else {
+      this.processing = true;
+      this.message = 'Processando...';
       this.showIniciar = false;
+      this.isLoaded = true;
 
-      this.snapCapture();
-      this.stopCameraStreams();
+      setTimeout(() => {
+        this.snapCapture();
+        this.stopCameraStreams();
 
-      this.btnControllers = true;
-      this.isLoaded = false;
+        this.message = '';
+        this.btnControllers = true;
+        this.isLoaded = false;
+        this.processing = false;
+      }, 1500);
     }
   }
 
@@ -511,15 +509,74 @@ export class SenddocumentComponent implements OnInit {
     this.resetSnap();
   }
 
-  async uploadPictures() {
-    this.isLoaded = true;
+  deleteAppKey() {
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('hasLiveness');
 
-    const snapsSend = this.snapsCaptures.map((snap: any) =>
-      snap.replace('data:image/jpeg;base64,', '')
-    );
+    this.router.navigateByUrl('/');
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+    fileInput?.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input?.files?.[0];
+
+    if (file) {
+      const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+
+      if (validTypes.includes(file.type)) {
+        const fileIcon = file.type.startsWith('image')
+          ? 'path/to/image-icon.png'
+          : 'path/to/pdf-icon.png';
+
+        this.convertToBase64(file)
+          .then((base64) => {
+            this.filePreview = {
+              name: file.name,
+              type: file.type,
+              icon: fileIcon,
+              base64: base64,
+            };
+          })
+          .catch((error) => {
+            console.error('Erro ao converter o arquivo em base64', error);
+          });
+      } else {
+        window.alert(
+          'Por favor, selecione um arquivo no formato PDF, JPEG ou PNG.'
+        );
+      }
+    }
+  }
+
+  convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        resolve(reader.result as string);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async sendDigitalCNH() {
+    this.isLoaded = true;
+    let digitalCNH: string;
+    const base64Regex = /^data:(image\/[a-zA-Z]+|application\/pdf);base64,/;
+
+    if (this.filePreview?.base64) {
+      digitalCNH = this.filePreview.base64.replace(base64Regex, '');
+    } else {
+      digitalCNH = this.snapsCaptures[0].replace(base64Regex, '');
+    }
 
     await this.facecaptchaService
-      .sendDocument(this.appkey, snapsSend)
+      .sendDigitalCNH(this.appkey, digitalCNH)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -530,7 +587,7 @@ export class SenddocumentComponent implements OnInit {
             this.uploadResp = false;
           }, 1000);
 
-          window.alert('Documento enviado com sucesso');
+          window.alert('QRCode enviado com sucesso');
 
           window.localStorage.removeItem('appkey');
 
@@ -543,7 +600,7 @@ export class SenddocumentComponent implements OnInit {
             this.isLoaded = false;
 
             window.alert(
-              'Documento não localizado! Por favor reenvie o documento.'
+              'QRCode não localizado! Por favor reenvie o documento.'
             );
 
             window.location.reload();
@@ -552,10 +609,7 @@ export class SenddocumentComponent implements OnInit {
       );
   }
 
-  deleteAppKey() {
-    window.localStorage.removeItem('appkey');
-    window.localStorage.removeItem('hasLiveness');
-
-    this.router.navigateByUrl('/');
+  removeLoadedFile() {
+    this.filePreview = null;
   }
 }

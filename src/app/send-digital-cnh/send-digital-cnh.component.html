@@ -1,23 +1,23 @@
 <div class="row">
   <div class="col-12 mt-4">
-    <a [routerLink]="['/home']">Voltar</a>
+    <a [routerLink]="['/send-document']">Voltar</a>
   </div>
   <div class="coll-12 mb-4">
-    <h1>Envio de documentos</h1>
-    <p>Para começarmos, escolha o tipo de documento que deseja enviar:</p>
+    <h1>Envio de CNH Digital</h1>
+    <p>Escolha a forma que deseja enviar:</p>
   </div>
   <div class="col-12">
-    <div id="btn-tipo-captura-1-foto" role="button"
+    <div id="btn-captura-cnh-digital" role="button"
       [class]="appkey === null ? 'btn btn-outline-secondary d-block mb-3 disabled' : 'btn btn-outline-secondary d-block mb-3'"
-      (click)="setTypeCapture(1)" tabindex="0">
+      (click)="openCamera()" tabindex="0">
       <div class="row">
         <div class="col-auto d-flex align-items-center">
           <img [src]="ImgIcon" alt="" aria-hidden="true" />
         </div>
         <div class="col d-flex align-items-center">
           <div class="text-start">
-            <p class="m-0 fw-bold">1 foto</p>
-            <p class="m-0">Frente e verso</p>
+            <p class="m-0 fw-bold">Foto</p>
+            <p class="m-0">Envie uma foto do QRCode presente em sua CNH Digital</p>
           </div>
         </div>
         <div class="col-auto d-flex align-items-center">
@@ -26,18 +26,19 @@
       </div>
     </div>
   </div>
-  <div class="col-12">
+
+  <div class="col-12 mb-4">
     <div id="btn-tipo-captura-2-fotos" role="button"
       [class]="appkey === null ? 'btn btn-outline-secondary d-block mb-3 disabled' : 'btn btn-outline-secondary d-block mb-3'"
-      (click)="setTypeCapture(2)" tabindex="0">
+      (click)="triggerFileInput()" tabindex="0">
       <div class="row">
         <div class="col-auto d-flex align-items-center">
-          <img [src]="ImgIcon" alt="" aria-hidden="true" />
+          <img [src]="FileIcon" alt="" aria-hidden="true" />
         </div>
         <div class="col d-flex align-items-center">
           <div class="text-start">
-            <p class="m-0 fw-bold">2 fotos</p>
-            <p class="m-0">1 frente e um verso</p>
+            <p class="m-0 fw-bold">Envio de arquivo</p>
+            <p class="m-0">Envie o arquivo de sua CNH Digital em formato PDF, JPEG ou PNG</p>
           </div>
         </div>
         <div class="col-auto d-flex align-items-center">
@@ -45,27 +46,37 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-12 mb-4">
-    <a id="send-document" [routerLink]="['/send-digital-cnh']"
-      [class]="appkey === null ? 'btn btn-outline-secondary d-block mb-3 disabled' : 'btn btn-outline-secondary d-block mb-3'">
-      <div id="btn-tipo-captura-3-fotos" role="button" tabindex="0">
-        <div class="row">
-          <div class="col-auto d-flex align-items-center">
-            <img [src]="QrCodeIcon" alt="" aria-hidden="true" />
-          </div>
-          <div class="col d-flex align-items-center">
-            <div class="text-start">
-              <p class="m-0 fw-bold">CNH Digital</p>
-              <p class="m-0">Envie seu documento digital</p>
-            </div>
-          </div>
-          <div class="col-auto d-flex align-items-center">
-            <img [src]="ChevronRight" alt="" aria-hidden="true" />
-          </div>
-        </div>
+
+    <input type="file" id="file-input" (change)="onFileSelected($event)" style="display: none;">
+    <div *ngIf="filePreview" class="preview-container">
+      <div class="file-icon">
+        <img *ngIf="filePreview.type.startsWith('image')" [src]="ImageIcon" alt="Image Icon" class="file-icon-img">
+        <img *ngIf="filePreview.type === 'application/pdf'" [src]="PdfIcon" alt="PDF Icon" class="file-icon-img">
       </div>
-    </a>
+      <p class="file-name">{{ filePreview.name }}</p>
+
+
+      <div class="d-flex justify-content-center align-items-center">
+        <button *ngIf="filePreview" class="btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2"
+          (click)="sendDigitalCNH()" [disabled]="isLoaded">
+          <i *ngIf="isLoaded" class="material-icons me-2" aria-hidden="true">
+            cloud_upload
+          </i>
+          <i *ngIf="!isLoaded" class="material-icons me-2" aria-hidden="true">
+            outbox
+          </i>
+          <span *ngIf="isLoaded">Carregando...</span>
+          <span *ngIf="!isLoaded">Enviar arquivo</span>
+
+        </button>
+
+        <button (click)="removeLoadedFile()"
+          class="trash-can-button btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2">
+          <img *ngIf="filePreview && filePreview.base64" [src]="TrashCanIcon"
+            class="file-icon-img d-flex align-items-center">
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="col-12 text-center">
@@ -102,9 +113,7 @@
       <div *ngIf="showUpload && !rotateCamera" [class]="isMobile() ? 'thumbs-group mobile-thumb' : 'thumbs-group'">
         <div [class]="isMobile() ? 'thumb-group-card mobile-group' : 'thumb-group-card'">
           <p>
-            Deseja enviar ou trocar
-            {{snapsCaptures.length === 2 ? 'as' : 'a'}}
-            {{snapsCaptures.length === 2 ? 'fotos' : 'foto'}}?
+            Deseja enviar ou trocar a foto
           </p>
 
           <div *ngFor="let snap of snapsCaptures; let i = index" class="thumbGroupCard">
@@ -148,7 +157,7 @@
         </button>
 
         <button *ngIf="showUpload && !uploadRequest"
-          class="btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2" (click)="uploadPictures()"
+          class="btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2" (click)="sendDigitalCNH()"
           [disabled]="isLoaded">
           <i *ngIf="isLoaded" class="material-icons me-2" aria-hidden="true">
             cloud_upload
@@ -157,11 +166,10 @@
             outbox
           </i>
           <span *ngIf="isLoaded">Carregando...</span>
-          <span *ngIf="!isLoaded">Enviar foto{{snapsCaptures.length === 2 ? 's' : ''}}</span>
+          <span *ngIf="!isLoaded">Enviar foto</span>
         </button>
       </div>
     </div>
   </div>
-
   <canvas id="fc_canvas" style="display: none;"></canvas>
 </div>
