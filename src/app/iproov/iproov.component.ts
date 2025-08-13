@@ -17,6 +17,7 @@ export class IproovComponent implements OnInit {
     appkey: any;
     userAgent: any;
     sessionToken: any;
+    livenessType: any;
     iproovUrl: any
     status: any
     statusRequest: any = null;
@@ -46,6 +47,7 @@ export class IproovComponent implements OnInit {
             } else {
                 this.sessionToken = response.body.token;
                 this.iproovUrl = response.body.url;
+                this.livenessType = response.body.livenessType
                 this.isLoading = false;
                 this.status = null;
             }
@@ -64,7 +66,7 @@ export class IproovComponent implements OnInit {
 
         livenessIproov.setAttribute('token', this.sessionToken)
         livenessIproov.setAttribute('base_url', 'https://'.concat(this.iproovUrl))
-        livenessIproov.setAttribute('filter', 'classic')
+        livenessIproov.setAttribute('filter', this.livenessType == 'LA' ? 'clear' : 'classic');
 
         const customLanguage = await this.getLanguage('/assets/iproov-languagues/iproov-pt_BR.json')
         livenessIproov.setAttribute("language", customLanguage)
