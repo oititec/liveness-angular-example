@@ -587,7 +587,7 @@ export class SendDigitalCnhComponent {
             this.uploadResp = false;
           }, 1000);
 
-          window.alert('QRCode enviado com sucesso');
+          window.alert('Arquivo enviado com sucesso!');
 
           window.localStorage.removeItem('appkey');
 
@@ -600,7 +600,7 @@ export class SendDigitalCnhComponent {
             this.isLoaded = false;
 
             window.alert(
-              'QRCode não localizado! Por favor reenvie o documento.'
+              'Arquivo inválido! Por favor, reenvie o documento.'
             );
 
             window.location.reload();
