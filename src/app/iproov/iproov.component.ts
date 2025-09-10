@@ -275,9 +275,10 @@ export class IproovComponent implements OnInit {
             (response: any) => {
                 switch (iproovStatus) {
                     case 'passed':
-                        if (response.body.valid) {
+                        if (response.body.codID !== 300.1 || response.body.codID !== 300.2) {
                             this.statusRequest = 'Enviado com sucesso';
                         } else {
+                            console.log(response)
                             this.statusRequest = 'Prova de Vida reprovada. Insira uma nova appkey e tente novamente.';
                         }
                         break;
