@@ -18,6 +18,7 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
 ### [FaceTec SDK: 9.7.89](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.89)
+
 _data: 10/11/2025_
 - A versão 9.7 foi lançada! A versão 9.7 foi implementada em fases e agora está amplamente disponível para todos os clientes e parceiros da FaceTec.
 - Não há alterações significativas, exceto algumas pequenas remoções de APIs obsoletas em diversas APIs secundárias.
