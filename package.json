@@ -18,7 +18,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
-    "@iproov/web-sdk": "^5.4.4",
+    "@iproov/web-sdk": "^5.5.0",
     "bootstrap": "^5.3.1",
     "crypto-js": "^4.1.1",
     "jquery": "^3.3.1",
