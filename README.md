@@ -17,6 +17,14 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
+### [Iproov SDK: 5.5.0](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+
+_data: 04/11/2025_
+- Melhorias de segurança
+- Ajustes para alguns problemas de câmera específicos com o navegador Chrome no desktop
+- [Consulte também a documentação da Iproov](https://github.com/iProov/web)
+
+
 ### [FaceTec SDK: 9.7.89](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.89)
 
 _data: 10/11/2025_
