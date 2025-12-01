@@ -70,7 +70,7 @@ export class IproovComponent implements OnInit {
 
         const customLanguage = await this.getLanguage('/assets/iproov-languagues/iproov-pt_BR.json')
         livenessIproov.setAttribute("language", customLanguage)
-        
+
         livenessIproov.setAttribute('role', 'application');
         livenessIproov.setAttribute('aria_live', 'assertive');
         livenessIproov.setAttribute('aria-label', 'Validação facial 3D com câmera');
@@ -106,10 +106,11 @@ export class IproovComponent implements OnInit {
                         <div>
                             <h3 class="font-highlight font-extrabold text-xl leading-10">Inicializado</h3>
                             <hr>
-                            <p><h4>Antes de começar:</h4></p>
+                            <p><h4>Vamos escanear seu rosto:</h4></p>
                             <ul class="pull-left list-disc pl-5">
                                 <li><h5 class="text-left">Escolha um ambiente bem iluminado para a validação</h5></li>
                                 <li><h5 class="text-left">Não use acessórios como bonés, máscaras e afins</h5></li>
+                                <li><h5 class="text-left">Aumente o brilho da tela e remova filtros de privacidade</h5></li>
                             </ul>
                         </div>
                
@@ -253,47 +254,40 @@ export class IproovComponent implements OnInit {
 
         livenessIproov.innerHTML = slots
 
-        livenessIproov.addEventListener("started", () => {
-            ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.setAttribute("aria-hidden", "true"))
+        livenessIproov.addEventListener('error', (event: any) => {
+            ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
+            this.statusRequest = event.detail.reason
         })
-        livenessIproov.addEventListener('passed', () => {
-             ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
-            this.sendLivenessValidation(this.appkey, this.sessionToken, 'passed')
+        livenessIproov.addEventListener('passed', (event: any) => {
+            ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
+            this.sendLivenessValidation(this.appkey, this.sessionToken, event)
         })
-        livenessIproov.addEventListener('failed', () => {
-             ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
-            this.sendLivenessValidation(this.appkey, this.sessionToken, 'failed')
+        livenessIproov.addEventListener('failed', (event: any) => {
+            ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
+            this.sendLivenessValidation(this.appkey, this.sessionToken, event)
         })
 
         content?.appendChild(livenessIproov)
 
     }
 
-    async sendLivenessValidation(appkey: any, sessionToken: any, iproovStatus: any) {
+    async sendLivenessValidation(appkey: any, sessionToken: any, event: any) {
         this.statusRequest = 'Enviando...'
         this.facecaptchaService.sendLiveness3dValidation(appkey, sessionToken).subscribe(
             (response: any) => {
-                switch (iproovStatus) {
+                switch (event.type) {
                     case 'passed':
-                        if (response.body.codID === 300.1 || response.body.codID === 300.2) {
+                        if (response.body.codID === 300.1) {
+                            this.checkLivenessRetry(response, 'Vamos tentar outra vez! '
+                                    .concat('Escolha um ambiente bem iluminado e mantenha a câmera firme!'));
+                        } else if (response.body.codID === 300.2) {
                             this.statusRequest = 'Prova de Vida reprovada. Insira uma nova appkey e tente novamente.';
                         } else {
                             this.statusRequest = 'Enviado com sucesso';
                         }
                         break;
                     case 'failed':
-                        if (response.body.retry) {
-                            this.statusRequest = response.body.reason
-                            this.status = 'Preparando nova tentativa...';
-
-                            setTimeout(async () => {
-                                await this.refreshSessionAndRestart();
-                            }, 4000);
-
-                        } else {
-                            this.statusRequest = 'Não foi possível avançar com sua verificação. '
-                                .concat('Uma nova sessão deve ser gerada');
-                        }
+                        this.checkLivenessRetry(response, !event.detail.reason ? response.body.reason : event.detail.reason);
                         break;
                 }
             },
@@ -303,6 +297,21 @@ export class IproovComponent implements OnInit {
             }
         );
         window.localStorage.setItem('hasLiveness', 'true');
+    }
+
+    async checkLivenessRetry(response: any, reason: any) {
+        if (response.body.retry) {
+            this.statusRequest = reason
+            this.status = 'Preparando nova tentativa...';
+
+            setTimeout(async () => {
+                await this.refreshSessionAndRestart();
+            }, 4000);
+
+        } else {
+            this.statusRequest = 'Não foi possível avançar com sua verificação. '
+                .concat('Uma nova sessão deve ser gerada');
+        }
     }
 
     async refreshSessionAndRestart() {
