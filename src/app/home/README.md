@@ -18,8 +18,6 @@
 
 "@angular/router": "^16.1.0" <br>
 
-"@iproov/web-sdk": "^5.4.2"  <br>
-
 "bootstrap": "^5.3.1" <br>
 
 "crypto-js": "^4.1.1" <br>
@@ -66,7 +64,7 @@
 
 "typescript": "~5.1.3" <br>
 
-**Observacao: A dependencia @iproov/web-sdk se encontra em um repositório privado, requerindo acesso da equipe da Iproov. [Consulte a documentação da Iproov!](https://github.com/iProov/web)**
+**[Consulte a documentação da Iproov!](https://github.com/iProov/web)**
 
 Atualmente o projeto possui a seguinte árvore de arquivos:
 <br>
