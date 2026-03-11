@@ -1,6 +1,6 @@
 (function alertIfOldBrowser() {
   try {
-    var testBrowserSupport = new Function("'use strict'; const testConstSupport = 0; var testWorkerSupport = Worker.length; var testWasmSupport = WebAssembly.Module;");
+    var testBrowserSupport = new Function("'use strict'; const testConstSupport = 0; var testWorkerSupport = Worker.length; var testWasmSupport = WebAssembly.Module; const d = new Document();")
     testBrowserSupport();
   }
   catch(e) {

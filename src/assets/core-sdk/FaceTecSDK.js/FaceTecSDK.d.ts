@@ -1,88 +1,23 @@
 import { FaceTecCustomization, FaceTecOvalCustomization, FaceTecCancelButtonCustomization, FaceTecFeedbackBarCustomization, FaceTecFrameCustomization, FaceTecExitAnimationCustomization, FaceTecExitAnimationStyle, FaceTecCancelButtonLocation, FaceTecOverlayCustomization, FaceTecGuidanceCustomization, FaceTecResultScreenCustomization, FaceTecEnterFullScreenCustomization, FaceTecSecurityWatermarkImage, FaceTecSecurityWatermarkCustomization } from "./FaceTecCustomization";
 import { FaceTecLoggingMode } from "./FaceTecLogging";
-import { FaceTecSession, FaceTecSessionFromIFrame } from "./FaceTecSession";
-import { FaceTecAuditTrailType, FaceTecSDKStatus, FaceTecSessionStatus, FaceTecIDScanStatus, FaceTecFaceScanProcessor, FaceTecIDScanProcessor, FaceTecIDScanNextStep, FaceTecFaceScanResultCallback, FaceTecIDScanResultCallback, FaceTecRetryScreen, InitializeCallback, FaceTecAuditTrailImagesToReturn } from "./FaceTecPublicApi";
+import { FaceTecSessionRequestProcessor, FaceTecInitializeCallback, FaceTecSessionStatus, FaceTecInitializationError } from "./FaceTecPublicApi";
 export declare var FaceTecSDK: {
     /**
-    * Initialize FaceTecSDK in development mode using a Device Identifier Key - HTTPS Log mode.
-    **/
-    initializeInDevelopmentMode: (deviceKeyIdentifier: string, publicEncryptionKey: string, developerOnInitializationComplete: InitializeCallback) => void;
-    /**
-      * Initialize FaceTecSDK in production mode using a Production Key - SFTP Log mode.
-    **/
-    initializeInProductionMode: (productionKey: string, deviceKeyIdentifier: string, publicEncryptionKey: string, developerOnInitializationComplete: InitializeCallback) => void;
-    /**
-      * Ensure that the FaceTecSDK is initialized and ready before attempting to start a Session.
-    **/
-    getStatus: () => FaceTecSDKStatus;
-    /**
-      * Return Enums associated with FaceTecSDK.getStatus.
-    **/
-    FaceTecSDKStatus: typeof FaceTecSDKStatus;
-    /**
-    * Return friendly names for the enums in FaceTecSDKStatus.
-    **/
-    /**
-       * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-    */
-    getFriendlyDescriptionForFaceTecSDKStatus: (enumValue: FaceTecSDKStatus) => string;
-    /**
-      * Core function calls that create and launch the FaceTec SDK Interface.
-    **/
-    FaceTecSession: typeof FaceTecSession;
-    /**
-      * Core function calls that create and launch the FaceTec SDK Interface in an IFrame.
-    **/
-    FaceTecSessionFromIFrame: typeof FaceTecSessionFromIFrame;
-    /**
-      * Developer created class for handling processing of the FaceTec SDK FaceScan.
-    **/
-    FaceTecFaceScanProcessor: typeof FaceTecFaceScanProcessor;
-    /**
-      * Developer created class for handling processing of the FaceTec SDK ID Scan.
-    **/
-    FaceTecIDScanProcessor: typeof FaceTecIDScanProcessor;
+     * Initialize SDK using a FaceTecSessionRequestProcessor.
+     */
+    initializeWithSessionRequest: (deviceKeyIdentifier: string, sessionRequestProcessor: FaceTecSessionRequestProcessor, callback: FaceTecInitializeCallback) => void;
     /**
       * FaceTec SDK Logging Mode API.
     **/
     FaceTecLoggingMode: typeof FaceTecLoggingMode;
     /**
-      * The Session status from the session that was just performed.
+      * The FaceTec SDK Initialization Error
+    **/
+    FaceTecInitializationError: typeof FaceTecInitializationError;
+    /**
+      * The V10 FaceTec Session Status
     **/
     FaceTecSessionStatus: typeof FaceTecSessionStatus;
-    /**
-      * The ID Scan status from the ID Scan that was just performed.
-    **/
-    FaceTecIDScanStatus: typeof FaceTecIDScanStatus;
-    /**
-      * Return Friendly names for the enums FaceTecIDScanStatus.
-    **/
-    /**
-        * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    getFriendlyDescriptionForFaceTecIDScanStatus: (enumValue: FaceTecIDScanStatus) => string;
-    /**
-      * FaceTec SDK ID Scan process behavior on starting.
-      * Configure whether to show the ID Type Selection Screen, or skip the entire ID Scan process and exit.
-    **/
-    FaceTecIDScanNextStep: typeof FaceTecIDScanNextStep;
-    /**
-      * An object of this type is passed back to the developer inside of FaceTecFaceScanProcessor.processSessionResultWhileFaceTecSDKWaits.
-      * in order to control the FaceTec SDK UX flow based on the result of the processing of the FaceTec SDK 3D FaceScan.
-    **/
-    FaceTecFaceScanResultCallback: typeof FaceTecFaceScanResultCallback;
-    /**
-      * An object of this type is passed back to the developer inside of FaceTecIDScanProcessor.processSessionResultWhileFaceTecSDKWaits.
-      * in order to control the FaceTec SDK UX flow based on the result of the processing of the FaceTec SDK 3D FaceScan.
-    **/
-    FaceTecIDScanResultCallback: typeof FaceTecIDScanResultCallback;
-    /**
-     * Return friendly names for the enums in FaceTecSessionStatus.
-    **/
-    /**
-        * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK.
-     */
-    getFriendlyDescriptionForFaceTecSessionStatus: (enumValue: FaceTecSessionStatus) => string;
     /**
     * Return the FaceTecSDK customization object.
     **/
@@ -163,14 +98,6 @@ export declare var FaceTecSDK: {
     **/
     isLockedOut: () => boolean;
     /**
-      * Get the available FaceTecSDK audit trail types.
-    **/
-    FaceTecAuditTrailType: typeof FaceTecAuditTrailType;
-    /**
-     * Get the available FaceTecSDK Device Security Flag types
-     */
-    FaceTecRetryScreen: typeof FaceTecRetryScreen;
-    /**
      * API to set FaceTec Localization Strings with the strings passed in as arguments.
      * IMPORTANT: The FaceTec SDK must be successfully initialized before calling this API.
     */
@@ -185,24 +112,6 @@ export declare var FaceTecSDK: {
     configureOCRLocalization: (ocrLocalizationJSON: {
         [key: string]: any;
     }) => void;
-    /**
-      * Set the desired FaceTecSDK audit trail behavior.
-    **/
-    auditTrailType: FaceTecAuditTrailType;
-    /**
-      * Set the maximum number of FaceTecSDK audit trail images to return. Valid values are ONE or UP_TO_SIX, default is ONE.
-      * IMPORTANT: The FaceTec SDK must be successfully initialized before calling this API.
-    **/
-    setMaxAuditTrailImages: (auditTrailImagesToReturn: FaceTecAuditTrailImagesToReturn) => void;
-    /**
-      * Maximum number of Audit Trail images to return.
-      * Default is ONE.
-    **/
-    FaceTecAuditTrailImagesToReturn: typeof FaceTecAuditTrailImagesToReturn;
-    /**
-      * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK. Use the deinitialize method instead.
-    */
-    unload: (callback: () => void) => void;
     /**
       * Unload FaceTecSDK and all its resources.
     **/
@@ -229,8 +138,8 @@ export declare var FaceTecSDK: {
     **/
     setImagesDirectory: (directory: string) => void;
     /**
-      * Create a FaceTec Rest API compatible User Agent string to be used in header element X-User-Agent when using FaceTec's Rest Api Services.
+     * Method needed only by the FaceTec Sample App when communicating with the Testing API
     **/
-    createFaceTecAPIUserAgentString: (sessionID: string) => string;
+    getTestingAPIHeader: () => string;
 };
 //# sourceMappingURL=FaceTecSDK.d.ts.map

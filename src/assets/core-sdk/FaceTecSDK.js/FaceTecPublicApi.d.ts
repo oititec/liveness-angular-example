@@ -1,293 +1,29 @@
-/** Represents the options available for Audit Trail Images */
-export declare enum FaceTecAuditTrailType {
-    Disabled = 0,
-    FullResolution = 1
-}
-export declare enum FaceTecRetryScreen {
-    ShowStandardRetryScreenIfRejected = 0,
-    ShowCameraFeedIssueScreenIfRejected = 1
-}
-/** Represents the status of the SDK */
-export declare enum FaceTecSDKStatus {
+/** Represents the reason why intialization failed. */
+export declare enum FaceTecInitializationError {
     /**
-     * Initialize was never attempted.
+     * The FaceTec Server could not validate this application.
      */
-    NeverInitialized = 0,
+    RejectedByServer = 0,
     /**
-     * The Key provided was verified.
+     * The provided FaceTecSessionRequestProcessor called abortOnCatastrophicError() and the application could not be validated.
      */
-    Initialized = 1,
-    /**
-     * The Key could not be verified due to connectivity issues on the user's device.
-     */
-    NetworkIssues = 2,
-    /**
-     * The Key provided was invalid.
-     */
-    InvalidDeviceKeyIdentifier = 3,
-    /**
-     * DEPRECATED
-     */
-    VersionDeprecated = 4,
+    RequestAborted = 1,
     /**
      *  This device/platform/browser/version combination is not supported by the FaceTec Browser SDK.
      */
-    DeviceNotSupported = 5,
+    DeviceNotSupported = 2,
     /**
-     *  Device is in landscape display orientation. The FaceTec Browser SDK can only be used in portrait display orientation.
+     * An unknown and unexpected error occurred.
      */
-    DeviceInLandscapeMode = 6,
+    UnknownInternalError = 3,
     /**
-     *  Device is in reverse portrait mode. The FaceTec Browser SDK can only be used in portrait display orientation.
+     * FaceTec SDK could not load resources.
      */
-    DeviceLockedOut = 7,
+    ResourcesCouldNotBeLoadedOnLastInit = 4,
     /**
-      * The Key was expired, contained invalid text, or you are attempting to initialize on a domain that is not specified in your Key.
-      */
-    KeyExpiredOrInvalid = 8,
-    /**
-    * The Session was cancelled, the FaceTec Browser SDK was opened in an IFrame without permission.
-    */
-    IFrameNotAllowedWithoutPermission = 9,
-    /**
-    * FaceTec SDK is still loading resources.
-    */
-    StillLoadingResources = 10,
-    /**
-    * FaceTec SDK could not load resources.
-    */
-    ResourcesCouldNotBeLoadedOnLastInit = 11,
-    /**
-    * Browser Camera APIs are only supported on localhost or https.
-    */
-    GetUserMediaRemoteHTTPNotSupported = 12
-}
-/** Represents the various end states of a FaceTec Browser Session */
-export declare enum FaceTecSessionStatus {
-    /**
-     * The Session was performed successfully and a FaceScan was generated.  Pass the FaceScan to the Server for further processing.
+     * Browser Camera APIs are only supported on localhost or https.
      */
-    SessionCompletedSuccessfully = 0,
-    /**
-     * The Session was cancelled because not all guidance images were configured.
-     */
-    MissingGuidanceImages = 1,
-    /**
-     * The Session was cancelled because the user was unable to complete a Session in the default allotted time or the timeout set by the developer.
-     */
-    Timeout = 2,
-    /**
-     * The Session was cancelled due to the app being terminated, put to sleep, an OS notification, or the app was placed in the background.
-     */
-    ContextSwitch = 3,
-    /**
-     * The developer programmatically called the Session cancel API.
-     */
-    ProgrammaticallyCancelled = 4,
-    /**
-     * The Session was cancelled due to a device orientation change during the Session.
-     */
-    OrientationChangeDuringSession = 5,
-    /**
-     * The Session was cancelled because device is in landscape mode.
-     * The user experience of devices in these orientations is poor and thus portrait is required.
-     */
-    LandscapeModeNotAllowed = 6,
-    /**
-     * The user pressed the cancel button and did not complete the Session.
-     */
-    UserCancelled = 7,
-    /**
-     * The user pressed the cancel button during New User Guidance.
-     */
-    UserCancelledFromNewUserGuidance = 8,
-    /**
-     * The user pressed the cancel button during Retry Guidance.
-     */
-    UserCancelledFromRetryGuidance = 9,
-    /**
-     * The user cancelled out of the the FaceTec Browser SDK experience while attempting to get camera permissions.
-     */
-    UserCancelledWhenAttemptingToGetCameraPermissions = 10,
-    /**
-     * The Session was cancelled because the user was in a locked out state.
-     */
-    LockedOut = 11,
-    /**
-     * The Session was cancelled because camera was not enabled.
-     */
-    CameraNotEnabled = 12,
-    /**
-     * This status will never be returned in a properly configured or production app.
-     * This status is returned if your Key is invalid or network connectivity issues occur during a session when the application is not in production.
-     */
-    NonProductionModeDeviceKeyIdentifierInvalid = 13,
-    /**
-     * The Session was cancelled because the FaceTec Browser SDK cannot be rendered when the document is not ready.
-     */
-    DocumentNotReady = 14,
-    /**
-     * The Session was cancelled because there was another Session in progress.
-     */
-    SessionInProgress = 15,
-    /**
-     * The Session was cancelled because the selected camera is not active.
-     */
-    CameraNotRunning = 16,
-    /**
-     * The Session was cancelled because initialization has not been completed yet.
-     */
-    InitializationNotCompleted = 17,
-    /**
-     * The Session was cancelled because of an unknown and unexpected error.  The FaceTec Browser SDK leverages a variety of platform APIs including camera, storage, security, networking, and more.
-     * This return value is a catch-all for errors experienced during normal usage of these APIs.
-     */
-    UnknownInternalError = 18,
-    /**
-     * The Session cancelled because user pressed the Get Ready screen subtext message.
-     * Note: This functionality is not available by default, and must be requested from FaceTec in order to enable.
-     */
-    UserCancelledViaClickableReadyScreenSubtext = 19,
-    /**
-    * The Session was cancelled, the FaceTec Browser SDK was opened in an Iframe without an Iframe constructor.
-    */
-    NotAllowedUseIframeConstructor = 20,
-    /**
-    * The Session was cancelled, the FaceTec Browser SDK was not opened in an Iframe with an Iframe constructor.
-    */
-    NotAllowedUseNonIframeConstructor = 21,
-    /**
-    * The Session was cancelled, the FaceTec Browser SDK was not opened in an Iframe without permission.
-    */
-    IFrameNotAllowedWithoutPermission = 22,
-    /**
-    * FaceTec SDK is still loading resources.
-    */
-    StillLoadingResources = 23,
-    /**
-    * FaceTec SDK could not load resources.
-    */
-    ResourcesCouldNotBeLoadedOnLastInit = 24,
-    /**
-    * The Session was cancelled because a full screen mode change was detected in an IFrame
-    */
-    UserCancelledFullScreenMode = 25
-}
-/** Result returned in callback function passed to FaceTecSession */
-export interface FaceTecSessionResult {
-    faceScan: string | null;
-    auditTrail: string[];
-    lowQualityAuditTrail: string[];
-    sessionId: string | null;
-    status: FaceTecSessionStatus;
-    isCompletelyDone: boolean;
-    [key: string]: string | FaceTecSessionStatus | null | {};
-}
-/** Callback functions for the FaceTecFaceScanProcessor */
-export declare class FaceTecFaceScanResultCallback {
-    proceedToNextStep: (scanResultBlob: string, idScanNextStep?: FaceTecIDScanNextStep) => void;
-    /**
-     * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK. Use the proceedToNextStep method instead.
-     */
-    succeed: (idScanNextStep?: FaceTecIDScanNextStep) => void;
-    /**
-   * @deprecated - This API method is deprecated and will be removed in an upcoming release of the Browser SDK. Use the proceedToNextStep method instead.
-   */
-    retry: (retryScreen?: FaceTecRetryScreen) => void;
-    cancel: () => void;
-    uploadProgress: (uploadedPercent: number) => void;
-    uploadMessageOverride: (uploadMessageOverride: string) => void;
-}
-/** Abstract class for developer to override for processing FaceTec sessions. */
-export declare abstract class FaceTecFaceScanProcessor {
-    abstract onFaceTecSDKCompletelyDone: () => void;
-    abstract processSessionResultWhileFaceTecSDKWaits: (sessionResult: FaceTecSessionResult, faceScanResultCallback: FaceTecFaceScanResultCallback) => void;
-}
-/** FaceTec ID Scan result status enum */
-export declare enum FaceTecIDScanStatus {
-    /**
-    The ID Scan was successful.
-   */
-    Success = 0,
-    /**
-     The ID Scan was not successful
-    */
-    Unsuccess = 1,
-    /**
-     User cancelled ID Scan
-    */
-    UserCancelled = 2,
-    /**
-     Timeout during ID Scan
-    */
-    TimedOut = 3,
-    /**
-     Context Switch during ID Scan
-    */
-    ContextSwitch = 4,
-    /**
-     Error setting up the ID Scan Camera
-    */
-    CameraError = 5,
-    /**
-     Camera Permissions were not enabled
-    */
-    CameraNotEnabled = 6,
-    /**
-     ID Scan was skipped.
-    */
-    Skipped = 7,
-    /**
-     ID Scan was cancelled because device is in landscape mode.
-    */
-    LandscapeModeNotAllowed = 8,
-    /**
-    * ID Scan was cancelled because of an unknown and unexpected error.  The FaceTec Browser SDK leverages a variety of platform APIs including camera, storage, security, networking, and more.
-    * This return value is a catch-all for errors experienced during normal usage of these APIs.
-    */
-    UnknownInternalError = 9,
-    /**
-     * ID Scan was cancelled because the user was in a locked out state.
-     */
-    LockedOut = 10
-}
-/** ID Scan Result object */
-export interface FaceTecIDScanResult {
-    status: FaceTecIDScanStatus;
-    idScan: string | null;
-    frontImages: string[];
-    backImages: string[];
-    sessionId: string | null;
-    isCompletelyDone: boolean;
-}
-/** Callback functions for FaceTecIDScanProcessor */
-export declare class FaceTecIDScanResultCallback {
-    cancel: () => void;
-    uploadProgress: (uploadedPercent: number) => void;
-    uploadMessageOverride: (uploadMessageOverride: string) => void;
-    proceedToNextStep: (scanResultBlob: string, idScanNextStep?: FaceTecIDScanNextStep) => void;
-}
-/** Abstract class for developer to override for processing FaceTec ID Scans. */
-export declare abstract class FaceTecIDScanProcessor {
-    abstract onFaceTecSDKCompletelyDone: () => void;
-    abstract processIDScanResultWhileFaceTecSDKWaits: (idScanResult: FaceTecIDScanResult, idScanResultCallback: FaceTecIDScanResultCallback) => void;
-}
-/**
- * Describes the next step to go into during the Photo ID Match process.
- * By default, when FaceTecFaceScanResultCallback.proceedToNextStep() is called, the User is taken to the ID Document Type Selection Screen.
- * Passing different values of FaceTecIDScanNextStep as a parameter for FaceTecFaceScanResultCallback.proceedToNextStep() allows you to control whether to take the User to the ID Document Type Selection Screen or to  skip the ID Scan process altogether.
- * You may want to skip the ID Scan process altogether if you have custom server-side logic that in some cases deems the Photo ID Match flow as not necessary.
- */
-export declare enum FaceTecIDScanNextStep {
-    /**
-     * Start ID Scan process with showing the Selection Screen.
-     * This is default behavior.
-     */
-    SelectionScreen = 0,
-    /**
-     * Skip the entire ID Scan process, exiting from the FaceTec Browser SDK interface after a successful Session.
-     */
-    Skip = 1
+    GetUserMediaRemoteHTTPNotSupported = 5
 }
 /**
  * Vocal Guidance Modes
@@ -299,17 +35,136 @@ export declare enum FaceTecVocalGuidanceMode {
     NO_VOCAL_GUIDANCE = 2
 }
 /**
- * Interface for the SDK Initialize Callback
+ * The callback that is invoked when the SDK has finished initializing.
  */
-export interface InitializeCallback {
-    (result: boolean): void;
+export interface FaceTecInitializeCallback {
+    /**
+     * Invoked when the SDK has been initialized successfully.
+     * @param sdkInstance The {@link FaceTecSDKInstance} instance that can be used to start sessions.
+     */
+    onSuccess(sdkInstance: FaceTecSDKInstance): void;
+    /**
+     * Invoked when the SDK cannot be initialized.
+     * @param error A {@link FaceTecInitializationError} value that indicates why initialization did not succeed.
+     */
+    onError(error: FaceTecInitializationError): void;
 }
 /**
- * Max Audit Trail Images To Return
- * By default one audit trail image will be returned
+ * A callback that will be provided to return a Response Blob
  */
-export declare enum FaceTecAuditTrailImagesToReturn {
-    ONE = "1",
-    UP_TO_SIX = "6"
+export interface FaceTecSessionRequestProcessorCallback {
+    /**
+     * Called to return a Response Blob provided by the FaceTec Server.
+     * @param responseBlob The Response Blob from the FaceTec Server.
+     */
+    processResponse(responseBlob: string): void;
+    /**
+     * Called to provide an update on the progress of uploading the Request Blob.
+     * @param uploadPercent The current percentage of the Request Blob that has been uploaded.
+     */
+    updateProgress(uploadPercent: number): void;
+    /**
+     * Called to indicate that a Response Blob could not be retrieved for the provided Request Blob.
+     */
+    abortOnCatastrophicError(): void;
+}
+/**
+ * Represents the various end states of a FaceTec Session. This will be available after a Session returns to your application in the FaceTecSessionResult.
+ */
+export declare enum FaceTecSessionStatus {
+    /**
+     * The Session was completed successfully.
+     */
+    SessionCompleted = 0,
+    /**
+     * The Session was cancelled because abortOnCatastrophicError() was called.
+     */
+    RequestAborted = 1,
+    /**
+     * The user cancelled before performing enough Scans to Succeed.
+     */
+    UserCancelledFaceScan = 2,
+    /**
+     * The user cancelled before completing all of the steps in the ID Scan Process.
+     */
+    UserCancelledIDScan = 3,
+    /**
+     * The Session was cancelled because the user was in a locked out state.
+     */
+    LockedOut = 4,
+    /**
+     * The Session was cancelled because FaceTec SDK was unable to start the camera on this device, or an unexpected error occurred with the camera during runtime.
+     */
+    CameraError = 5,
+    /**
+     * The Session was cancelled because Camera Permissions were not enabled.
+     */
+    CameraPermissionsDenied = 6,
+    /**
+     * An unknown and unexpected error occurred.
+     */
+    UnknownInternalError = 7,
+    /**
+     * The Session was cancelled, the FaceTec Browser SDK was opened in an Iframe without permission.
+     */
+    IFrameNotAllowedWithoutPermission = 8
+}
+/**
+ * Represents results of a session. To get the results in the onActivityResult method
+ * you will call getParcelableExtra(FaceTecSDK.EXTRA_SESSION_RESULTS). These results will consist of a number
+ * of variables that give more detail about the enrollment attempt.
+ */
+export interface FaceTecSessionResult {
+    /** The result of the session */
+    status: FaceTecSessionStatus;
+}
+/**
+ * The interface that must be implemented to process the Request Blobs that are provided
+ * by the FaceTec SDK
+ */
+export interface FaceTecSessionRequestProcessor {
+    /**
+     * Called when a new Request Blob has been generated by the FaceTec SDK that needs to be processed
+     * by the Server
+     * @param requestBlob A blob of data that should be sent to the Server
+     * @param requestCallback The callback that needs to be invoked when the Request Blob has been processed by the Server
+     */
+    onSessionRequest(requestBlob: string, requestCallback: FaceTecSessionRequestProcessorCallback): void;
+    onFaceTecExit(result: FaceTecSessionResult): void;
+}
+/**
+ * The instance object provided when the FaceTec SDK is initialized successfully.  All operations are initiated via this object.
+ */
+export interface FaceTecSDKInstance {
+    /**
+     * Launches a Liveness session.
+     * @param sessionRequestProcessor A custom object for processing SDK requests.
+     */
+    start3DLiveness(sessionRequestProcessor: FaceTecSessionRequestProcessor): void;
+    /**
+     * Launches a 3D Match session.
+     * @param sessionRequestProcessor
+     */
+    start3DLivenessThen3DFaceMatch(sessionRequestProcessor: FaceTecSessionRequestProcessor): void;
+    /**
+     * Launches an IDScanOnly session.
+     * @param sessionRequestProcessor A custom object for processing SDK requests.
+     */
+    startIDScanOnly(sessionRequestProcessor: FaceTecSessionRequestProcessor): void;
+    /**
+     * Launches an ID Match session.
+     * @param sessionRequestProcessor A custom object for processing SDK requests.
+     */
+    startIDScanThen3D2DMatch(sessionRequestProcessor: FaceTecSessionRequestProcessor): void;
+    /**
+     * Launches an ID Scan session that will match to an existing FaceMap
+     * @param sessionRequestProcessor A custom object for processing SDK requests.
+     */
+    start3DLivenessThen3D2DPhotoIDMatch(sessionRequestProcessor: FaceTecSessionRequestProcessor): void;
+    /**
+     * Launches an Official ID Photo session.
+     * @param sessionRequestProcessor A custom object for processing SDK requests.
+     */
+    startSecureOfficialIDPhotoCapture(sessionRequestProcessor: FaceTecSessionRequestProcessor): void;
 }
 //# sourceMappingURL=FaceTecPublicApi.d.ts.map

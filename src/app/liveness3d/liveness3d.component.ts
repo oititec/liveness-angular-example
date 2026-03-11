@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SampleApp } from 'src/assets/sample-app';
+// import { SampleApp } from 'src/assets/sample-app';
+import { SampleAppController } from 'src/assets/SampleAppController';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 
@@ -18,18 +19,21 @@ export class Liveness3dComponent implements OnInit {
 
   constructor(
     private facecaptchaService: FacecaptchaService,
+    private sampleAppController: SampleAppController,
     private router: Router,
   ) { }
 
   ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
-    this.status = SampleApp.status;
+    // this.status = SampleApp.status;
+    this.status = 'Inicializando'
 
-    SampleApp.getProductionKey(this.facecaptchaService, this.appkey);
+    // SampleApp.getProductionKey(this.facecaptchaService, this.appkey);
   }
 
   showLiveness3D() {
-    SampleApp.onLivenessCheckPressed(this.facecaptchaService, this.appkey);
+    // SampleApp.onLivenessCheckPressed(this.facecaptchaService, this.appkey);
+    this.sampleAppController.onLivenessCheckPressed();
   };
 
   deleteAppKey() {
