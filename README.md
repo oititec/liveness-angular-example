@@ -17,10 +17,6 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
-### [FaceTec SDK: 9.7.100](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.100)
-
-
-
 ### [Liveness 3D Iproov](https://github.com/oititec/liveness-js-example/blob/main/liveness-iproov/README.md)
 
 _data: 25/11/2025_
