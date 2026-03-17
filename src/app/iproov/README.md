@@ -117,4 +117,4 @@ Estas são as mensagens de erro retornadas pelo SDK da iProov. Erros originam de
 
 <br>
 
-**Observacao: A dependencia @iproov/web-sdk se encontra em um repositório privado, requerindo acesso da equipe da Iproov. [Consulte a documentação da Iproov!](https://github.com/iProov/web)**
+**[Consulte a documentação da Iproov!](https://github.com/iProov/web)**
