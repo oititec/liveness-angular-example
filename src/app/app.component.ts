@@ -7,7 +7,7 @@ import { Component, VERSION } from '@angular/core';
 })
 export class AppComponent {
   title = 'liveness-angular-example';
-  logoOiti = '/assets/img/logo-oiti.png';
+  logoCertiFace = '/assets/img/logo_certiface_trans.png';
 
   ngOnInit(): void {
     console.log("Angular version: " + VERSION.full);
