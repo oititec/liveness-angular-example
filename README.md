@@ -1,4 +1,4 @@
-![image.png](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/img/OitiHeader.png)
+![image.png](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/img/certiface-header.png)
 
 # CertiFace para Angular
 
