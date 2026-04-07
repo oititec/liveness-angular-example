@@ -12,6 +12,7 @@ import { SenddocumentComponent } from './senddocument/senddocument.component';
 import { FaceTecSDK as FaceTecSDKType } from 'src/assets/core-sdk/FaceTecSDK.js/FaceTecSDK';
 import { SendDigitalCnhComponent } from './send-digital-cnh/send-digital-cnh.component';
 import { IproovComponent } from './iproov/iproov.component';
+import { FacetecV10Component } from './facetec-v10/facetec-v10.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { IproovComponent } from './iproov/iproov.component';
     SenddocumentComponent,
     SendDigitalCnhComponent,
     SenddocumentComponent,
-    IproovComponent
+    IproovComponent,
+    FacetecV10Component
   ],
   imports: [
     BrowserModule,
