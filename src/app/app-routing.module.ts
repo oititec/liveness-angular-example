@@ -7,6 +7,7 @@ import { Liveness3dComponent } from './liveness3d/liveness3d.component';
 import { SenddocumentComponent } from './senddocument/senddocument.component';
 import { SendDigitalCnhComponent } from './send-digital-cnh/send-digital-cnh.component';
 import { IproovComponent } from './iproov/iproov.component';
+import { FacetecV10Component } from './facetec-v10/facetec-v10.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'liveness-3d',
     component: Liveness3dComponent,
+  },
+    {
+    path: 'facetec-v10',
+    component: FacetecV10Component,
   },
   {
     path: 'send-document',
