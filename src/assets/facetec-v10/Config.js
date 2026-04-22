@@ -1,9 +1,12 @@
+import { environment } from "../../environments/environment";
+
 export var Config = (function () {
     // -------------------------------------
     // REQUIRED
     // Available at https://dev.facetec.com/account
     // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
-    var DeviceKeyIdentifier = "dF2CabwQ6OCLFJaV2QqZhP7OUErHv0uz";
+    var DeviceKeyIdentifier = environment.DeviceKeyIdentifier;
+    var BaseURL = environment.BaseURL;
 
     // -------------------------------------
     // REQUIRED
@@ -15,11 +18,6 @@ export var Config = (function () {
     // Calling the FaceTec Server Webservice directly from Your App is not allowed (except for initial testing).
     // Please see the FaceTec Architecture Diagram here more information:  https://dev.facetec.com/configuration-options#zoom-architecture-and-data-flow
     //
-    // This field is auto-populated by the FaceTec SDK Configuration Wizard.
-
-    // var YOUR_API_OR_FACETEC_TESTING_API_ENDPOINT = "https://facetec.internal.dev.certiface.io/process-request";
-    // var YOUR_API_OR_FACETEC_TESTING_API_ENDPOINT = "https://facecaptchav2.internal.dev.certiface.io/facecaptcha/service/captcha/3d/process-request";
-    var YOUR_API_OR_FACETEC_TESTING_API_ENDPOINT = "http://localhost:8080/facecaptcha/service/captcha/3d/process-request";
 
     // This app can modify the customization to demonstrate different look/feel preferences
     // NOTE: This function is auto-populated by the FaceTec SDK Configuration Wizard based on your UI Customizations you picked in the Configuration Wizard GUI.
@@ -48,11 +46,13 @@ export var Config = (function () {
         // For Image Customization
         var yourAppLogoImage = sdkImageDirectory + "FaceTec_your_app_logo.png";
         var securityWatermarkImage = FaceTecSDK.FaceTecSecurityWatermarkImage.FaceTec;
+        var rotateIconImage = sdkImageDirectory + "FaceTec_rotate.png";
         
 
         // Set a Default Customization
         var defaultCustomization = new FaceTecSDK.FaceTecCustomization();
 
+        defaultCustomization.rotateIconImage = rotateIconImage;
         
         // Set Frame Customization
         defaultCustomization.frameCustomization.borderCornerRadius = frameCornerRadius;
@@ -100,21 +100,6 @@ export var Config = (function () {
         defaultCustomization.resultScreenCustomization.uploadProgressFillColor = buttonAndFeedbackBarColor;
 
         // Set ID Scan Customization
-        defaultCustomization.idScanCustomization.selectionScreenBackgroundColors = frameColor;
-        defaultCustomization.idScanCustomization.selectionScreenForegroundColor = textColor;
-        defaultCustomization.idScanCustomization.reviewScreenBackgroundColors = frameColor;
-        defaultCustomization.idScanCustomization.reviewScreenForegroundColor = buttonAndFeedbackBarTextColor;
-        defaultCustomization.idScanCustomization.reviewScreenTextBackgroundColor = buttonAndFeedbackBarColor;
-        defaultCustomization.idScanCustomization.captureScreenForegroundColor = buttonAndFeedbackBarTextColor;
-        defaultCustomization.idScanCustomization.captureScreenTextBackgroundColor = buttonAndFeedbackBarColor;
-        defaultCustomization.idScanCustomization.buttonBackgroundNormalColor = buttonAndFeedbackBarColor;
-        defaultCustomization.idScanCustomization.buttonBackgroundDisabledColor = buttonColorDisabled;
-        defaultCustomization.idScanCustomization.buttonBackgroundHighlightColor = buttonColorHighlight;
-        defaultCustomization.idScanCustomization.buttonTextNormalColor = buttonAndFeedbackBarTextColor;
-        defaultCustomization.idScanCustomization.buttonTextDisabledColor = buttonAndFeedbackBarTextColor;
-        defaultCustomization.idScanCustomization.buttonTextHighlightColor = buttonAndFeedbackBarTextColor;
-        defaultCustomization.idScanCustomization.captureScreenBackgroundColor = frameColor;
-        defaultCustomization.idScanCustomization.captureFrameStrokeColor = borderColor;
 
         // Set Initial Loading Customization
         defaultCustomization.initialLoadingAnimationCustomization.backgroundColor = buttonAndFeedbackBarTextColor;
@@ -145,7 +130,7 @@ export var Config = (function () {
 
     return {
         DeviceKeyIdentifier,
-        YOUR_API_OR_FACETEC_TESTING_API_ENDPOINT,
+        BaseURL,
         currentCustomization,
         currentLowLightCustomization,
         currentDynamicDimmingCustomization,

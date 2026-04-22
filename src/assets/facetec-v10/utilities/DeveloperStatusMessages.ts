@@ -19,7 +19,6 @@ export class DeveloperStatusMessages {
 
   // Log the message and display on screen for the user
   public static logAndDisplayMessage = (message: string): void => {
-    console.log("Mensagem status:", message)
     this.displayMessage(message);
     this.logMessage(message);
   };
@@ -38,7 +37,7 @@ export class DeveloperStatusMessages {
   // Process onFaceTecExit status from FaceTecSessionResult or FaceTecIDScanResult
   public static logSessionStatusOnFaceTecExit = (sessionStatus: FaceTecSessionStatus): void => {
     // User message to display
-    let displayMessage: string = "See logs for details";
+    let displayMessage: string = "";
     // Message to log for developer
     let logMessage: string = "Unable to parse status message";
 
@@ -55,28 +54,14 @@ export class DeveloperStatusMessages {
     this.logMessage(logMessage);
   };
 
-  public static validateLivenessResult = (responseJSON: any, sessionRequestCallback: FaceTecSessionRequestProcessorCallback ): void => {
+  public static validateLivenessResult = (responseJSON: any, sessionRequestCallback: FaceTecSessionRequestProcessorCallback): void => {
     if (responseJSON.codID) {
-        if (responseJSON.codID === 300.1 || responseJSON.codID === 300.2) {
-
-          // faceScanResultCallback.cancel();
-          
-          sessionRequestCallback.abortOnCatastrophicError();
-
-          // SampleAppUtilities.fadeInMainUIContainer();
-
-          // setTimeout(() => {
-          //   SampleAppUtilities.disableAllButtons();
-          // }, 2000);
-
-        } else {
-          // Demonstra a configuração dinâmica da mensagem da tela de sucesso.
-         DeveloperStatusMessages.displayMessage("Liveness confirmado")
-        }
-      } else {
-        // CASE: resposta INESPERADA da API. Nosso código de exemplo desliga um booleano wasProcessed na raiz do objeto JSON --> Você define seus próprios contratos de API consigo mesmo e pode optar por fazer algo diferente aqui com base no erro.
-        // console.log('Unexpected API response, cancelling out.');
-        // faceScanResultCallback.cancel();
+      if (responseJSON.codID === 300.1 || responseJSON.codID === 300.2) {
+        sessionRequestCallback.abortOnCatastrophicError();
       }
+    }
+    if (responseJSON.error) {
+      throw Error
+    }
   }
 }

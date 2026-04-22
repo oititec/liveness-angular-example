@@ -2,9 +2,6 @@ import { Config } from "../../../assets/facetec-v10/Config"
 import { FaceTecSDK } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { SampleAppUIFunctions } from "./SampleAppUIFunctions";
 import { SoundFileUtilities } from "./SoundFileUtilities";
-import { DeveloperStatusMessages } from "./DeveloperStatusMessages";
-// import ocrLocalizationJSON = require("../../../../sample-app-resources/FaceTec_OCR_Customization.json");
-// import { SampleAppController } from "../SampleAppController";
 
 enum VocalGuidanceMode {
   MINIMAL,
@@ -115,14 +112,6 @@ export class SampleAppUtilities  {
     FaceTecSDK.setCustomization(Config.currentCustomization);
   }
 
-  public static setOCRLocalization(): void {
-    // Set the strings to be used for group names, field names, and placeholder texts for the FaceTec ID Scan User OCR Confirmation Screen.
-    // DEVELOPER NOTE: For this demo, we are using the template json file, 'FaceTec_OCR_Customization.json,' as the parameter in calling the configureOCRLocalization API.
-    // For the configureOCRLocalization API parameter, you may use any object that follows the same structure and key naming as the template json file, 'FaceTec_OCR_Customization.json'.
-    
-    // FaceTecSDK.configureOCRLocalization(ocrLocalizationJSON);
-  }
-
   public static fadeInMainUIContainer(): void {
     new SampleAppUIFunctions("#theme-transition-overlay").fadeOut(800);
     new SampleAppUIFunctions(".wrapping-box-container").fadeIn(800);
@@ -143,89 +132,13 @@ export class SampleAppUtilities  {
 
     new SampleAppUIFunctions("footer").fadeIn(800);
     new SampleAppUIFunctions("#controls").fadeIn(800, () => {
-      SampleAppUtilities.enableControlButtons();
+      // SampleAppUtilities.enableControlButtons();
       SampleAppUtilities.enableVocalGuidanceButtons();
 
       if (typeof callback !== "undefined") {
         callback();
       }
     });
-  }
-
-  // Calculate passed in element height (including margins) to allow for dynamic sizing of parent containers
-  private static calculateElementHeightWithMargins(element: HTMLElement): number {
-    const elementComputedStyle: CSSStyleDeclaration = window.getComputedStyle(element);
-    const elementOffsetHeight: number = element.offsetHeight;
-    const elementMarginTop: number = parseFloat(elementComputedStyle.marginTop);
-    const elementMarginBottom: number = parseFloat(elementComputedStyle.marginBottom);
-
-    return elementOffsetHeight + elementMarginTop + elementMarginBottom;
-  }
-
-  public static fadeOutMainUIControlsAndFadeInOfficialIDInstructionsUI(): void {
-    new SampleAppUIFunctions("#main-interface, #controls, #status, #custom-logo-container, #vocal-icon-container, #official-id-photo-session-cancel-container, footer").fadeOut(600, () => {
-      (document.getElementById("official-id-photo-result-container") as HTMLElement).classList.add("display-none");
-      (document.getElementById("official-id-photo-intro-container") as HTMLElement).classList.remove("display-none");
-      (document.getElementById("official-id-photo-session-cancel-container") as HTMLElement).classList.remove("display-none");
-
-      // Dynamically set the main interface container height based upon the height of the intro content
-      var officialIDPhotoIntroContainerHeight: number = this.calculateElementHeightWithMargins((document.getElementById("official-id-photo-intro-container") as HTMLElement));
-      (document.getElementById("main-interface") as HTMLElement).style.height = `${ officialIDPhotoIntroContainerHeight }px`;
-
-      // Dynamically set the cancel button position to the top left corner within the main interface border if on desktop
-      if (!this.isLikelyMobileDevice()) {
-        (document.getElementById("official-id-photo-session-cancel-container") as HTMLElement).style.left = `${ ((window.innerWidth / 2)) - ((document.getElementById("main-interface") as HTMLElement).offsetWidth / 2) }px`;
-      }
-
-      this.enableAllButtons();
-      new SampleAppUIFunctions("#main-interface, #official-id-photo-session-cancel-container, #official-id-photo-container").fadeIn(600);
-    });
-
-  }
-
-  public static fadeOutOfficialIDPhotoUIAndFadeInMainUIControls(): void {
-    this.disableAllButtons();
-    new SampleAppUIFunctions(".wrapping-box-container, #official-id-photo-session-cancel-container, #official-id-photo-container").fadeOut(600, () => {
-      // Remove height property on main interface that was dynamically set for Official ID Photo content and revert to value defined by CSS
-      (document.getElementById("main-interface") as HTMLElement).style.removeProperty("height");
-
-      (document.getElementById("official-id-photo-intro-container") as HTMLElement).classList.add("display-none");
-      (document.getElementById("official-id-photo-result-container") as HTMLElement).classList.add("display-none");
-      (document.getElementById("official-id-photo-session-cancel-container") as HTMLElement).classList.add("display-none");
-
-      SampleAppUtilities.enableVocalGuidanceButtons();
-      this.enableAllButtons();
-      new SampleAppUIFunctions(".wrapping-box-container, #controls, #status, #custom-logo-container, #vocal-icon-container, footer").fadeIn(600);
-    });
-  }
-
-  public static fadeInOfficialIDPhotoResultsUI(): void {
-    // (document.getElementById("official-id-photo-result-image") as HTMLElement).setAttribute("src", `data:image/jpeg;base64, ${SampleAppController.latestOfficialIDPhoto}`);
-    (document.getElementById("official-id-photo-intro-container") as HTMLElement).classList.add("display-none");
-    (document.getElementById("official-id-photo-result-container") as HTMLElement).classList.remove("display-none");
-    (document.getElementById("official-id-photo-session-cancel-container") as HTMLElement).classList.remove("display-none");
-    (document.querySelector(".wrapping-box-container") as HTMLElement).style.display = "block";
-
-    // Dynamically set the main interface container height based upon the height of the result content
-    var officialIDPhotoResultContainerHeight: number = this.calculateElementHeightWithMargins((document.getElementById("official-id-photo-result-container") as HTMLElement));
-    (document.getElementById("main-interface") as HTMLElement).style.height = `${ officialIDPhotoResultContainerHeight }px`;
-
-    // Dynamically set the cancel button position to the top left corner within the main interface border if on desktop
-    if (!this.isLikelyMobileDevice()) {
-      (document.getElementById("official-id-photo-session-cancel-container") as HTMLElement).style.left = `${ ((window.innerWidth / 2)) - ((document.getElementById("main-interface") as HTMLElement).offsetWidth / 2) }px`;
-    }
-
-    setTimeout(function() {
-      new SampleAppUIFunctions(".wrapping-box-container, #official-id-photo-session-cancel-container, #official-id-photo-container").fadeIn(400);
-    }, 200);
-  }
-
-  public static hideOfficialIDPhotoUIAndShowMainUIControlsDueToUnsuccessfulSession(): void {
-    // Remove height property on main interface that was dynamically set for Official ID Photo content and revert to value defined by CSS
-    (document.getElementById("main-interface") as HTMLElement).style.removeProperty("height");
-
-    new SampleAppUIFunctions("#official-id-photo-container, #official-id-photo-session-cancel-container").fadeOut(0);
-    new SampleAppUIFunctions("#controls, #status, #custom-logo-container, #vocal-icon-container").fadeIn(0);
   }
 
   // Disable buttons to prevent hammering, fade out main interface elements, and reset the Session Review Screen data.
@@ -265,16 +178,6 @@ export class SampleAppUtilities  {
     SampleAppUtilities.fadeInMainUIControls();
   }
 
-  public static handleErrorGettingServerSessionToken(): void {
-    SampleAppUtilities.showMainUI();
-    DeveloperStatusMessages.logAndDisplayMessage("Session could not be started due to an unexpected issue during the network request.");
-  }
-
-  public static generateUUId(): string {
-    // @ts-ignore
-    return ("" + [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => { return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16); });
-  }
-
   public static formatUIForDevice(): void {
     window.addEventListener("keydown", SampleAppUtilities.onKeyDown);
 
@@ -310,6 +213,7 @@ export class SampleAppUtilities  {
         }
       });
       // Adjust main interface display
+      // Linhas comentadas
       (document.getElementById("main-interface") as HTMLElement).style.display = "contents";
       (document.getElementById("main-interface") as HTMLElement).style.backgroundColor = "transparent";
       (document.getElementById("main-interface") as HTMLElement).style.borderColor = "transparent";
@@ -387,9 +291,6 @@ export class SampleAppUtilities  {
 
       SampleAppUtilities.displayElementsAfterStyling();
     }
-
-    // Setup Official ID Photo sizing
-    this.formatOfficialIDPhotoUIForDevice();
   }
 
   // When the footer element gets close to the bottom of the content, change its style to set the position to prevent overlap
@@ -418,92 +319,6 @@ export class SampleAppUtilities  {
       //   bottom: "4px"
       // });
     }
-  }
-
-  private static formatOfficialIDPhotoUIForDevice(): void {
-    var windowHeight: number = window.innerHeight;
-    var scalingFactor: number = 1;
-
-    const elementSizeMap: {[key: string]: number} = {
-      containerVerticalMargin: 20,
-      headerFontSize: 28,
-      headerMarginBottom: 20,
-      subheaderFontSize: 16,
-      subheaderMarginBottom: 20,
-      fontSize: 16,
-      margin: 14,
-      instructionImageHeight: 36,
-      resultImageHeight: 240,
-      resultImageMarginBottom: 28,
-      buttonHeight: 50,
-      buttonFontSize: 18,
-      cancelButtonSize: 18,
-      cancelButtonSizeMobile: 20,
-      cancelContainerTop: 10,
-      cancelContainerLeft: 5
-    };
-
-    // For mobile devices - determine if scaling is required based upon vertical resolution (respecting the minimum height as set by CSS)
-    if (this.isLikelyMobileDevice()) {
-      if (windowHeight < 600) {
-        scalingFactor = Math.max(360, windowHeight) / 600;
-        // Official ID Photo container CSS min-height property set to 360px
-        Object.keys(elementSizeMap).forEach((key: string) => {
-          elementSizeMap[key] *= scalingFactor;
-        });
-      }
-    }
-
-    // Set styling to scale Official ID Photo UI Elements
-    // new SampleAppUIFunctions("#official-id-photo-intro-container").css({
-    //   "margin-top": elementSizeMap.containerVerticalMargin + "px",
-    //   "margin-bottom": elementSizeMap.containerVerticalMargin + "px"
-    // });
-    // new SampleAppUIFunctions("#official-id-photo-intro-header-text, #official-id-photo-result-header-text").css({
-    //   "font-size": elementSizeMap.headerFontSize + "px",
-    //   "margin-bottom": elementSizeMap.headerMarginBottom + "px"
-    // });
-    // new SampleAppUIFunctions(".official-id-photo-intro-span, .official-id-photo-result-span").css({
-    //   "font-size": elementSizeMap.subheaderFontSize + "px",
-    //   "margin-bottom": elementSizeMap.subheaderMarginBottom + "px"
-    // });
-    // new SampleAppUIFunctions("#official-id-photo-intro-container-instructions").css({
-    //   "margin-bottom": elementSizeMap.margin + "px"
-    // });
-    // new SampleAppUIFunctions(".official-id-photo-intro-instruction-item-container").css({
-    //   "font-size": elementSizeMap.fontSize + "px",
-    //   "margin-bottom": elementSizeMap.margin + "px"
-    // });
-    // new SampleAppUIFunctions(".official-id-photo-intro-instruction-item-img").css({
-    //   "height": elementSizeMap.instructionImageHeight + "px",
-    //   "margin-right": elementSizeMap.margin + "px"
-    // });
-    // new SampleAppUIFunctions("#official-id-photo-result-image").css({
-    //   height: elementSizeMap.resultImageHeight + "px",
-    //   "margin-bottom": elementSizeMap.subheaderMarginBottom + "px"
-    // });
-    // new SampleAppUIFunctions("#official-id-photo-intro-continue-button, #official-id-photo-result-download-button").css({
-    //   "height": elementSizeMap.buttonHeight + "px",
-    //   "font-size": elementSizeMap.buttonFontSize + "px"
-    // });
-
-    // // Set styling for Official ID Photo Cancel Button
-    // if (this.isLikelyMobileDevice()) {
-    //   new SampleAppUIFunctions("#official-id-photo-session-cancel-button").css({
-    //     // Setting width for the cancel button to ensure proper aspect ratio and sizing for some browsers and platforms
-    //     "height": elementSizeMap.cancelButtonSizeMobile + "px",
-    //     "width": elementSizeMap.cancelButtonSizeMobile + "px"
-    //   });
-    //   new SampleAppUIFunctions("#official-id-photo-session-cancel-container").css({
-    //     "top": elementSizeMap.cancelContainerTop + "px",
-    //     "left": elementSizeMap.cancelContainerLeft + "px"
-    //   });
-    // }
-    // else {
-    //   new SampleAppUIFunctions("#official-id-photo-session-cancel-button").css({
-    //     "height": elementSizeMap.cancelButtonSize + "px"
-    //   });
-    // }
   }
 
   public static keyboardAccessibilityStylingOn: boolean = false;
@@ -572,29 +387,11 @@ export class SampleAppUtilities  {
   }
 
   public static disableAllButtons(): void {
-    // (document.getElementById("enroll-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("id-scan-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("photo-id-scan-button") as HTMLElement).setAttribute("disabled", "true");
     (document.getElementById("liveness-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("verify-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("design-showcase-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("official-id-photo-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("official-id-photo-session-cancel-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("official-id-photo-intro-continue-button") as HTMLElement).setAttribute("disabled", "true");
-    // (document.getElementById("official-id-photo-result-download-button") as HTMLElement).setAttribute("disabled", "true");
   }
 
   public static enableAllButtons(): void {
-    (document.getElementById("enroll-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("id-scan-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("photo-id-scan-button") as HTMLElement).removeAttribute("disabled");
     (document.getElementById("liveness-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("verify-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("design-showcase-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("official-id-photo-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("official-id-photo-session-cancel-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("official-id-photo-intro-continue-button") as HTMLElement).removeAttribute("disabled");
-    (document.getElementById("official-id-photo-result-download-button") as HTMLElement).removeAttribute("disabled");
   }
 
   public static fadeInBlurOverlay(): void {

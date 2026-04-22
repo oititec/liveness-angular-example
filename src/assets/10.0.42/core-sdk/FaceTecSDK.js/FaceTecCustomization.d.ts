@@ -1934,14 +1934,7 @@ export declare class FaceTecCustomizations {
     static overrideResultScreenSuccessMessageObject: {
         message: string;
     };
-    static idScanResultScreenMessageOverrides: {
-        // [key in ResultMessageType]?: string | null;
-        ['asdsada']: string | null;
-    };
-    static idScanUploadMessageOverrides: {
-        // [key in UploadMessageType]?: string | null;
-        ['asdsada2']: string | null;
-    };
+
     static currentLowLightCustomization: () => FaceTecCustomization | null;
     static currentDynamicDimmingCustomization: () => FaceTecCustomization | null;
     static setImagesDirectory: (directory: string) => void;

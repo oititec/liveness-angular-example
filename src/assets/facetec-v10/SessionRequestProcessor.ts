@@ -1,6 +1,5 @@
 import { FacetecV10Component } from "src/app/facetec-v10/facetec-v10.component";
 import { FaceTecSessionRequestProcessor, FaceTecSessionResult, type FaceTecSessionRequestProcessorCallback } from "../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
-// import { SampleAppController } from "./SampleAppController";
 import { SampleAppNetworkingRequest } from "./utilities/SampleAppNetworkingRequest";
 
 // This class demonstrates the most important integration point in the FaceTec Device SDK  -- The Session Request Processor.
@@ -47,9 +46,7 @@ export class SessionRequestProcessor implements FaceTecSessionRequestProcessor {
   };
 
   // The onFaceTecExit API is the method called when the FaceTec SDK completes or cancels.
-  // For demonstration purposes, we are handling next steps in the SampleAppController.
   public onFaceTecExit = (faceTecSessionResult: FaceTecSessionResult): void => {
-    // SampleAppController.demonstrateHandlingFaceTecExit(faceTecSessionResult);
     FacetecV10Component.demonstrateHandlingFaceTecExit(faceTecSessionResult);
   };
 }

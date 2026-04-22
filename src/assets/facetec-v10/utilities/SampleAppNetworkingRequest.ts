@@ -1,7 +1,6 @@
+import { environment } from "src/environments/environment";
 import { Config } from "../../../assets/facetec-v10/Config";
 import { FaceTecSessionRequestProcessorCallback } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
-// import { FaceTecSDK } from "../../../../core-sdk/FaceTecSDK.js/FaceTecSDK";
-// import { SampleAppController } from "../SampleAppController";
 import { SessionRequestProcessor } from "../SessionRequestProcessor";
 import { DeveloperStatusMessages } from "./DeveloperStatusMessages";
 
@@ -43,12 +42,6 @@ export class SampleAppNetworkingRequest {
     // externalDatabaseRefID is included in FaceTec Device SDK Sample App Code for demonstration purposes.
     // In Your App, you will be setting and handling this in Your Webservice code.
 
-
-    // Linhas comentadas
-    // if (SampleAppController.demonstrationExternalDatabaseRefID !== "") {
-    //   sessionRequestCallPayload.externalDatabaseRefID = SampleAppController.demonstrationExternalDatabaseRefID;
-    // }
-
     //
     // Step 2: Set up the networking request.
     //
@@ -62,19 +55,9 @@ export class SampleAppNetworkingRequest {
     request.timeout = 2 * 60 * 1000;
 
     function openAndSendRequest(): any {
-      request.open("POST", Config.YOUR_API_OR_FACETEC_TESTING_API_ENDPOINT);
+      // request.open("POST", Config.YOUR_API_OR_FACETEC_TESTING_API_ENDPOINT);
+      request.open("POST", environment.apiUrl + '/facecaptcha/service/captcha/3d/process-request');
       request.setRequestHeader("Content-Type", "application/json");
-
-      // Developer Note: This is ONLY needed for calls to the FaceTec Testing API.
-      // You should remove this when using Your App connected to Your Webservice + FaceTec Server
-
-      // request.setRequestHeader("X-Device-Key", Config.DeviceKeyIdentifier);
-
-      // Developer Note: This is ONLY needed for calls to the FaceTec Testing API.
-      // You should remove this when using Your App connected to Your Webservice + FaceTec Server
-
-      // request.setRequestHeader("X-Testing-API-Header", FaceTecSDK.getTestingAPIHeader());
-
       request.send(JSON.stringify(sessionRequestCallPayload));
     }
 

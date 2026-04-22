@@ -6,24 +6,36 @@ import { SoundFileUtilities } from "./SoundFileUtilities";
 import { DeveloperStatusMessages } from "./DeveloperStatusMessages";
 
 export class ThemeHelpers {
+  constructor(private sdk: any) { }
+
   // Set the default theme
-  private currentTheme: string = "Config Wizard Theme";
-  private themeResourceDirectory: string = "assets/facetec-v10/sample-app-resources/images/themes/";
+  private currentTheme: string = "Pseudo-Fullscreen";
+  // private themeResourceDirectory: string = "assets/facetec-v10/sample-app-resources/images/themes/";
+
+  private themeResourceDirectory = "assets/facetec-v10/sample-app-resources/images/themes/";
 
   // Save the current app theme in Config and update the SDK
   public setAppTheme = (theme: string): void => {
-    Config.currentCustomization = this.getCustomizationForTheme(theme);
-    Config.currentLowLightCustomization = this.getLowLightCustomizationForTheme(theme);
-    Config.currentDynamicDimmingCustomization = this.getDynamicDimmingCustomizationForTheme(theme);
+    const customization = this.getCustomizationForTheme(theme);
 
-    FaceTecSDK.setCustomization(Config.currentCustomization);
-    FaceTecSDK.setLowLightCustomization(Config.currentLowLightCustomization);
-    FaceTecSDK.setDynamicDimmingCustomization(Config.currentDynamicDimmingCustomization);
+    this.sdk.setCustomization(customization);
+    this.sdk.setLowLightCustomization(customization);
+    this.sdk.setDynamicDimmingCustomization(customization);
+
+
+    // Config.currentCustomization = this.getCustomizationForTheme(theme);
+    // Config.currentLowLightCustomization = this.getLowLightCustomizationForTheme(theme);
+    // Config.currentDynamicDimmingCustomization = this.getDynamicDimmingCustomizationForTheme(theme);
+
+    // FaceTecSDK.setCustomization(Config.currentCustomization);
+    // FaceTecSDK.setLowLightCustomization(Config.currentLowLightCustomization);
+    // FaceTecSDK.setDynamicDimmingCustomization(Config.currentDynamicDimmingCustomization);
   };
 
   // Get customizations for themes
   private getCustomizationForTheme = (theme: string): FaceTecCustomization => {
     var currentCustomization: FaceTecCustomization = new FaceTecSDK.FaceTecCustomization();
+    currentCustomization = Config.retrieveConfigurationWizardCustomization(this.sdk);
 
     // Add sound customization to the new theme customization
     var soundFileUtilities: SoundFileUtilities = new SoundFileUtilities();
@@ -32,7 +44,7 @@ export class ThemeHelpers {
     const retryScreenSlideshowImages: string[] = [this.themeResourceDirectory + "FaceTec_ideal_1.png", this.themeResourceDirectory + "FaceTec_ideal_2.png", this.themeResourceDirectory + "FaceTec_ideal_3.png", this.themeResourceDirectory + "FaceTec_ideal_4.png", this.themeResourceDirectory + "FaceTec_ideal_5.png"];
 
     if (theme === "Config Wizard Theme") {
-      currentCustomization = Config.retrieveConfigurationWizardCustomization(FaceTecSDK);
+      // currentCustomization = Config.retrieveConfigurationWizardCustomization(FaceTecSDK);
     }
     else if (theme === "FaceTec Theme") {
       // Do nothing
@@ -249,9 +261,10 @@ export class ThemeHelpers {
       currentCustomization.cancelButtonCustomization.setCustomLocation(20, 20, 20, 20);
       currentCustomization.cancelButtonCustomization.hideForCameraPermissions = false;
       // Orientation Screen Customization
+      // currentCustomization.orientationScreenCustomization.defaultLocationForImages = "/assets/10.0.42/core-sdk/FaceTec_images";
       currentCustomization.orientationScreenCustomization.backgroundColors = backgroundColor;
       currentCustomization.orientationScreenCustomization.foregroundColor = primaryColor;
-      currentCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentCustomization.orientationScreenCustomization.iconImage = "/assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
       currentCustomization.orientationScreenCustomization.messageFont = font;
 
       // Guidance Customization -- Text Style Overrides
@@ -487,7 +500,7 @@ export class ThemeHelpers {
       // Orientation Screen Customization
       currentCustomization.orientationScreenCustomization.backgroundColors = backgroundColor;
       currentCustomization.orientationScreenCustomization.foregroundColor = primaryColor;
-      currentCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
       currentCustomization.orientationScreenCustomization.messageFont = font;
     }
     else if (theme === "Bitcoin Exchange") {
@@ -685,7 +698,7 @@ export class ThemeHelpers {
       // Orientation Screen Customization
       currentCustomization.orientationScreenCustomization.backgroundColors = backgroundColor;
       currentCustomization.orientationScreenCustomization.foregroundColor = primaryColor;
-      currentCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
       currentCustomization.orientationScreenCustomization.messageFont = font;
 
       // Guidance Customization -- Text Style Overrides
@@ -919,7 +932,7 @@ export class ThemeHelpers {
       // Orientation Screen Customization
       currentCustomization.orientationScreenCustomization.backgroundColors = backgroundColor;
       currentCustomization.orientationScreenCustomization.foregroundColor = secondaryColor;
-      currentCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
       currentCustomization.orientationScreenCustomization.messageFont = font;
     }
     else if (theme === "Sample Bank") {
@@ -1107,10 +1120,330 @@ export class ThemeHelpers {
       // Orientation Screen Customization
       currentCustomization.orientationScreenCustomization.backgroundColors = backgroundColor;
       currentCustomization.orientationScreenCustomization.foregroundColor = primaryColor;
-      currentCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentCustomization.orientationScreenCustomization.iconImage = "/src/assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
       currentCustomization.orientationScreenCustomization.messageFont = font;
-    }
 
+    } else if (theme === 'Oiti-Dark') {
+      console.log('aqui no Oiti-Dark')
+
+      const primaryColor = '#05D758'; // verde
+      const secondaryColor = '#FFFFFF'; // branco
+      const backgroundColor = '#1E1E1E'; // preto
+      const font = "Futura,'Trebuchet MS',Arial,sans-serif";
+
+      var successResultAnimationSVG: SVGElement = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      );
+      successResultAnimationSVG.setAttribute('viewBox', '0 0 50 50');
+      successResultAnimationSVG.classList.add('oiti-success-svg');
+      successResultAnimationSVG.innerHTML =
+        "<circle cx='25' cy='25' r='25' style='fill:#FFFFFF;'/><polyline points='38,15 22,33 12,25' style='fill:none;stroke:#05D758;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;'/><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>";
+
+      var unsuccessResultAnimationSVG: SVGElement = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      );
+      unsuccessResultAnimationSVG.setAttribute('viewBox', '0 0 50 50');
+      unsuccessResultAnimationSVG.classList.add('oiti-unsuccess-svg');
+      unsuccessResultAnimationSVG.innerHTML =
+        "<circle cx='25' cy='25' r='25' style='fill:#FFFFFF;'/><polyline xmlns='http://www.w3.org/2000/svg' points='16,34 25,25 34,16' style='fill:none;stroke:#DD0101;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;' /><polyline xmlns='http://www.w3.org/2000/svg' points='16,16 25,25 34,34' style='fill:none;stroke:#DD0101;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;'/><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>";
+
+      var activityIndicatorSVG: SVGElement = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      );
+      activityIndicatorSVG.setAttribute('viewBox', '0 0 100 100');
+      activityIndicatorSVG.classList.add('oiti-activity-indicator-svg');
+      activityIndicatorSVG.innerHTML =
+        "<path fill='#05D758' d='M42.3,39.6c5.7-4.3,13.9-3.1,18.1,2.7c4.3,5.7,3.1,13.9-2.7,18.1l4.1,5.5c8.8-6.5,10.6-19,4.1-27.7c-6.5-8.8-19-10.6-27.7-4.1L42.3,39.6z'><animateTransform attributeName='transform' attributeType='XML' type='rotate' dur='1s' from='0 50 50' to='360 50 50' repeatCount='indefinite' /></path>";
+
+      var uploadActivityIndicatorSVG: SVGElement = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      );
+      uploadActivityIndicatorSVG.setAttribute('viewBox', '0 0 100 100');
+      uploadActivityIndicatorSVG.classList.add('oiti-activity-indicator-svg');
+      uploadActivityIndicatorSVG.innerHTML =
+        "<path fill='#05D758' d='M42.3,39.6c5.7-4.3,13.9-3.1,18.1,2.7c4.3,5.7,3.1,13.9-2.7,18.1l4.1,5.5c8.8-6.5,10.6-19,4.1-27.7c-6.5-8.8-19-10.6-27.7-4.1L42.3,39.6z'><animateTransform attributeName='transform' attributeType='XML' type='rotate' dur='1s' from='0 50 50' to='360 50 50' repeatCount='indefinite' /></path>";
+
+      // Personalização da Animação de Carregamento Inicial
+      currentCustomization.initialLoadingAnimationCustomization.customAnimation =
+        activityIndicatorSVG;
+      currentCustomization.initialLoadingAnimationCustomization.animationRelativeScale = 1.0;
+      currentCustomization.initialLoadingAnimationCustomization.backgroundColor =
+        backgroundColor;
+      currentCustomization.initialLoadingAnimationCustomization.foregroundColor =
+        primaryColor;
+      currentCustomization.initialLoadingAnimationCustomization.messageTextColor =
+        secondaryColor;
+      currentCustomization.initialLoadingAnimationCustomization.messageFont =
+        font;
+      // Personalização de sobreposição
+      currentCustomization.overlayCustomization.backgroundColor =
+        backgroundColor;
+      currentCustomization.overlayCustomization.showBrandingImage = false;
+      currentCustomization.overlayCustomization.brandingImage = '';
+      // Personalização de Orientação
+      currentCustomization.guidanceCustomization.backgroundColors =
+        backgroundColor;
+      currentCustomization.guidanceCustomization.foregroundColor =
+        secondaryColor;
+      currentCustomization.guidanceCustomization.headerFont = font;
+      currentCustomization.guidanceCustomization.subtextFont = font;
+      currentCustomization.guidanceCustomization.buttonFont = font;
+      currentCustomization.guidanceCustomization.buttonTextNormalColor =
+        backgroundColor;
+      currentCustomization.guidanceCustomization.buttonBackgroundNormalColor =
+        primaryColor;
+      currentCustomization.guidanceCustomization.buttonTextHighlightColor =
+        backgroundColor;
+      currentCustomization.guidanceCustomization.buttonBackgroundHighlightColor =
+        'rgb(86, 86, 86)';
+      currentCustomization.guidanceCustomization.buttonTextDisabledColor =
+        backgroundColor;
+      currentCustomization.guidanceCustomization.buttonBackgroundDisabledColor =
+        'rgb(173, 173, 173)';
+      currentCustomization.guidanceCustomization.buttonBorderColor =
+        'transparent';
+      currentCustomization.guidanceCustomization.buttonBorderWidth = '0px';
+      currentCustomization.guidanceCustomization.buttonCornerRadius = '20px';
+      currentCustomization.guidanceCustomization.readyScreenOvalFillColor =
+        'transparent';
+      currentCustomization.guidanceCustomization.readyScreenHeaderTextColor =
+        secondaryColor;
+      currentCustomization.guidanceCustomization.readyScreenSubtextTextColor =
+        secondaryColor;
+      currentCustomization.guidanceCustomization.readyScreenTextBackgroundColor =
+        backgroundColor;
+      currentCustomization.guidanceCustomization.readyScreenTextBackgroundCornerRadius =
+        '5px';
+      currentCustomization.guidanceCustomization.retryScreenImageBorderColor =
+        primaryColor;
+      currentCustomization.guidanceCustomization.retryScreenImageBorderWidth =
+        '2px';
+      currentCustomization.guidanceCustomization.retryScreenImageCornerRadius =
+        '10px';
+      currentCustomization.guidanceCustomization.retryScreenOvalStrokeColor =
+        backgroundColor;
+      currentCustomization.guidanceCustomization.retryScreenSlideshowImages =
+        retryScreenSlideshowImages;
+      currentCustomization.guidanceCustomization.retryScreenSlideshowInterval =
+        '2000ms';
+      currentCustomization.guidanceCustomization.enableRetryScreenSlideshowShuffle =
+        true;
+      // Linhas comentadas
+      currentCustomization.guidanceCustomization.cameraPermissionsScreenImage =
+        this.themeResourceDirectory + 'oiti/camera_icon.png';
+      // Personalização de digitalização de documentos
+      currentCustomization.idScanCustomization.showSelectionScreenDocumentImage =
+        true;
+      // Linhas comentadas 
+      currentCustomization.idScanCustomization.selectionScreenDocumentImage =
+        this.themeResourceDirectory + 'oiti/document_offblack.png';
+      currentCustomization.idScanCustomization[
+        'showSelectionScreenBrandingImage'
+      ] = false;
+      currentCustomization.idScanCustomization['selectionScreenBrandingImage'] =
+        '';
+      currentCustomization.idScanCustomization.selectionScreenBackgroundColors =
+        backgroundColor;
+      currentCustomization.idScanCustomization.reviewScreenBackgroundColors =
+        backgroundColor;
+      currentCustomization.idScanCustomization.captureScreenForegroundColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.reviewScreenForegroundColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.selectionScreenForegroundColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.headerFont = font;
+      currentCustomization.idScanCustomization.subtextFont = font;
+      currentCustomization.idScanCustomization.buttonFont = font;
+      currentCustomization.idScanCustomization.buttonTextNormalColor =
+        backgroundColor;
+      currentCustomization.idScanCustomization.buttonBackgroundNormalColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.buttonTextHighlightColor =
+        backgroundColor;
+      currentCustomization.idScanCustomization.buttonBackgroundHighlightColor =
+        'rgb(86, 86, 86)';
+      currentCustomization.idScanCustomization.buttonTextDisabledColor =
+        backgroundColor;
+      currentCustomization.idScanCustomization.buttonBackgroundDisabledColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.buttonBorderColor =
+        'transparent';
+      currentCustomization.idScanCustomization.buttonBorderWidth = '0px';
+      currentCustomization.idScanCustomization.buttonCornerRadius = '20px';
+      currentCustomization.idScanCustomization.captureScreenTextBackgroundColor =
+        backgroundColor;
+      currentCustomization.idScanCustomization.captureScreenTextBackgroundBorderColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.captureScreenTextBackgroundBorderWidth =
+        '2px';
+      currentCustomization.idScanCustomization.captureScreenTextBackgroundCornerRadius =
+        '5px';
+      currentCustomization.idScanCustomization.reviewScreenTextBackgroundColor =
+        backgroundColor;
+      currentCustomization.idScanCustomization.reviewScreenTextBackgroundBorderColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.reviewScreenTextBackgroundBorderWidth =
+        '2px';
+      currentCustomization.idScanCustomization.reviewScreenTextBackgroundBorderCornerRadius =
+        '5px';
+      currentCustomization.idScanCustomization.captureScreenBackgroundColor =
+        backgroundColor;
+      currentCustomization.idScanCustomization.captureFrameStrokeColor =
+        primaryColor;
+      currentCustomization.idScanCustomization.captureFrameStrokeWidth = '2px';
+      currentCustomization.idScanCustomization.captureFrameCornerRadius =
+        '12px';
+      // Personalização da tela de confirmação de OCR
+      currentCustomization.ocrConfirmationCustomization.backgroundColors =
+        backgroundColor;
+      currentCustomization.ocrConfirmationCustomization.mainHeaderDividerLineColor =
+        secondaryColor;
+      currentCustomization.ocrConfirmationCustomization.mainHeaderDividerLineWidth =
+        '2px';
+      currentCustomization.ocrConfirmationCustomization.mainHeaderFont = font;
+      currentCustomization.ocrConfirmationCustomization.sectionHeaderFont =
+        font;
+      currentCustomization.ocrConfirmationCustomization.fieldLabelFont = font;
+      currentCustomization.ocrConfirmationCustomization.fieldValueFont = font;
+      currentCustomization.ocrConfirmationCustomization.inputFieldFont = font;
+      currentCustomization.ocrConfirmationCustomization.inputFieldPlaceholderFont =
+        font;
+      currentCustomization.ocrConfirmationCustomization.mainHeaderTextColor =
+        secondaryColor;
+      currentCustomization.ocrConfirmationCustomization.sectionHeaderTextColor =
+        primaryColor;
+      currentCustomization.ocrConfirmationCustomization.fieldLabelTextColor =
+        primaryColor;
+      currentCustomization.ocrConfirmationCustomization.fieldValueTextColor =
+        primaryColor;
+      currentCustomization.ocrConfirmationCustomization.inputFieldTextColor =
+        primaryColor;
+      currentCustomization.ocrConfirmationCustomization.inputFieldPlaceholderTextColor =
+        'rgba(59, 195, 113, 0.4)';
+      currentCustomization.ocrConfirmationCustomization.inputFieldBackgroundColor =
+        'transparent';
+      currentCustomization.ocrConfirmationCustomization.inputFieldBorderColor =
+        secondaryColor;
+      currentCustomization.ocrConfirmationCustomization.inputFieldBorderWidth =
+        '2px';
+      currentCustomization.ocrConfirmationCustomization.inputFieldCornerRadius =
+        '0px';
+      currentCustomization.ocrConfirmationCustomization.showInputFieldBottomBorderOnly =
+        true;
+      currentCustomization.ocrConfirmationCustomization.buttonFont = font;
+      currentCustomization.ocrConfirmationCustomization.buttonTextNormalColor =
+        backgroundColor;
+      currentCustomization.ocrConfirmationCustomization.buttonBackgroundNormalColor =
+        primaryColor;
+      currentCustomization.ocrConfirmationCustomization.buttonTextHighlightColor =
+        backgroundColor;
+      currentCustomization.ocrConfirmationCustomization.buttonBackgroundHighlightColor =
+        'rgb(86, 86, 86)';
+      currentCustomization.ocrConfirmationCustomization.buttonTextDisabledColor =
+        backgroundColor;
+      currentCustomization.ocrConfirmationCustomization.buttonBackgroundDisabledColor =
+        primaryColor;
+      currentCustomization.ocrConfirmationCustomization.buttonBorderColor =
+        'transparent';
+      currentCustomization.ocrConfirmationCustomization.buttonBorderWidth =
+        '0px';
+      currentCustomization.ocrConfirmationCustomization.buttonCornerRadius =
+        '20px';
+      // Personalização da tela de resultados
+      currentCustomization.resultScreenCustomization.backgroundColors =
+        backgroundColor;
+      currentCustomization.resultScreenCustomization.foregroundColor =
+        secondaryColor;
+      currentCustomization.resultScreenCustomization.messageFont = font;
+      currentCustomization.resultScreenCustomization.activityIndicatorColor =
+        secondaryColor;
+      // Linhas comentadas
+      currentCustomization.resultScreenCustomization.customActivityIndicatorImage =
+        this.themeResourceDirectory + 'oiti/activity_indicator_faded_black.png';
+      currentCustomization.resultScreenCustomization.customActivityIndicatorRotationInterval =
+        '0.8s';
+      currentCustomization.resultScreenCustomization.customActivityIndicatorAnimation =
+        uploadActivityIndicatorSVG;
+      currentCustomization.resultScreenCustomization.resultAnimationBackgroundColor =
+        primaryColor;
+      currentCustomization.resultScreenCustomization.resultAnimationForegroundColor =
+        backgroundColor;
+      currentCustomization.resultScreenCustomization.resultAnimationSuccessBackgroundImage =
+        '';
+      currentCustomization.resultScreenCustomization.resultAnimationUnsuccessBackgroundImage =
+        '';
+      currentCustomization.resultScreenCustomization.customResultAnimationSuccess =
+        successResultAnimationSVG;
+      currentCustomization.resultScreenCustomization.customResultAnimationUnsuccess =
+        unsuccessResultAnimationSVG;
+      currentCustomization.resultScreenCustomization.showUploadProgressBar =
+        true;
+      currentCustomization.resultScreenCustomization.uploadProgressTrackColor =
+        'rgba(0, 0, 0, 0.2)';
+      currentCustomization.resultScreenCustomization.uploadProgressFillColor =
+        secondaryColor;
+      currentCustomization.resultScreenCustomization.animationRelativeScale = 1.0;
+      // Personalização de comentários
+      currentCustomization.feedbackCustomization.backgroundColor =
+        backgroundColor;
+      currentCustomization.feedbackCustomization.textColor = secondaryColor;
+      currentCustomization.feedbackCustomization.textFont = font;
+      currentCustomization.feedbackCustomization.cornerRadius = '5px';
+      currentCustomization.feedbackCustomization.shadow = '0px 3px 10px black';
+      // Personalização da moldura
+      currentCustomization.frameCustomization.backgroundColor = backgroundColor;
+      currentCustomization.frameCustomization.borderColor = primaryColor;
+      currentCustomization.frameCustomization.borderWidth = '0px';
+      currentCustomization.frameCustomization.borderCornerRadius = '0px';
+      currentCustomization.frameCustomization.shadow = 'none';
+      // Personalização da área Oval
+      currentCustomization.ovalCustomization.strokeColor = primaryColor;
+      currentCustomization.ovalCustomization.progressColor1 =
+        'rgba(59, 195, 113, 0.7)';
+      currentCustomization.ovalCustomization.progressColor2 =
+        'rgba(59, 195, 113, 0.7)';
+      // Customização do Botão Cancelar
+      // Linhas comentadas
+      currentCustomization.cancelButtonCustomization.customImage =
+        this.themeResourceDirectory + 'oiti/single_chevron_left_black.png';
+      currentCustomization.cancelButtonCustomization.location =
+        FaceTecSDK.FaceTecCancelButtonLocation.Custom;
+      currentCustomization.cancelButtonCustomization.setCustomLocation(
+        20,
+        20,
+        20,
+        20
+      );
+
+      // Personalização de orientação -- Substituições de estilo de texto
+      // Título da Tela Estou Pronto
+      currentCustomization.guidanceCustomization.readyScreenHeaderFont = font;
+      currentCustomization.guidanceCustomization.readyScreenHeaderTextColor =
+        secondaryColor;
+      // SubTítulo da Tela Estou Pronto
+      currentCustomization.guidanceCustomization.readyScreenSubtextFont = font;
+      currentCustomization.guidanceCustomization.readyScreenSubtextTextColor =
+        secondaryColor;
+      // Título da tela Tentar Novamente
+      currentCustomization.guidanceCustomization.retryScreenHeaderFont = font;
+      currentCustomization.guidanceCustomization.retryScreenHeaderTextColor =
+        secondaryColor;
+      // SubTítulo da tela Tentar Novamente
+      currentCustomization.guidanceCustomization.retryScreenSubtextFont = font;
+      currentCustomization.guidanceCustomization.retryScreenSubtextTextColor =
+        secondaryColor;
+      // Customização da marca d'água de segurança
+      currentCustomization.securityWatermarkCustomization.setSecurityWatermarkImage(
+        FaceTecSDK.FaceTecSecurityWatermarkImage.FaceTec
+      );
+
+
+    }
     return currentCustomization;
   };
 
@@ -1120,7 +1453,7 @@ export class ThemeHelpers {
     const retryScreenSlideshowImages: string[] = [this.themeResourceDirectory + "FaceTec_ideal_1.png", this.themeResourceDirectory + "FaceTec_ideal_2.png", this.themeResourceDirectory + "FaceTec_ideal_3.png", this.themeResourceDirectory + "FaceTec_ideal_4.png", this.themeResourceDirectory + "FaceTec_ideal_5.png"];
 
     if (theme === "Config Wizard Theme") {
-      currentLowLightCustomization = Config.retrieveLowLightConfigurationWizardCustomization(FaceTecSDK);
+      // currentLowLightCustomization = Config.retrieveLowLightConfigurationWizardCustomization(FaceTecSDK);
     }
     else if (theme === "Bitcoin Exchange") {
       const primaryColor: string = "rgb(247, 150, 52)"; // Orange
@@ -1236,7 +1569,7 @@ export class ThemeHelpers {
       currentLowLightCustomization.cancelButtonCustomization.customImage = this.themeResourceDirectory + "bitcoin-exchange/single_chevron_left_orange.png";
       // Orientation Screen Customization
       currentLowLightCustomization.orientationScreenCustomization.foregroundColor = backgroundColor;
-      currentLowLightCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      // currentLowLightCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
 
       // Guidance Customization -- Text Style Overrides
       // Ready Screen Header
@@ -1351,13 +1684,13 @@ export class ThemeHelpers {
       currentLowLightCustomization.cancelButtonCustomization.customImage = this.themeResourceDirectory + "sample-bank/cancel_navy.png";
       // Orientation Screen Customization
       currentLowLightCustomization.orientationScreenCustomization.foregroundColor = backgroundColor;
-      currentLowLightCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentLowLightCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
     }
 
     return currentLowLightCustomization;
   };
 
-  private getDynamicDimmingCustomizationForTheme = (theme: string): FaceTecCustomization  => {
+  private getDynamicDimmingCustomizationForTheme = (theme: string): FaceTecCustomization => {
     var currentDynamicDimmingCustomization: FaceTecCustomization = this.getCustomizationForTheme(theme);
 
     const retryScreenSlideshowImages: string[] = [this.themeResourceDirectory + "FaceTec_ideal_1.png", this.themeResourceDirectory + "FaceTec_ideal_2.png", this.themeResourceDirectory + "FaceTec_ideal_3.png", this.themeResourceDirectory + "FaceTec_ideal_4.png", this.themeResourceDirectory + "FaceTec_ideal_5.png"];
@@ -1373,7 +1706,7 @@ export class ThemeHelpers {
     }
 
     if (theme === "Config Wizard Theme") {
-      currentDynamicDimmingCustomization = Config.retrieveDynamicDimmingConfigurationWizardCustomization(FaceTecSDK);
+      // currentDynamicDimmingCustomization = Config.retrieveDynamicDimmingConfigurationWizardCustomization(FaceTecSDK);
     }
     else if (theme === "Pseudo-Fullscreen") {
       const primaryColor: string = "rgb(238, 246, 248)"; // Off-white
@@ -1505,7 +1838,7 @@ export class ThemeHelpers {
       currentDynamicDimmingCustomization.cancelButtonCustomization.customImage = this.themeResourceDirectory + "pseudo-fullscreen/single_chevron_left_offwhite.png";
       // Orientation Screen Customization
       currentDynamicDimmingCustomization.orientationScreenCustomization.foregroundColor = primaryColor;
-      currentDynamicDimmingCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      // currentDynamicDimmingCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
 
       // Guidance Customization -- Text Style Overrides
       // Ready Screen Header
@@ -1663,7 +1996,7 @@ export class ThemeHelpers {
       currentDynamicDimmingCustomization.cancelButtonCustomization.customImage = this.themeResourceDirectory + "ekyc/cancel_box_red.png";
       // Orientation Screen Customization
       currentDynamicDimmingCustomization.orientationScreenCustomization.foregroundColor = secondaryColor;
-      currentDynamicDimmingCustomization.orientationScreenCustomization.iconImage = "../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
+      currentDynamicDimmingCustomization.orientationScreenCustomization.iconImage = "../../assets/10.0.42/core-sdk/FaceTec_images/FaceTec_rotate.png";
     }
     else if (theme === "Sample Bank") {
       const primaryColor: string = "black";

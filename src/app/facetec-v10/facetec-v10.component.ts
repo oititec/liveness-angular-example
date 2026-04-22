@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 import { FaceTecSDK } from "../../assets/10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { Config } from "../../assets/facetec-v10/Config";
@@ -21,13 +20,11 @@ export class FacetecV10Component implements OnInit {
   facetecStrings: any;
 
   private faceTecSDKInstance!: FaceTecSDKInstance;
-  private themeHelpers: ThemeHelpers = new ThemeHelpers();
+  private themeHelpers!: ThemeHelpers;
   private sdkV10: any
 
   constructor(
-    private facecaptchaService: FacecaptchaService,
     private router: Router,
-
   ) { }
 
   async ngOnInit() {
@@ -75,15 +72,11 @@ export class FacetecV10Component implements OnInit {
   };
 
   private onFaceTecSDKInitializationSuccess = (): void => {
-    SampleAppUtilities.setupAndFadeInMainUIOnInitializationSuccess();
-
-    this.themeHelpers.setAppTheme(this.themeHelpers.getCurrentTheme());
-
-    SampleAppUtilities.setVocalGuidanceSoundFiles();
-
-    SampleAppUtilities.setOCRLocalization();
-
     this.sdkV10.configureLocalization(this.facetecStrings);
+
+    this.themeHelpers.setAppTheme("Oiti-Dark");
+
+    SampleAppUtilities.setupAndFadeInMainUIOnInitializationSuccess();
 
     DeveloperStatusMessages.logAndDisplayMessage("Inicializado com sucesso");
   };
@@ -91,19 +84,22 @@ export class FacetecV10Component implements OnInit {
   public static demonstrateHandlingFaceTecExit = (FaceTecSessionResult: FaceTecSessionResult): void => {
     DeveloperStatusMessages.logSessionStatusOnFaceTecExit(FaceTecSessionResult.status);
 
-    if (FaceTecSessionResult.status === FaceTecSDK.FaceTecSessionStatus.RequestAborted) {
-      SampleAppUtilities.disableAllButtons();
-      DeveloperStatusMessages.displayMessage("Prova de Vida Reprovada. Insira uma nova appkey e tente novamente.")
+    switch (FaceTecSessionResult.status) {
+      case FaceTecSDK.FaceTecSessionStatus.RequestAborted:
+        DeveloperStatusMessages.displayMessage("Prova de Vida Reprovada. Insira uma nova appkey e tente novamente.");
+        break;
+      case FaceTecSDK.FaceTecSessionStatus.SessionCompleted:
+        DeveloperStatusMessages.displayMessage("Enviado com sucesso")
+        break;
+      default:
+        break;
     }
-    else {
-      DeveloperStatusMessages.displayMessage("Enviado com sucesso")
-    }
-
     SampleAppUtilities.showMainUI();
   };
 
   private onFaceTecSDKInitializationFailure = (initializationError: FaceTecInitializationError): void => {
     SampleAppUtilities.fadeInMainUIContainer();
+    console.log(initializationError);
     DeveloperStatusMessages.displayMessage("Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.")
   };
 
@@ -133,6 +129,8 @@ export class FacetecV10Component implements OnInit {
     if (!this.sdkV10) {
       throw new Error('FaceTec SDK V10 não carregou corretamente');
     }
+
+    this.themeHelpers = new ThemeHelpers(this.sdkV10);
 
     // Limpa global (evita conflito com outras versões)
     (window as any).FaceTecSDK = undefined;
