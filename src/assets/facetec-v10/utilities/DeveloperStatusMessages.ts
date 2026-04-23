@@ -1,7 +1,6 @@
 import { FaceTecInitializationError, FaceTecSessionRequestProcessorCallback, FaceTecSessionStatus } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { FaceTecSDK } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { FaceTecStatusEnumFriendlyText } from "./FaceTecStatusEnumFriendlyText";
-import { SampleAppUtilities } from "./SampleAppUtilities";
 
 // Helper class to log and or display SampleApp messages.
 // This classes sole purpose is to help developers learn about the FaceTecSDK response statuses.
@@ -42,9 +41,15 @@ export class DeveloperStatusMessages {
     let logMessage: string = "Unable to parse status message";
 
     if (sessionStatus != null) {
-      // Special case message for user when the device is locked out
-      if (sessionStatus === FaceTecSDK.FaceTecSessionStatus.LockedOut) {
-        displayMessage = "The device is locked out of FaceTec Browser SDK.";
+      switch (sessionStatus) {
+        case FaceTecSDK.FaceTecSessionStatus.LockedOut:
+          displayMessage = "O dispositivo está bloqueado do FaceTec Browser SDK.";
+          break;
+        case FaceTecSDK.FaceTecSessionStatus.CameraPermissionsDenied:
+          displayMessage = "Não há permissão de câmera";
+          break;
+        default:
+          break;
       }
 
       logMessage = `FaceTecSessionResult.status: ${sessionStatus} - "${FaceTecStatusEnumFriendlyText.descriptionForSessionStatus(sessionStatus)}"`;
