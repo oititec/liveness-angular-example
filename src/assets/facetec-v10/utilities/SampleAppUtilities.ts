@@ -9,7 +9,7 @@ enum VocalGuidanceMode {
   OFF
 }
 
-export class SampleAppUtilities  {
+export class SampleAppUtilities {
   private static vocalGuidanceSoundFilesDirectory: string = "../assets/facetec-v10/sample-app-resources/Vocal_Guidance_Audio_Files/";
   private static vocalGuidanceOnPlayer: HTMLAudioElement = new Audio(this.vocalGuidanceSoundFilesDirectory + "vocal_guidance_on.mp3");
   private static vocalGuidanceOffPlayer: HTMLAudioElement = new Audio(this.vocalGuidanceSoundFilesDirectory + "vocal_guidance_off.mp3");
@@ -29,11 +29,11 @@ export class SampleAppUtilities  {
     SampleAppUtilities.vocalGuidanceOnPlayer.volume = 0.4;
     SampleAppUtilities.vocalGuidanceOffPlayer.volume = 0.4;
 
-    SampleAppUtilities.vocalGuidanceOffPlayer.onended = function(): void {
+    SampleAppUtilities.vocalGuidanceOffPlayer.onended = function (): void {
       SampleAppUtilities.enableVocalGuidanceButtons();
     };
 
-    SampleAppUtilities.vocalGuidanceOnPlayer.onended = function(): void {
+    SampleAppUtilities.vocalGuidanceOnPlayer.onended = function (): void {
       SampleAppUtilities.enableVocalGuidanceButtons();
     };
   }
@@ -116,7 +116,6 @@ export class SampleAppUtilities  {
     new SampleAppUIFunctions("#theme-transition-overlay").fadeOut(800);
     new SampleAppUIFunctions(".wrapping-box-container").fadeIn(800);
     new SampleAppUIFunctions("footer").fadeIn(800);
-    // Linhas comentadas
     this.changeFooterStyleBasedOnWindowHeight();
   }
 
@@ -132,7 +131,6 @@ export class SampleAppUtilities  {
 
     new SampleAppUIFunctions("footer").fadeIn(800);
     new SampleAppUIFunctions("#controls").fadeIn(800, () => {
-      // SampleAppUtilities.enableControlButtons();
       SampleAppUtilities.enableVocalGuidanceButtons();
 
       if (typeof callback !== "undefined") {
@@ -160,13 +158,13 @@ export class SampleAppUtilities  {
   }
 
   private static disableControlButtons(): void {
-    document.querySelectorAll("#controls > button").forEach(function(button: Element) {
+    document.querySelectorAll("#controls > button").forEach(function (button: Element) {
       button.setAttribute("disabled", "true");
     });
   }
 
   public static enableControlButtons(): void {
-    document.querySelectorAll("#controls > button").forEach(function(button: Element) {
+    document.querySelectorAll("#controls > button").forEach(function (button: Element) {
       button.removeAttribute("disabled");
     });
 
@@ -185,7 +183,7 @@ export class SampleAppUtilities  {
       var windowWidth: number = window.innerWidth;
 
       // Adjust button sizing
-      document.querySelectorAll("button").forEach(function(element: HTMLButtonElement) {
+      document.querySelectorAll("button").forEach(function (element: HTMLButtonElement) {
         if (element.className === "big-button") {
           (element as HTMLElement).style.height = "40px";
 
@@ -213,7 +211,6 @@ export class SampleAppUtilities  {
         }
       });
       // Adjust main interface display
-      // Linhas comentadas
       (document.getElementById("main-interface") as HTMLElement).style.display = "contents";
       (document.getElementById("main-interface") as HTMLElement).style.backgroundColor = "transparent";
       (document.getElementById("main-interface") as HTMLElement).style.borderColor = "transparent";
@@ -231,8 +228,8 @@ export class SampleAppUtilities  {
       (document.getElementById("status") as HTMLElement).style.bottom = "unset";
       // Move and update vocal guidance icon
       (document.getElementById("vocal-icon-container") as HTMLElement)!.parentNode!.parentNode!.parentNode!.parentNode!.insertBefore(document.getElementById("vocal-icon-container")!,
-          (document.getElementById("vocal-icon-container") as HTMLElement)!.parentNode!.parentNode!.parentNode!.parentNode!.firstChild);
-      document.querySelectorAll(".vocal-icon").forEach(function(icon: Element) {
+        (document.getElementById("vocal-icon-container") as HTMLElement)!.parentNode!.parentNode!.parentNode!.parentNode!.firstChild);
+      document.querySelectorAll(".vocal-icon").forEach(function (icon: Element) {
         (<HTMLElement>icon).style.height = "30px";
         (<HTMLElement>icon).style.margin = "20px";
         (<HTMLElement>icon).style.transform = "translateX(calc(-100% - 40px))";
@@ -300,7 +297,7 @@ export class SampleAppUtilities  {
       return;
     }
 
-    const wrappingBoxContainerElementRect: DOMRect  = document.querySelector(".wrapping-box-container")!.getBoundingClientRect();
+    const wrappingBoxContainerElementRect: DOMRect = document.querySelector(".wrapping-box-container")!.getBoundingClientRect();
     const footerElement: HTMLElement = document.querySelector("footer")!;
     const footerElementTopOffset: number = wrappingBoxContainerElementRect.top + wrappingBoxContainerElementRect.height;
 
@@ -309,15 +306,6 @@ export class SampleAppUtilities  {
       new SampleAppUIFunctions("footer").css({
         top: footerElementTopOffset + "px"
       });
-    }
-    else {
-      // Linhas comentada
-
-      // footerElement.style.removeProperty("top");
-      // CSS bottom property value coincides with the value defined in the style sheet
-      // new SampleAppUIFunctions("footer").css({
-      //   bottom: "4px"
-      // });
     }
   }
 
@@ -350,7 +338,7 @@ export class SampleAppUtilities  {
   }
 
   private static displayElementsAfterStyling(): void {
-    document.querySelectorAll("button").forEach(function(element: HTMLButtonElement) {
+    document.querySelectorAll("button").forEach(function (element: HTMLButtonElement) {
       element.classList.add("button-transitions");
     });
     new SampleAppUIFunctions("body").fadeIn(800);

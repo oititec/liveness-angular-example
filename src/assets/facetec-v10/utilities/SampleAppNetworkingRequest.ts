@@ -96,12 +96,12 @@ export class SampleAppNetworkingRequest {
     };
 
     request.onerror = (ev: ProgressEvent): void => {
-      if (errorCount < SampleAppNetworkingRequest.MAX_ERRORS_ALLOWED) {
-        // Retry the request after a delay in case this was a temporary network connection issue
-        errorCount++;
-        setTimeout(openAndSendRequest, errorCount * 1000);
-        return;
-      }
+      // if (errorCount < SampleAppNetworkingRequest.MAX_ERRORS_ALLOWED) {
+      //   // Retry the request after a delay in case this was a temporary network connection issue
+      //   errorCount++;
+      //   setTimeout(openAndSendRequest, errorCount * 1000);
+      //   return;
+      // }
 
       // On catastrophic error call the onCatastrophicNetworkError handler
       // This should never be called except when a hard server error occurs. For example the user loses network connectivity.

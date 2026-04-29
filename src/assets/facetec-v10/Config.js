@@ -1,26 +1,10 @@
 import { environment } from "../../environments/environment";
 
 export var Config = (function () {
-    // -------------------------------------
-    // REQUIRED
-    // Available at https://dev.facetec.com/account
-    // NOTE: This field is auto-populated by the FaceTec SDK Configuration Wizard.
+
     var DeviceKeyIdentifier = environment.DeviceKeyIdentifier;
     var BaseURL = environment.BaseURL;
 
-    // -------------------------------------
-    // REQUIRED
-    // The URL to call to process FaceTec SDK Sessions.
-    // In Production, you likely will handle network requests elsewhere and without the use of this variable.
-    // See https://dev.facetec.com/security-best-practices#server-rest-endpoint-security for more information.
-    //
-    // Developer Note: In Your Production Application, networking requests from Your App will call Your Webservice.
-    // Calling the FaceTec Server Webservice directly from Your App is not allowed (except for initial testing).
-    // Please see the FaceTec Architecture Diagram here more information:  https://dev.facetec.com/configuration-options#zoom-architecture-and-data-flow
-    //
-
-    // This app can modify the customization to demonstrate different look/feel preferences
-    // NOTE: This function is auto-populated by the FaceTec SDK Configuration Wizard based on your UI Customizations you picked in the Configuration Wizard GUI.
     function retrieveConfigurationWizardCustomization(FaceTecSDK) {
         var sdkImageDirectory = "../../assets/10.0.42/core-sdk/FaceTec_images/";
         
@@ -47,7 +31,6 @@ export var Config = (function () {
         var yourAppLogoImage = sdkImageDirectory + "FaceTec_your_app_logo.png";
         var securityWatermarkImage = FaceTecSDK.FaceTecSecurityWatermarkImage.FaceTec;
         var rotateIconImage = sdkImageDirectory + "FaceTec_rotate.png";
-        
 
         // Set a Default Customization
         var defaultCustomization = new FaceTecSDK.FaceTecCustomization();
@@ -99,16 +82,12 @@ export var Config = (function () {
         defaultCustomization.resultScreenCustomization.resultAnimationForegroundColor = buttonAndFeedbackBarTextColor;
         defaultCustomization.resultScreenCustomization.uploadProgressFillColor = buttonAndFeedbackBarColor;
 
-        // Set ID Scan Customization
-
         // Set Initial Loading Customization
         defaultCustomization.initialLoadingAnimationCustomization.backgroundColor = buttonAndFeedbackBarTextColor;
         defaultCustomization.initialLoadingAnimationCustomization.foregroundColor = buttonAndFeedbackBarColor;
 
-        
         return defaultCustomization;
     };
-
     
     function retrieveLowLightConfigurationWizardCustomization(FaceTecSDK) {
         var defaultCustomization = retrieveConfigurationWizardCustomization(FaceTecSDK);
@@ -116,13 +95,11 @@ export var Config = (function () {
         return defaultCustomization;
     }
     
-        
     function retrieveDynamicDimmingConfigurationWizardCustomization(FaceTecSDK) {
         var defaultCustomization = retrieveConfigurationWizardCustomization(FaceTecSDK);
         this.currentDynamicDimmingCustomization = defaultCustomization;
         return defaultCustomization;
     }
-    
     
     var currentCustomization;
     var currentLowLightCustomization;

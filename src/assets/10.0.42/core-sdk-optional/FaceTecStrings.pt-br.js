@@ -142,7 +142,7 @@ var FaceTecStrings = {
   "FaceTec_result_idscan_retry_ocr_results_not_good_enough_message": "O Texto da Identificação Não Está Legível",
   "FaceTec_result_idscan_retry_id_type_not_suppported_message": "Identificação Não Suportada<br/>Use uma Identificação Diferente",
   "FaceTec_result_idscan_retry_barcode_not_read_message": "Falha ao Escanear o Código de Barras<br/>Por Favor, Tente Novamente",
-  "FaceTec_result_session_abort_message": "Erro Crítico<br/>Sessão Finalizada",
+  "FaceTec_result_session_abort_message": "Prova de Vida 3D com Falha<br/>Sessão Finalizada",
   "FaceTec_result_idscan_additional_review_tag_message": "Revisão Manual Necessária<br/>Consulte o painel IDV",
 };
 

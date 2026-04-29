@@ -2,21 +2,6 @@ import { FacetecV10Component } from "src/app/facetec-v10/facetec-v10.component";
 import { FaceTecSessionRequestProcessor, FaceTecSessionResult, type FaceTecSessionRequestProcessorCallback } from "../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { SampleAppNetworkingRequest } from "./utilities/SampleAppNetworkingRequest";
 
-// This class demonstrates the most important integration point in the FaceTec Device SDK  -- The Session Request Processor.
-//
-// The Session Request Processor:
-// - Implements an onSessionRequest function.  This function is called by the FaceTec Device SDK.
-// - The onSessionRequest function is always passed a sessionRequestBlob, and you always send this blob up to your webservice, and into FaceTec Server.
-// - The Session Request Blob is an encrypted string that you get and send to FaceTec Server.
-// - Upon receiving the Response Blob from FaceTec Server, you will always call the sessionRequestCallback.processResponse function.
-// - The Session Response Blob is an encrypted string that you get from FaceTec Server and pass back into the Device SDK.
-// - The Session Request Callback  This is called when you receive a response from the FaceTec Server, with the blob that you receive from FaceTec Server.
-// - The Session Request Callback provides a updateProgress function, where you can pass in the upload progress, controlling the Upload Screen Progress Bar.
-//
-// Notes:
-// - Adding additional logic to this code is not allowed.  Do not add any additional logic outside of what is demonstrated in this Sample.
-// - Adding additional asynchronous calls to this code is not allowed.  Only make your own additional asynchronous calls once the FaceTec UI is closed.
-// - Adding code that modifies any App UI (Yours or FaceTec's) is not allowed.  Only add code that modifies your own App UI once the FaceTec UI is closed.
 export class SessionRequestProcessor implements FaceTecSessionRequestProcessor {
   // The onSessionRequest API is the core method called by the FaceTec SDK when a request needs to be processed by the FaceTec SDK.
   // Your code must retrieve the Session Request Blob and send to your FaceTec Server.

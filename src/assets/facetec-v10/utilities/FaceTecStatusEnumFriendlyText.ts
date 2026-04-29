@@ -1,9 +1,3 @@
-// Class with friendly descriptions for FaceTecSDK Status Enums
-//
-// DEVELOPER NOTE:  These properties are for demonstration purposes only to help developers in getting familiar with the FaceTec SDK Status enum values
-// In the code in your own App, you should design your own methods and appropriate feedback to end users
-// This class is not intended for production code.
-
 import type { FaceTecInitializationError, FaceTecSessionStatus } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { FaceTecSDK } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
 

@@ -7,6 +7,7 @@ import { SessionRequestProcessor } from '../../assets/facetec-v10/SessionRequest
 import { SampleAppUtilities } from '../../assets/facetec-v10/utilities/SampleAppUtilities';
 import { ThemeHelpers } from 'src/assets/facetec-v10/utilities/ThemeHelpers';
 import { DeveloperStatusMessages } from '../../assets/facetec-v10/utilities/DeveloperStatusMessages';
+import { Facetecv10UiService } from './facetec-v10-ui.service';
 
 @Component({
   selector: 'app-facetec-v10',
@@ -25,13 +26,16 @@ export class FacetecV10Component implements OnInit {
 
   constructor(
     private router: Router,
+    private facetecv10UiService: Facetecv10UiService
   ) { }
 
   async ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
     DeveloperStatusMessages.displayMessage("Inicializando...")
 
-    SampleAppUtilities.formatUIForDevice();
+    await this.facetecv10UiService.formatUIForDevice();
+
+    // SampleAppUtilities.formatUIForDevice();
 
     // Ajuste para carregar a localização pt-br
     const module = await import('src/assets/10.0.42/core-sdk-optional/FaceTecStrings.pt-br.js');
