@@ -282,7 +282,6 @@ export class SampleAppUtilities {
     }
     else {
       window.onresize = (): void => {
-        // Linhas comentada
         this.changeFooterStyleBasedOnWindowHeight();
       };
 
