@@ -37,7 +37,7 @@ Ao inicializar o componente, os seguintes métodos são acionados:
 | formatUIForDevice() | Identifica o tipo de dispositivo e ajusta a disposição dos elementos na tela |
 | loadFaceTecV10() e loadScript | Carregam dinamicamente o SDK da FaceTec no contexto da aplicação |
 |initializeFaceTecSDK()| Carregam dinamicamente o SDK da FaceTec no contexto da aplicação |
-|onFaceTecSDKInitializationSuccess()| CEm caso de sucesso, configura localização, tema e prepara a interface para o Liveness 3D. Exibe a mensagem "Inicializado com sucesso" e habilita o botão de validação |
+|onFaceTecSDKInitializationSuccess()| Em caso de sucesso, configura localização, tema e prepara a interface para o Liveness 3D. Exibe a mensagem "Inicializado com sucesso" e habilita o botão de validação |
 |onFaceTecSDKInitializationFailure()| Em caso de falha, registra um erro detalhado no console e exibe uma mensagem ao usuário |
 
 #### Execução do Liveness
