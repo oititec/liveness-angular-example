@@ -8,6 +8,7 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Liveness 2D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness2d/README.md)
 - [Liveness 3D](https://github.com/oititec/liveness-angular-example/blob/main/src/app/liveness3d/README.md)
+- [Liveness 3D Facetec v10](https://github.com/oititec/liveness-angular-example/blob/main/src/app/facetec-v10/README.md)
 - [Liveness 3D Iproov](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
 - [Envio de documentos](https://github.com/oititec/liveness-angular-example/blob/main/src/app/senddocument/README.md) - Este último só estará disponível ao finalizar um do processos de Liveness
 
@@ -16,6 +17,13 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 ## Changelog Liveness 3D
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
+
+
+### [FaceTec SDK: 10.0.42](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/core-sdk-v10)
+
+_data: 29/04/2026_
+
+- Nova implementação de liveness 3D com o SDK web da Facetec versão 10.0.42
 
 ### [Iproov SDK: 6.0.2](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
 
