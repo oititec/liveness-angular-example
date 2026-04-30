@@ -1,5 +1,5 @@
 import { environment } from "src/environments/environment";
-import { FaceTecSessionRequestProcessorCallback } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
+import { FaceTecSessionRequestProcessorCallback } from "../../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { SessionRequestProcessor } from "../SessionRequestProcessor";
 import { DeveloperStatusMessages } from "./DeveloperStatusMessages";
 

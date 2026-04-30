@@ -6,7 +6,7 @@ export var Config = (function () {
     var BaseURL = environment.BaseURL;
 
     function retrieveConfigurationWizardCustomization(FaceTecSDK) {
-        var sdkImageDirectory = "../../assets/10.0.42/core-sdk/FaceTec_images/";
+        var sdkImageDirectory = "../../assets/core-sdk-v10/core-sdk/FaceTec_images/";
         
         // For Color Customization
         var outerBackgroundColor = "#ffffff";

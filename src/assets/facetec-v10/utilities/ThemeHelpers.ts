@@ -1,6 +1,6 @@
 import { Config } from "../../../assets/facetec-v10/Config";
-import { FaceTecSDK } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
-import { FaceTecCustomization } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecCustomization";
+import { FaceTecSDK } from "../../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecSDK";
+import { FaceTecCustomization } from "../../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecCustomization";
 import { SoundFileUtilities } from "./SoundFileUtilities";
 
 export class ThemeHelpers {

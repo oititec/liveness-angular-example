@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FaceTecSDK } from "../../assets/10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
+import { FaceTecSDK } from "../../assets/core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { Config } from "../../assets/facetec-v10/Config";
-import { FaceTecInitializationError, type FaceTecSDKInstance, FaceTecSessionResult } from '../../assets/10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi';
+import { FaceTecInitializationError, type FaceTecSDKInstance, FaceTecSessionResult } from '../../assets/core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecPublicApi';
 import { SessionRequestProcessor } from '../../assets/facetec-v10/SessionRequestProcessor';
 import { SampleAppUtilities } from '../../assets/facetec-v10/utilities/SampleAppUtilities';
 import { ThemeHelpers } from 'src/assets/facetec-v10/utilities/ThemeHelpers';
@@ -36,7 +36,7 @@ export class FacetecV10Component implements OnInit {
     await this.facetecv10UiService.formatUIForDevice();
 
     // Ajuste para carregar a localização pt-br
-    const module = await import('src/assets/10.0.42/core-sdk-optional/FaceTecStrings.pt-br.js');
+    const module = await import('src/assets/core-sdk-v10/core-sdk-optional/FaceTecStrings.pt-br.js');
     this.facetecStrings = module.default;
 
     await this.loadFaceTecV10();
@@ -57,8 +57,8 @@ export class FacetecV10Component implements OnInit {
   };
 
   private initializeFaceTecSDK = (): void => {
-    this.sdkV10.setResourceDirectory("../assets/10.0.42/core-sdk/FaceTecSDK.js/resources");
-    this.sdkV10.setImagesDirectory("../assets/10.0.42/core-sdk/FaceTec_images");
+    this.sdkV10.setResourceDirectory("../assets/core-sdk-v10/core-sdk/FaceTecSDK.js/resources");
+    this.sdkV10.setImagesDirectory("../assets/core-sdk-v10/core-sdk/FaceTec_images");
 
     this.sdkV10.initializeWithSessionRequest(Config.DeviceKeyIdentifier, new SessionRequestProcessor(),
       {
@@ -121,7 +121,7 @@ export class FacetecV10Component implements OnInit {
   private async loadFaceTecV10(): Promise<void> {
     (window as any).FaceTecSDK = undefined;
 
-    await this.loadScript('assets/10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK.js');
+    await this.loadScript('assets/core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecSDK.js');
 
     this.sdkV10 = (window as any).FaceTecSDK;
 

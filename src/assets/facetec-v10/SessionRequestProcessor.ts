@@ -1,5 +1,5 @@
 import { FacetecV10Component } from "src/app/facetec-v10/facetec-v10.component";
-import { FaceTecSessionRequestProcessor, FaceTecSessionResult, type FaceTecSessionRequestProcessorCallback } from "../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
+import { FaceTecSessionRequestProcessor, FaceTecSessionResult, type FaceTecSessionRequestProcessorCallback } from "../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
 import { SampleAppNetworkingRequest } from "./utilities/SampleAppNetworkingRequest";
 
 export class SessionRequestProcessor implements FaceTecSessionRequestProcessor {

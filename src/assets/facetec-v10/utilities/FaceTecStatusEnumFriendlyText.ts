@@ -1,5 +1,5 @@
-import type { FaceTecInitializationError, FaceTecSessionStatus } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
-import { FaceTecSDK } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK";
+import type { FaceTecInitializationError, FaceTecSessionStatus } from "../../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecPublicApi";
+import { FaceTecSDK } from "../../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecSDK";
 
 export class FaceTecStatusEnumFriendlyText {
   public static descriptionForInitializationError(enumValue: FaceTecInitializationError): string {

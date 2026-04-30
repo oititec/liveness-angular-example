@@ -1,4 +1,4 @@
-import { FaceTecCustomization } from "../../10.0.42/core-sdk/FaceTecSDK.js/FaceTecCustomization";
+import { FaceTecCustomization } from "../../core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecCustomization";
 
 let FACESCAN_SOUND_FILE_V10 = 'assets/facetec-v10/sample-app-resources/Vocal_Guidance_Audio_Files';
 
