@@ -35,8 +35,6 @@ export class FacetecV10Component implements OnInit {
 
     await this.facetecv10UiService.formatUIForDevice();
 
-    // SampleAppUtilities.formatUIForDevice();
-
     // Ajuste para carregar a localização pt-br
     const module = await import('src/assets/10.0.42/core-sdk-optional/FaceTecStrings.pt-br.js');
     this.facetecStrings = module.default;
@@ -85,6 +83,12 @@ export class FacetecV10Component implements OnInit {
     DeveloperStatusMessages.logAndDisplayMessage("Inicializado com sucesso");
   };
 
+  private onFaceTecSDKInitializationFailure = (initializationError: FaceTecInitializationError): void => {
+    SampleAppUtilities.fadeInMainUIContainer();
+    console.log(initializationError);
+    DeveloperStatusMessages.displayMessage("Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.")
+  };
+
   public static demonstrateHandlingFaceTecExit = (FaceTecSessionResult: FaceTecSessionResult): void => {
     DeveloperStatusMessages.logSessionStatusOnFaceTecExit(FaceTecSessionResult.status);
 
@@ -101,13 +105,6 @@ export class FacetecV10Component implements OnInit {
     SampleAppUtilities.showMainUI();
   };
 
-  private onFaceTecSDKInitializationFailure = (initializationError: FaceTecInitializationError): void => {
-    SampleAppUtilities.fadeInMainUIContainer();
-    console.log(initializationError);
-    DeveloperStatusMessages.displayMessage("Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.")
-  };
-
-  // Necessario apenas para manter as duas versões do SDK no projeto
   private loadScript(src: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
@@ -121,9 +118,7 @@ export class FacetecV10Component implements OnInit {
     });
   }
 
-  // Necessario apenas para manter as duas versões do SDK no projeto
   private async loadFaceTecV10(): Promise<void> {
-    // Limpa qualquer versão anterior
     (window as any).FaceTecSDK = undefined;
 
     await this.loadScript('assets/10.0.42/core-sdk/FaceTecSDK.js/FaceTecSDK.js');
@@ -136,7 +131,6 @@ export class FacetecV10Component implements OnInit {
 
     this.themeHelpers = new ThemeHelpers(this.sdkV10);
 
-    // Limpa global (evita conflito com outras versões)
     (window as any).FaceTecSDK = undefined;
   }
 }

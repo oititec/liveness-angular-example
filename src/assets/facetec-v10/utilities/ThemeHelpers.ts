@@ -6,11 +6,9 @@ import { SoundFileUtilities } from "./SoundFileUtilities";
 export class ThemeHelpers {
   constructor(private sdk: any) { }
 
-  // Set the default theme
-  private currentTheme: string = "Pseudo-Fullscreen";
+  private currentTheme: string = "Config Wizard Theme";
   private themeResourceDirectory = "assets/facetec-v10/sample-app-resources/images/themes/";
 
-  // Save the current app theme in Config and update the SDK
   public setAppTheme = (theme: string): void => {
     const customization = this.getCustomizationForTheme(theme);
     const lowLightCustomization = this.getLowLightCustomizationForTheme(theme);
@@ -21,12 +19,10 @@ export class ThemeHelpers {
     this.sdk.setDynamicDimmingCustomization(dynamicDimmingCustomization);
   };
 
-  // Get customizations for themes
   private getCustomizationForTheme = (theme: string): FaceTecCustomization => {
     var currentCustomization: FaceTecCustomization = new FaceTecSDK.FaceTecCustomization();
     currentCustomization = Config.retrieveConfigurationWizardCustomization(this.sdk);
 
-    // Add sound customization to the new theme customization
     var soundFileUtilities: SoundFileUtilities = new SoundFileUtilities();
     currentCustomization = soundFileUtilities.setVocalGuidanceSoundFiles(currentCustomization);
 

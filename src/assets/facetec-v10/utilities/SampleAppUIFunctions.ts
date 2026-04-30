@@ -1,13 +1,10 @@
-// UI Convenience Methods
 export class SampleAppUIFunctions {
   private currentElements: NodeListOf<Element> | [Element];
 
   public constructor(elementString: string) {
-    // Get the element(s) for ui operations from the elementString;
     this.currentElements = document.querySelectorAll(elementString);
   }
 
-  // Save the original display property of the element before hiding it
   private saveDisplayForElement = (el: HTMLElement): void  => {
     var display = window.getComputedStyle(el).display;
 
@@ -16,8 +13,7 @@ export class SampleAppUIFunctions {
     }
   };
 
-  // Set the display of the element to either block or restore it's original value
-  private  setDisplayForElement = (el: HTMLElement): void  => {
+  private setDisplayForElement = (el: HTMLElement): void  => {
     var display = "block";
 
     if (el.getAttribute("displaytype") !== null) {
@@ -27,7 +23,6 @@ export class SampleAppUIFunctions {
     el.style.display = display;
   };
 
-  // Fade in the element to opacity over duration ms with an optional callback
   private _fadeIn = (el: HTMLElement, opacity?: string, duration?: number, callback?: () => void): void => {
     if (!el) {
       return;
@@ -66,7 +61,6 @@ export class SampleAppUIFunctions {
     }, duration);
   };
 
-  // Fade out the element to opacity over duration ms with an optional callback
   private _fadeOut = (el: HTMLElement, opacity?: string, duration?: number, callback?: () => void): void => {
     if (!el) {
       return;
