@@ -19,7 +19,7 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
 
-### [FaceTec SDK: 10.0.42](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/core-sdk-v10)
+### [FaceTec SDK: 10.0.42](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/10.0.42)
 
 _data: 29/04/2026_
 
