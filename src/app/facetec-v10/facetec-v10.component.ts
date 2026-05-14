@@ -44,12 +44,12 @@ export class FacetecV10Component implements OnInit {
     this.initializeFaceTecSDK();
   }
 
-  showLiveness3D() {
+  public showLiveness3D() {
     SampleAppUtilities.fadeOutMainUIAndPrepareForSession();
     this.faceTecSDKInstance.start3DLiveness(new SessionRequestProcessor());
   };
 
-  deleteAppKey() {
+  public deleteAppKey() {
     window.localStorage.removeItem('appkey');
     window.localStorage.removeItem('hasLiveness');
 
@@ -75,31 +75,65 @@ export class FacetecV10Component implements OnInit {
 
   private onFaceTecSDKInitializationSuccess = (): void => {
     this.sdkV10.configureLocalization(this.facetecStrings);
-
     this.themeHelpers.setAppTheme("Oiti-Dark");
 
     SampleAppUtilities.setupAndFadeInMainUIOnInitializationSuccess();
-
     DeveloperStatusMessages.logAndDisplayMessage("Inicializado com sucesso");
   };
 
   private onFaceTecSDKInitializationFailure = (initializationError: FaceTecInitializationError): void => {
     SampleAppUtilities.fadeInMainUIContainer();
     console.log(initializationError);
-    DeveloperStatusMessages.displayMessage("Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.")
+    switch (initializationError) {
+      case 0:
+        DeveloperStatusMessages.displayMessage("Servidor da FaceTec não pode validar esta aplicação");
+        break;
+      case 1:
+        DeveloperStatusMessages.displayMessage("Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela");
+        break;
+      case 2:
+        DeveloperStatusMessages.displayMessage("Dispositivo não suportado");
+        break;
+      case 3:
+        DeveloperStatusMessages.displayMessage("Erro interno");
+        break;
+      case 4:
+        DeveloperStatusMessages.displayMessage("Falha ao carregar recursos na inicialização");
+        break;
+      case 5:
+        DeveloperStatusMessages.displayMessage("APIs de câmera do browser funcionam apenas em localhost ou https");
+        break;
+      default:
+        DeveloperStatusMessages.displayMessage("Erro interno");
+        break;
+    }
   };
 
-  public static demonstrateHandlingFaceTecExit = (FaceTecSessionResult: FaceTecSessionResult): void => {
-    DeveloperStatusMessages.logSessionStatusOnFaceTecExit(FaceTecSessionResult.status);
+  public static demonstrateHandlingFaceTecExit = (faceTecSessionResult: FaceTecSessionResult): void => {
+    DeveloperStatusMessages.logSessionStatusOnFaceTecExit(faceTecSessionResult.status);
+    console.log(faceTecSessionResult)
 
-    switch (FaceTecSessionResult.status) {
+    switch (faceTecSessionResult.status) {
       case FaceTecSDK.FaceTecSessionStatus.RequestAborted:
-        DeveloperStatusMessages.displayMessage("Prova de Vida Reprovada. Insira uma nova appkey e tente novamente.");
+        DeveloperStatusMessages.displayMessage("Prova de Vida reprovada. Insira uma nova appkey e tente novamente");
         break;
       case FaceTecSDK.FaceTecSessionStatus.SessionCompleted:
         DeveloperStatusMessages.displayMessage("Enviado com sucesso")
         break;
+      case FaceTecSDK.FaceTecSessionStatus.UserCancelledFaceScan:
+        DeveloperStatusMessages.displayMessage("Saiu da tela inteira sem concluir a prova de vida")
+        break;
+      case FaceTecSDK.FaceTecSessionStatus.LockedOut:
+        DeveloperStatusMessages.displayMessage("O dispositivo está bloqueado do FaceTec Browser SDK");
+        break;
+      case FaceTecSDK.FaceTecSessionStatus.CameraPermissionsDenied:
+        DeveloperStatusMessages.displayMessage("Não há permissão de câmera");
+        break;
+      case FaceTecSDK.FaceTecSessionStatus.IFrameNotAllowedWithoutPermission:
+        DeveloperStatusMessages.displayMessage("FaceTec Browser SDK foi aberto em um IFrame sem permissão");
+        break;
       default:
+        DeveloperStatusMessages.displayMessage("Erro interno");
         break;
     }
     SampleAppUtilities.showMainUI();
@@ -120,9 +154,7 @@ export class FacetecV10Component implements OnInit {
 
   private async loadFaceTecV10(): Promise<void> {
     (window as any).FaceTecSDK = undefined;
-
     await this.loadScript('assets/core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecSDK.js');
-
     this.sdkV10 = (window as any).FaceTecSDK;
 
     if (!this.sdkV10) {
@@ -130,7 +162,6 @@ export class FacetecV10Component implements OnInit {
     }
 
     this.themeHelpers = new ThemeHelpers(this.sdkV10);
-
     (window as any).FaceTecSDK = undefined;
   }
 }
