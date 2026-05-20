@@ -10,7 +10,7 @@ import { lastValueFrom } from 'rxjs';
     styleUrls: ['./iproov.component.scss']
 })
 export class IproovComponent implements OnInit {
-    IproovLogo: string = '/assets/img/Iproov_Logo.png';
+    iProovLogo: string = '/assets/img/Iproov_Logo.png';
 
     isLoading: boolean = true;
     showButton: boolean = false;
@@ -21,6 +21,7 @@ export class IproovComponent implements OnInit {
     iproovUrl: any
     status: any
     statusRequest: any = null;
+    userFeedback: any = [];
 
     constructor(
         private facecaptchaService: FacecaptchaService,
@@ -256,7 +257,7 @@ export class IproovComponent implements OnInit {
 
         livenessIproov.addEventListener('error', (event: any) => {
             ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
-            this.statusRequest = event.detail.reason
+            this.statusRequest = event.reasons
         })
         livenessIproov.addEventListener('passed', (event: any) => {
             ELEMENTS_TO_HIDE_IN_FS.forEach((el) => el.removeAttribute("aria-hidden"))
@@ -268,7 +269,6 @@ export class IproovComponent implements OnInit {
         })
 
         content?.appendChild(livenessIproov)
-
     }
 
     async sendLivenessValidation(appkey: any, sessionToken: any, event: any) {
@@ -278,8 +278,7 @@ export class IproovComponent implements OnInit {
                 switch (event.type) {
                     case 'passed':
                         if (response.body.codID === 300.1) {
-                            this.checkLivenessRetry(response, 'Vamos tentar outra vez! '
-                                    .concat('Escolha um ambiente bem iluminado e mantenha a câmera firme!'));
+                            this.checkLivenessRetry(response.body);
                         } else if (response.body.codID === 300.2) {
                             this.statusRequest = 'Prova de Vida reprovada. Insira uma nova appkey e tente novamente.';
                         } else {
@@ -287,7 +286,7 @@ export class IproovComponent implements OnInit {
                         }
                         break;
                     case 'failed':
-                        this.checkLivenessRetry(response, !event.detail.reason ? response.body.reason : event.detail.reason);
+                        this.checkLivenessRetry(response.body);
                         break;
                 }
             },
@@ -298,23 +297,32 @@ export class IproovComponent implements OnInit {
         );
         window.localStorage.setItem('hasLiveness', 'true');
     }
+    
+    async checkLivenessRetry(response: any) {
+        this.userFeedback = [];
+        this.statusRequest = null;
 
-    async checkLivenessRetry(response: any, reason: any) {
-        if (response.body.retry) {
-            this.statusRequest = reason
+        if (response.retry) {
+            if (Array.isArray(response.userFeedback) && response.userFeedback) {
+                this.userFeedback = response.userFeedback;
+            } else {
+                this.statusRequest = 'Vamos tentar outra vez! '
+                    .concat('Escolha um ambiente bem iluminado e mantenha a câmera firme!')
+            }
             this.status = 'Preparando nova tentativa...';
 
             setTimeout(async () => {
                 await this.refreshSessionAndRestart();
-            }, 4000);
+            }, 5000);
 
         } else {
-            this.statusRequest = 'Não foi possível avançar com sua verificação. '
-                .concat('Uma nova sessão deve ser gerada');
+            this.statusRequest =
+                'Não foi possível avançar com sua verificação. Uma nova sessão deve ser gerada';
         }
     }
 
     async refreshSessionAndRestart() {
+        this.userFeedback = null;
         const content = document.querySelector('#certiface-iproov');
         content!.innerHTML = '';
 
