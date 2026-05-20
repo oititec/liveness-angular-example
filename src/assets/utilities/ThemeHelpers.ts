@@ -2347,6 +2347,28 @@ export var ThemeHelpers = (function () {
       // Customização do Botão Cancelar
       currentLowLightCustomization.cancelButtonCustomization.customImage =
         themeResourceDirectory + 'sample-bank/cancel_navy.png';
+    } else if (theme == "Oiti-Dark") {
+      currentLowLightCustomization.ovalCustomization.strokeColor = "#000000";
+
+      currentLowLightCustomization.feedbackCustomization.backgroundColor = "#000000";
+      currentLowLightCustomization.feedbackCustomization.textColor = "#FFFFFF";
+
+      currentLowLightCustomization.guidanceCustomization.buttonBackgroundNormalColor = "#000000";
+      currentLowLightCustomization.guidanceCustomization.buttonTextNormalColor = "#FFFFFF";
+
+      currentLowLightCustomization.frameCustomization.borderColor = "#FFFFFF";
+
+      currentLowLightCustomization.guidanceCustomization.foregroundColor = "#000000";
+
+      currentLowLightCustomization.guidanceCustomization.readyScreenHeaderTextColor = "#000000";
+      currentLowLightCustomization.guidanceCustomization.readyScreenSubtextTextColor = "#000000";
+      currentLowLightCustomization.guidanceCustomization.retryScreenHeaderTextColor = "#000000";
+      currentLowLightCustomization.guidanceCustomization.retryScreenSubtextTextColor = "#000000";
+
+      currentLowLightCustomization.resultScreenCustomization.uploadProgressFillColor =
+        "#000000";
+      currentLowLightCustomization.resultScreenCustomization.foregroundColor = "#000000";
+      currentLowLightCustomization.resultScreenCustomization.activityIndicatorColor = "#000000";
     }
 
     return currentLowLightCustomization;
@@ -2773,6 +2795,34 @@ export var ThemeHelpers = (function () {
       // Customização do Botão Cancelar
       currentDynamicDimmingCustomization.cancelButtonCustomization.customImage =
         themeResourceDirectory + 'ekyc/cancel_box_red.png';
+    } else if (theme === 'Oiti-Dark') {
+
+      currentDynamicDimmingCustomization.initialLoadingAnimationCustomization.messageTextColor =
+        "#FFFFFF";
+
+      currentDynamicDimmingCustomization.ovalCustomization.strokeColor = "#FFFFFF";
+
+      currentDynamicDimmingCustomization.feedbackCustomization.backgroundColor = "#000000";
+      currentDynamicDimmingCustomization.feedbackCustomization.textColor = "#FFFFFF";
+
+      currentDynamicDimmingCustomization.feedbackCustomization.backgroundColor = "#FFFFFF";
+      currentDynamicDimmingCustomization.feedbackCustomization.textColor = "#000000";
+
+      currentDynamicDimmingCustomization.guidanceCustomization.buttonTextNormalColor = "#000000";
+
+      currentDynamicDimmingCustomization.frameCustomization.borderColor = "#FFFFFF";
+
+      currentDynamicDimmingCustomization.guidanceCustomization.foregroundColor = "#FFFFFF";
+
+      currentDynamicDimmingCustomization.guidanceCustomization.readyScreenHeaderTextColor = "#FFFFFF";
+      currentDynamicDimmingCustomization.guidanceCustomization.readyScreenSubtextTextColor = "#FFFFFF";
+      currentDynamicDimmingCustomization.guidanceCustomization.retryScreenHeaderTextColor = "#FFFFFF";
+      currentDynamicDimmingCustomization.guidanceCustomization.retryScreenSubtextTextColor = "#FFFFFF";
+
+      currentDynamicDimmingCustomization.resultScreenCustomization.uploadProgressFillColor =
+        "#FFFFFF";
+      currentDynamicDimmingCustomization.resultScreenCustomization.foregroundColor = "#FFFFFF";
+      currentDynamicDimmingCustomization.resultScreenCustomization.activityIndicatorColor = "#FFFFFF";
     }
 
     return currentDynamicDimmingCustomization;
