@@ -18,6 +18,13 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
+### [Iproov SDK: 6.1.1](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
+
+_data: 26/05/2026_
+
+- Atualização nas mensagens de orientação ao usuário em casos de falha na validação
+- Ao falhar em uma tentativa, serão retornadas três mensagens orientando o usuário antes da tentativa seguinte
+- [Consulte também a documentação da Iproov](https://github.com/iProov/web)
 
 ### [FaceTec SDK: 10.0.42](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/10.0.42)
 
