@@ -23,12 +23,21 @@
                 <br>
                 <h3>{{ statusRequest }}</h3>
               </div>
+              <br>
+
+              <div class="grid gap-5 w-full px-10">
+                <ul *ngIf="userFeedback && userFeedback.length > 0" class="pull-left list-disc pl-5">
+                  <li *ngFor="let guidance of userFeedback">
+                    <h5 class="text-left">{{ guidance }}</h5>
+                  </li>
+                </ul>
+              </div>
               
               <div id = "certiface-iproov"></div>
          </div>
         <hr />
         <div id="custom-logo-container">
-          <img [src]="IproovLogo" alt="Logotipo da solução de validação facial da Iproov" />
+          <img [src]="iProovLogo" alt="Logotipo da solução de validação facial da Iproov" />
         </div>
       </div>
     </div>
