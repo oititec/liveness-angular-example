@@ -85,11 +85,12 @@ export var SampleApp = (function () {
   };
 
   const getProductionKey = async (facecaptchaService: any, appkey: any) => {
+    SampleAppUtilities.disableControlButtons();
     if (appkey === null) {
       //window.location.reload();
     } else {
       await facecaptchaService.getProductionKey(appkey).subscribe(
-        (res: any) => {
+        (res: any) => {        
           env.ProductionKeyText = JSON.parse(
             Crypto.decChData(res, appkey)
           ).productionKey;
@@ -97,10 +98,11 @@ export var SampleApp = (function () {
           resultProductKey = env.ProductionKeyText;
 
           loadAssets();
+          SampleAppUtilities.enableControlButtons();
         },
         (err: any) => {
           console.log(err);
-
+          SampleAppUtilities.disableControlButtons();
           SampleAppUtilities.displayStatus(
             'Sua appkey é inválida. Por favor, retorne para a home clicando no link no final da tela.'
           );

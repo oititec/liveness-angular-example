@@ -1,4 +1,4 @@
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AppkeyComponent } from './appkey/appkey.component';
@@ -8,11 +8,16 @@ import { SenddocumentComponent } from './senddocument/senddocument.component';
 import { SendDigitalCnhComponent } from './send-digital-cnh/send-digital-cnh.component';
 import { IproovComponent } from './iproov/iproov.component';
 import { FacetecV10Component } from './facetec-v10/facetec-v10.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'appkey',
     component: AppkeyComponent,
+  },
+  {
+    path: '',
+    component: LoginComponent,
   },
   {
     path: 'home',
@@ -26,7 +31,7 @@ const routes: Routes = [
     path: 'liveness-3d',
     component: Liveness3dComponent,
   },
-    {
+  {
     path: 'facetec-v10',
     component: FacetecV10Component,
   },
@@ -48,4 +53,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

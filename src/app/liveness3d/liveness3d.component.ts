@@ -10,22 +10,19 @@ import { Router } from '@angular/router';
 })
 export class Liveness3dComponent implements OnInit {
   FacetecLogo: string = '/assets/img/FaceTec_Logo.png';
-
   status: string = "";
-
   appkey: any;
-
 
   constructor(
     private facecaptchaService: FacecaptchaService,
     private router: Router,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.appkey = window.localStorage.getItem('appkey');
     this.status = SampleApp.status;
 
-    SampleApp.getProductionKey(this.facecaptchaService, this.appkey);
+    await SampleApp.getProductionKey(this.facecaptchaService, this.appkey);
   }
 
   showLiveness3D() {

@@ -17,7 +17,7 @@ export class FacecaptchaService {
   livenessCheck: any = document.getElementById('liveness-button');
   initializationMessage: any = document.getElementById('status');
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   disableLivenessCheck() {
     location.pathname === '/liveness-3D.html/index.html' &&
@@ -176,5 +176,61 @@ export class FacecaptchaService {
       source += paddingChar;
     }
     return source;
+  }
+
+  public credential(login: string, senha: any) {
+    const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/credencial`;
+
+    const body = new HttpParams()
+      .set('user', login)
+      .set('pass', senha);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    return this.http.post(url, body.toString(), {
+      headers,
+      observe: 'response',
+    });
+  }
+
+  public gerarAppkey(cpf: any, nome: any, nascimento: any) {
+    const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/appkey`;
+
+    const token = window.localStorage.getItem('credentialResponse');
+    const login = window.localStorage.getItem('login');
+
+    const body = new HttpParams()
+      .set('token', token ? token : '')
+      .set('user', login ? login : '')
+      .set('cpf', cpf)
+      .set('nome', nome)
+      .set('nascimento', nascimento);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    return this.http.post(url, body.toString(), {
+      headers,
+      observe: 'response',
+    });
+  }
+
+  public getLivenessResult(appkey: any) {
+    const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/result`;
+
+    const body = new HttpParams()
+      .set('appkey', appkey);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    return this.http.post(url, body.toString(), {
+      headers,
+      observe: 'response',
+    });
   }
 }
