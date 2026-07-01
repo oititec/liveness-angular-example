@@ -32,6 +32,7 @@ export class DeveloperStatusMessages {
 
   public static validateLivenessResult = (responseJSON: any, sessionRequestCallback: FaceTecSessionRequestProcessorCallback): void => {
     if (responseJSON.codID) {
+      window.localStorage.setItem('hasLiveness', 'true');
       if (responseJSON.codID === 300.1 || responseJSON.codID === 300.2) {
         sessionRequestCallback.abortOnCatastrophicError();
       }

@@ -1,0 +1,43 @@
+<div class="container-fluid content-screen">
+    <div class="row g-0 h-100">
+
+        <div class="col-md-6 d-flex justify-content-center">
+            <div class="content-area">
+
+                <h1><strong>CertiFace Sample Web</strong></h1>
+
+                <p class="sub-title">
+                    Acesse nossas demonstrações com seu login e senha.
+                </p>
+
+                <form class="form-horizontal" [formGroup]="formulario">
+                    <div class="mb-3">
+                        <span *ngIf="status" class="align-self-center" [ngStyle]="{'color': 'red'}">
+                            <strong>{{ status }}</strong>
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <label><strong>Login</strong></label>
+                        <input class="form-control" formControlName="login" placeholder="Informe seu login">
+                    </div>
+
+                    <div class="mb-3">
+                        <label><strong>Senha</strong></label>
+                        <input type="password" class="form-control" formControlName="senha"
+                            placeholder="Informe sua senha">
+                    </div>
+
+                    <button class="btn btn-success btn-rounded me-4 w-100" [disabled]="!formulario.valid"
+                        (click)="enviar()">
+                        <strong>Entrar</strong>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 d-none d-md-flex pt-3 ps-0 pe-0 pb-0">
+            <img src="assets/img/img-certiface-sms-small.jpg" class="img-login">
+        </div>
+    </div>
+</div>

@@ -61,7 +61,7 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     ) {
       console.log(
         'Session was not completed successfully, cancelling.  Session Status: ' +
-          FaceTecSDK.FaceTecSessionStatus[sessionResult.status]
+        FaceTecSDK.FaceTecSessionStatus[sessionResult.status]
       );
       this.latestNetworkRequest.abort();
       faceScanResultCallback.cancel();
@@ -214,6 +214,9 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
     // Chamar uma função personalizada no Sample App Controller é feito para fins de demonstração para mostrar que é aqui que você obtém o controle do FaceTec SDK.
     //
     this.success = this.latestSessionResult!.isCompletelyDone;
+    setTimeout(() => {
+      SampleAppUtilities.disableControlButtons();
+    }, 1000);
     this.sampleAppControllerReference.onComplete(
       this.latestSessionResult,
       null,
