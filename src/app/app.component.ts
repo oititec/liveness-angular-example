@@ -69,6 +69,7 @@ export class AppComponent {
 
   novaSessao() {
     window.localStorage.removeItem('login');
+    window.localStorage.removeItem('senhaMd5');
     window.localStorage.removeItem('credentialResponse');
     this.limparLocalStorage();
     this.router.navigateByUrl('/');
@@ -83,7 +84,11 @@ export class AppComponent {
   }
 
   isLivenessUrl(url: any) {
-    return url === '/liveness-2d' || url === '/liveness-3d' || url === '/liveness-iproov' || url === '/facetec-v10'
+    return url === '/liveness-2d' ||
+      url === '/liveness-3d' ||
+      url === '/liveness-iproov' ||
+      url === '/facetec-v10' ||
+      url === '/fortface'
   }
 
   abrirModal(): void {

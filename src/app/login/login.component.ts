@@ -30,6 +30,8 @@ export class LoginComponent {
       CryptoJS.MD5(this.formulario.get('senha')?.value).toString()).subscribe(
         (res: any) => {
           window.localStorage.setItem('login', this.formulario.get('login')?.value)
+          window.localStorage.setItem('senhaMd5', 
+             CryptoJS.MD5(this.formulario.get('senha')?.value).toString())
           window.localStorage.setItem('credentialResponse', JSON.stringify(res.body))
           this.router.navigateByUrl('/appkey');
         },
