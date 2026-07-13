@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import { IproovComponent } from './iproov/iproov.component';
 import { FacetecV10Component } from './facetec-v10/facetec-v10.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FortfaceComponent } from './fortface/fortface.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +29,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     SenddocumentComponent,
     IproovComponent,
     FacetecV10Component,
-    LoginComponent
+    LoginComponent,
+    FortfaceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [],
   bootstrap: [AppComponent]

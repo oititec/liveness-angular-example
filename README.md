@@ -18,6 +18,12 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
+### [Fortface SDK: 2.5.0]
+
+_data: 10/07/2026_
+
+- Nova implementação de liveness 3D com Fortface versão 2.5.0
+
 ### [Iproov SDK: 6.1.1](https://github.com/oititec/liveness-angular-example/blob/main/src/app/iproov/README.md)
 
 _data: 26/05/2026_

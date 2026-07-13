@@ -9,6 +9,7 @@ import { SendDigitalCnhComponent } from './send-digital-cnh/send-digital-cnh.com
 import { IproovComponent } from './iproov/iproov.component';
 import { FacetecV10Component } from './facetec-v10/facetec-v10.component';
 import { LoginComponent } from './login/login.component';
+import { FortfaceComponent } from './fortface/fortface.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'liveness-iproov',
     component: IproovComponent
+  },
+  {
+    path: 'fortface',
+    component: FortfaceComponent
   }
 ];
 
