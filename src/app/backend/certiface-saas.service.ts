@@ -37,7 +37,7 @@ export class CertiFaceSaasService {
             birthDate: nascimento,
             fullName: localStorage.getItem('nome'),
             processType: "ALT",
-            journeyType: 2,
+            journeyType: 1,
             livenessProvider: "FORTFACE"
         };
 

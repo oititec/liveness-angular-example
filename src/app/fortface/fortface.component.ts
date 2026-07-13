@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, NgZone, ViewChild } from '@angula
 import { CertiFaceSaasService } from '../backend/certiface-saas.service';
 import { firstValueFrom } from 'rxjs';
 import { FortfaceSdkElement } from './interfaces/types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fortface',
@@ -28,6 +29,7 @@ export class FortfaceComponent implements AfterViewInit {
   sessionKey: any;
 
   constructor(
+    private router: Router,
     private certifaceSaasService: CertiFaceSaasService,
     private ngZone: NgZone) { }
 
@@ -206,4 +208,11 @@ export class FortfaceComponent implements AfterViewInit {
 
     });
   }
+
+  deleteAppKey() {
+    window.localStorage.removeItem('appkey');
+    window.localStorage.removeItem('hasLiveness');
+
+    this.router.navigateByUrl('/');
+  };
 }

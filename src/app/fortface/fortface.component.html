@@ -5,8 +5,8 @@
     <div class="col-12 my-4">
         <div class="wrapping-box-container">
             <div id="controls" class="controls">
-                <button type="button" id="liveness-button" class="btn btn-primary btn-rounded" [disabled]="!enableButton"
-                    (click)="startLivenessValidation()">
+                <button type="button" id="liveness-button" class="btn btn-primary btn-rounded"
+                    [disabled]="!enableButton" (click)="startLivenessValidation()">
                     Iniciar Validação Fortface
                 </button>
 
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="col-12 text-center">
-        <button type="button" id="delete-appkey" variant="link" class="btn btn-link">
+        <button type="button" id="delete-appkey" variant="link" class="btn btn-link" (click)="deleteAppKey()">
             Em caso de problemas, clique aqui
         </button>
     </div>
