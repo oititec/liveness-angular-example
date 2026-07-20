@@ -32,10 +32,6 @@ _data: 26/05/2026_
 - Ao falhar em uma tentativa, serão retornadas três mensagens orientando o usuário antes da tentativa seguinte
 - [Consulte também a documentação da Iproov](https://github.com/iProov/web)
 
-### [FaceTec SDK: 9.7.127](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.127)
-
-- TODO: release notes
-
 ### [FaceTec SDK: 10.0.42](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/10.0.42)
 
 _data: 29/04/2026_
