@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { CertiFaceSaasService } from '../backend/certiface-saas.service';
 import { firstValueFrom } from 'rxjs';
 import { FortfaceSdkElement } from './interfaces/types';
 import { Router } from '@angular/router';
+import { FacecaptchaService } from '../backend/facecaptcha.service';
 
 @Component({
   selector: 'app-fortface',
@@ -15,87 +15,87 @@ export class FortfaceComponent implements AfterViewInit {
   fortfaceContainer!: ElementRef<HTMLDivElement>;
 
   private fortfaceSdk!: FortfaceSdkElement;
-  private location?: GeolocationPosition;
 
-  FortfaceLogo: string = '/assets/img/Fortface_Logo.png';
-  saasBearerToken: any;
-  saasUuid: any
+  fortfaceLogo: string = '/assets/img/Fortface_Logo.png';
+  enableButton: boolean = false;
   status: any
   statusRequest: any;
-  enableButton: boolean = false;
+
+  appkey: any
+  userAgent: any
+
   deviceRequestInfo: any;
   sessionId: any;
-  retornoLiveness: any;
   sessionKey: any;
+  sessionToken: any;
 
   constructor(
     private router: Router,
-    private certifaceSaasService: CertiFaceSaasService,
+    private facecaptchaService: FacecaptchaService,
     private ngZone: NgZone) { }
 
   async ngAfterViewInit() {
+    this.updateStatus('Inicializando...');
+
     await (window as any).FortfaceSDK.load();
 
     await customElements.whenDefined('fortface-sdk');
 
     await this.createFreshSdk();
-    await this.login();
-    await this.createToken();
-    await this.livenessResolve();
 
     window.localStorage.removeItem('hasLiveness');
 
-    this.enableButton = true;
-    this.updateStatus('Inicializado com sucesso');
+    this.appkey = window.localStorage.getItem('appkey');
+    this.userAgent = window.navigator.userAgent;
+
+    await this.createSession();
   }
 
-  async login() {
-    const resp: any = await firstValueFrom(
-      this.certifaceSaasService.login()
-    );
-    this.saasBearerToken = resp.body.token;
+  async createFreshSdk() {
+    this.fortfaceSdk = undefined as any;
+    this.deviceRequestInfo = undefined;
+    this.sessionKey  = undefined;
+    this.sessionToken = undefined;
+    this.sessionId = undefined;
+
+    await (window as any).FortfaceSDK.load();
+
+    const container = this.fortfaceContainer.nativeElement;
+    container.querySelectorAll('fortface-sdk')
+      .forEach(e => e.remove());
+
+    const sdk = document.createElement('fortface-sdk') as FortfaceSdkElement;
+    container.appendChild(sdk);
+
+    await customElements.whenDefined('fortface-sdk');
+
+    this.fortfaceSdk = sdk;
+    this.deviceRequestInfo = await sdk.start();
   }
 
-  async createToken() {
-    const resp: any = await firstValueFrom(
-      this.certifaceSaasService.createToken(this.saasBearerToken)
-    );
-    this.saasUuid = resp.body.uuid;
-  }
+  async createSession() {
+    try {
+      const resp: any = await firstValueFrom(
+        this.facecaptchaService.createFortfaceSession(this.appkey, this.userAgent, this.deviceRequestInfo)
+      );
 
-  async livenessResolve() {
-    const resp: any = await firstValueFrom(
-      this.certifaceSaasService.livenessResolve(this.saasUuid)
-    );
+      this.sessionId = resp.body.sessionId;
+      this.sessionKey = resp.body.sessionKey;
+      this.sessionToken = resp.body.sessionToken;
+
+      this.enableButton = true;
+      this.updateStatus('Inicializado com sucesso');
+
+    } catch (error) {
+      this.updateStatus('Sua appkey é inválida. Por favor, retorne a home para gerar uma nova.');
+    }
   }
 
   async startLivenessValidation() {
-    try {
-
-      this.updateStatus('Verificando localização...');
-
-      this.location = await this.getUserLocation();
-
-    } catch (error) {
-
-      this.updateStatus(
-        'É necessário permitir o acesso à localização para continuar.'
-      );
-
-      return;
-    }
-
-    const resp: any = await firstValueFrom(
-      this.certifaceSaasService.initialize(this.saasUuid, this.deviceRequestInfo)
-    );
-    this.sessionId = resp.body.payload.session.sessionId;
-    this.sessionKey = resp.body.payload.session.sessionKey;
-    window.localStorage.setItem('appkey', resp.body.payload.appKey)
-
     this.fortfaceSdk.startSession(
       this.fortfaceFinishSession.bind(this),
       this.sessionId,
-      resp.body.payload.session.sessionKey,
+      this.sessionKey,
       {
         returnMetrics: true,
       })
@@ -105,7 +105,7 @@ export class FortfaceComponent implements AfterViewInit {
     const { action, data, sessionDetails } = fortfaceSessionResult;
     switch (action) {
       case 'capture':
-        await this.handleResult(action, data, sessionDetails);
+        await this.handleResult(data);
         break;
       case 'cancel':
         this.updateStatus('Captura cancelada pelo usuário');
@@ -125,87 +125,40 @@ export class FortfaceComponent implements AfterViewInit {
     }
   }
 
-  async handleResult(action: any, data: any, sessionDetails: any) {
+  async handleResult(data: any) {
     this.enableButton = false;
     this.updateStatus('Enviando...');
 
     const livenessInfo = {
+      appkey: this.appkey,
       userAgent: window.navigator.userAgent,
+      sessionToken: this.sessionToken,
       sessionId: this.sessionId,
-      arrived: 'other',
-      action,
       key: data.encryptData.key,
       data: data.encryptData.data,
       imgData: data.encryptData.imgData,
-      externalTransactionId: this.saasUuid,
     }
 
-    const resp: any = await firstValueFrom(this.certifaceSaasService
-      .verifyLiveness(this.saasUuid, livenessInfo, this.location));
+    try {
+      const response: any = await firstValueFrom(
+        this.facecaptchaService.verifyFortfaceLiveness(livenessInfo)
+      );
 
-    if (!resp.body.liveness.valid && resp.body.liveness.canRetry) {
-      this.updateStatus('Preparando nova tentativa...');
-
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      this.updateStatus('');
-
-      await this.createFreshSdk();
-
-      this.startLivenessValidation();
-
-    } else if (!resp.body.liveness.valid) {
-      this.updateStatus('Prova de Vida reprovada');
-    } else {
-      this.updateStatus('Enviado com sucesso');
+      if (response.body.codID === 300.1 || response.body.codID === 300.2) {
+        this.updateStatus('Prova de Vida reprovada');
+      } else {
+        this.updateStatus('Enviado com sucesso');
+      }
+    } catch (error) {
+      this.updateStatus('Erro ao enviar');
     }
+
     window.localStorage.setItem('hasLiveness', 'true');
-  }
-
-  async createFreshSdk() {
-    this.fortfaceSdk = undefined as any;
-    this.deviceRequestInfo = undefined;
-    this.sessionId = undefined;
-
-    await (window as any).FortfaceSDK.load();
-
-    const container = this.fortfaceContainer.nativeElement;
-    container.querySelectorAll('fortface-sdk')
-      .forEach(e => e.remove());
-
-    const sdk = document.createElement('fortface-sdk') as FortfaceSdkElement;
-    container.appendChild(sdk);
-
-    await customElements.whenDefined('fortface-sdk');
-
-    this.fortfaceSdk = sdk;
-    this.deviceRequestInfo = await sdk.start();
   }
 
   updateStatus(message: any) {
     this.ngZone.run(() => {
       this.status = message;
-    });
-  }
-
-  async getUserLocation(): Promise<GeolocationPosition> {
-    return new Promise((resolve, reject) => {
-
-      if (!navigator.geolocation) {
-        reject(new Error('Geolocalização não suportada pelo navegador.'));
-        return;
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        resolve,
-        reject,
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
-
     });
   }
 

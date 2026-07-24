@@ -34,13 +34,10 @@ FortfaceSDK.load()
 createFreshSdk()
         │
         ▼
-login()
+createSession()
         │
         ▼
-createToken()
-        │
-        ▼
-livenessResolve()
+createFortfaceSession()
         │
         ▼
 Aplicação pronta
@@ -49,19 +46,19 @@ Aplicação pronta
 Usuário inicia validação
         │
         ▼
-Obtém geolocalização
-        │
-        ▼
-initialize()
-        │
-        ▼
 Fortface.startSession()
         │
         ▼
 Captura da prova de vida
         │
         ▼
-verifyLiveness()
+fortfaceFinishSession()
+        │
+        ▼
+handleResult()
+        │
+        ▼
+verifyFortfaceLiveness()
         │
         ▼
 Resultado
@@ -84,13 +81,10 @@ Resultado
 | Método | Descrição |
 | ------- | --------- |
 | `createFreshSdk()` | Remove qualquer instância anterior do WebComponent, cria uma nova instância e obtém o `deviceRequestInfo`. |
-| `login()` | Autentica o usuário na API SaaS e obtém um Token. |
-| `createToken()` | Cria uma nova sessão de jornada e retorna o UUID utilizado durante todo o processo. |
-| `livenessResolve()` | Associa o provedor de liveness ao token criado. |
-| `startLivenessValidation()` | Solicita a localização do usuário, inicializa a sessão e inicia a captura da prova de vida. |
+| `createSession()` | Inicializa a sessão do usuário. |
+| `startLivenessValidation()` | Inicia a captura da prova de vida. |
 | `fortfaceFinishSession()` | Recebe os eventos retornados pelo SDK (captura, cancelamento, timeout ou erro). |
 | `handleResult()` | Envia os dados capturados para validação e trata o resultado retornado pela API. |
-| `getUserLocation()` | Obtém a localização do usuário através da API de Geolocalização do navegador. |
 | `updateStatus()` | Atualiza a mensagem de status exibida na interface. |
 
 ---
@@ -104,21 +98,18 @@ A tela possui uma implementação simples composta por:
 - Container onde o WebComponent `fortface-sdk` é inserido dinamicamente.
 - Logo da Fortface.
 
-O componente é criado dinamicamente através do método `createFreshSdk()`, permitindo recriar a instância em caso de nova tentativa de validação.
+O componente é criado dinamicamente através do método `createFreshSdk()`
 
 ---
 
 ## Fluxo dos Serviços
 
-O serviço `CertiFaceSaasService` encapsula toda a comunicação com a API.
+O serviço `FacecaptchasService` encapsula toda a comunicação com a API.
 
 | Método | Endpoint | Objetivo |
 | ------- | -------- | -------- |
-| `login()` | `/api/v1/login` | Autenticação do usuário. |
-| `createToken()` | `/api/v1/protected/genToken` | Criação da jornada e obtenção do UUID. |
-| `livenessResolve()` | `/api/v1/token/{uuid}/liveness/resolve` | Associação do provedor de liveness à jornada. |
-| `initialize()` | `/api/v1/token/{uuid}/liveness/initialize` | Inicialização da sessão Fortface. Aqui é retornada a AppKey |
-| `verifyLiveness()` | `/api/v1/token/{uuid}/liveness/verify` | Envio da captura para validação. |
+| `createFortfaceSession()` | `/facecaptcha/service/captcha/fortface/session-token` | Envio da appkey, userAgent e deviceRequestInfo para abertura da sessão Fortface|
+| `verifyFortfaceLiveness()` | `/facecaptcha/service/captcha/fortface/liveness` | Envio dos dos dados da sessão gerados pelo SDK para validação da captura. |
 
 ---
 
@@ -126,23 +117,15 @@ O serviço `CertiFaceSaasService` encapsula toda a comunicação com a API.
 
 1. Carrega o SDK Fortface.
 2. Cria uma instância do WebComponent.
-3. Realiza autenticação.
-4. Gera o token da jornada.
-5. Resolve o provedor de liveness.
-6. Aguarda a ação do usuário.
-7. Solicita permissão de geolocalização.
-8. Inicializa a sessão de captura.
-9. Executa a prova de vida.
-10. Envia os dados para validação.
-11. Exibe o resultado.
-12. Caso permitido pela API, recria automaticamente o SDK para uma nova tentativa.
+4. Cria a sessão
+3. Aguarda a ação do usuário.
+4. Inicializa a captura.
+5. Executa a prova de vida.
+6. Envia os dados para validação.
+7. Exibe o resultado..
 
 ---
 
 ## Observações
 
-- O WebComponent é recriado a cada nova tentativa para garantir uma sessão limpa.
-- A geolocalização é obrigatória para iniciar a validação.
-- O `deviceRequestInfo` retornado pelo SDK deve ser enviado na chamada de `initialize()`
-- Em caso de falha no liveness, uma nova appkey é gerada a cada tentativa (limite padrão de 3 tentativas)
-````
+- O SDK da Fortface **bloqueia** a chamada para validação do liveness se a **guia de desenvolvedor (F12)** do navegador estiver aberta
