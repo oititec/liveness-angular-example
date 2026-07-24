@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   apiUrl: 'https://hml.certiface.com.br',
-  apiUrlSaas: 'https://apis-dev.biometria.io/certiface-saas',
 
   DeviceKeyIdentifier: 'dF2CabwQ6OCLFJaV2QqZhP7OUErHv0uz',
   PublicFaceScanEncryptionKey:

@@ -233,4 +233,26 @@ export class FacecaptchaService {
       observe: 'response',
     });
   }
+
+  createFortfaceSession(appkey: any, userAgent: any, deviceRequestInfo: any) {
+    const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/fortface/session-token`;
+
+    const body = {
+      appkey,
+      userAgent,
+      deviceRequestInfo,
+    }
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(url, body, { headers, observe: 'response' });
+  }
+
+  verifyFortfaceLiveness(livenessInfo: any) {
+    const url = `${this.SERVER_API_URL}/facecaptcha/service/captcha/fortface/liveness`;
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(url, livenessInfo, { headers, observe: 'response' });
+  }
 }
