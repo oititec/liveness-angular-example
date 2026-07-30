@@ -2,7 +2,13 @@ import { UI } from './UIFunctions';
 
 export const SampleAppUtilities = (function () {
   function displayStatus(message: string) {
-    (document.getElementById('status') as HTMLElement).innerHTML = message;
+    const statusElement = document.getElementById('status');
+
+    if (statusElement === null) {
+      return;
+    }
+
+    statusElement.innerHTML = message;
   }
 
   function fadeInMainUIContainer() {

@@ -222,10 +222,6 @@ export class LivenessCheckProcessor implements FaceTecFaceScanProcessor {
       null,
       this.latestNetworkRequest.status
     );
-
-    if (this.success) {
-      this.sampleAppControllerReference.redirectSendDocument();
-    }
   };
 
   //
