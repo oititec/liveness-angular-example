@@ -1,0 +1,14 @@
+html.facetec-host,
+html.facetec-host body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+html.facetec-host app-root {
+  display: block;
+  height: 100%;
+}

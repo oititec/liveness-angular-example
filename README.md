@@ -75,7 +75,15 @@ _data: 18/05/2026_
 - Atualização/aprimoramento dos modelos oficiais de OCR.
 - Aprimoramento da precisão do OCR para a maioria dos tipos de documentos.
 
-### [FaceTec SDK: 9.7.109](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.109)
+### [FaceTec SDK: 9.7.127](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.127)
+
+_data: 20/07/2026_
+- Aprimoramentos nas verificações de injeção de vídeo no dispositivo e no servidor para mitigar ameaças relacionadas à IA generativa.
+- Melhorias na taxa de sucesso e na compatibilidade com dispositivos.
+- Melhorias de desempenho e velocidade.
+- Aprimoramentos na precisão do OCR.
+- Atualização e aprimoramento dos modelos oficiais de OCR.
+- Melhoria da precisão do OCR para a maioria dos tipos de documentos.
 
 _data: 16/03/2026_
 - Melhorias nas Verificações de Injeção de Vídeo no Lado do Dispositivo e no Lado do Servidor para mitigar Ameaças de IA Generativa.
