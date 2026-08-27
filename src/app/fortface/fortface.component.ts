@@ -54,7 +54,7 @@ export class FortfaceComponent implements AfterViewInit {
   async createFreshSdk() {
     this.fortfaceSdk = undefined as any;
     this.deviceRequestInfo = undefined;
-    this.sessionKey  = undefined;
+    this.sessionKey = undefined;
     this.sessionToken = undefined;
     this.sessionId = undefined;
 
@@ -71,6 +71,22 @@ export class FortfaceComponent implements AfterViewInit {
 
     this.fortfaceSdk = sdk;
     this.deviceRequestInfo = await sdk.start();
+
+    const customizerProps = {
+      version: '1.0.0',
+      face_recognition: {
+        instructions_screen: {
+          continue_button: {
+            content: 'Começar',
+            background_color: 'rgb(80, 175, 8)',
+            text_color: 'rgb(255, 255, 255)',
+            corner_radius: 30
+          }
+        }
+      }
+    };
+
+    await sdk.setCustomizer(customizerProps);
   }
 
   async createSession() {
