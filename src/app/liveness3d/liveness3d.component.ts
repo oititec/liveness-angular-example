@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { FacetecHostService } from '../facetec-host.service';
 
 @Component({
-  selector: 'app-liveness3d',
-  templateUrl: './liveness3d.component.html',
-  styleUrls: ['./liveness3d.component.scss']
+    selector: 'app-liveness3d',
+    templateUrl: './liveness3d.component.html',
+    styleUrls: ['./liveness3d.component.scss'],
+    standalone: false
 })
 export class Liveness3dComponent implements OnInit, OnDestroy {
   FacetecLogo: string = '/assets/img/FaceTec_Logo.png';

@@ -10,9 +10,10 @@ import { DeveloperStatusMessages } from '../../assets/facetec-v10/utilities/Deve
 import { Facetecv10UiService } from './facetec-v10-ui.service';
 
 @Component({
-  selector: 'app-facetec-v10',
-  templateUrl: './facetec-v10.component.html',
-  styleUrls: ['./facetec-v10.component.css']
+    selector: 'app-facetec-v10',
+    templateUrl: './facetec-v10.component.html',
+    styleUrls: ['./facetec-v10.component.css'],
+    standalone: false
 })
 export class FacetecV10Component implements OnInit {
   FacetecLogo: string = '/assets/img/FaceTec_Logo.png';

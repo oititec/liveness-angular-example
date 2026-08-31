@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 
 @Component({
-  selector: 'app-fortface',
-  templateUrl: './fortface.component.html',
-  styleUrls: ['./fortface.component.css'],
+    selector: 'app-fortface',
+    templateUrl: './fortface.component.html',
+    styleUrls: ['./fortface.component.css'],
+    standalone: false
 })
 export class FortfaceComponent implements AfterViewInit {
 

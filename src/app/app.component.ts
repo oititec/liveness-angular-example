@@ -5,9 +5,10 @@ import { FacecaptchaService } from './backend/facecaptcha.service';
 import { Modal } from 'bootstrap';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent {
   title = 'liveness-angular-example';

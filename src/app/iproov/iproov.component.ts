@@ -7,7 +7,8 @@ import { lastValueFrom } from 'rxjs';
 @Component({
     selector: 'app-iproov',
     templateUrl: './iproov.component.html',
-    styleUrls: ['./iproov.component.scss']
+    styleUrls: ['./iproov.component.scss'],
+    standalone: false
 })
 export class IproovComponent implements OnInit {
     iProovLogo: string = '/assets/img/Iproov_Logo.png';

@@ -3,9 +3,10 @@ import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-senddocument',
-  templateUrl: './senddocument.component.html',
-  styleUrls: ['./senddocument.component.scss'],
+    selector: 'app-senddocument',
+    templateUrl: './senddocument.component.html',
+    styleUrls: ['./senddocument.component.scss'],
+    standalone: false
 })
 export class SenddocumentComponent implements OnInit {
   ImgIcon = '/assets/img/img-icon.png';

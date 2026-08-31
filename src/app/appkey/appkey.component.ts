@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-appkey',
-  templateUrl: './appkey.component.html',
-  styleUrls: ['./appkey.component.css'],
+    selector: 'app-appkey',
+    templateUrl: './appkey.component.html',
+    styleUrls: ['./appkey.component.css'],
+    standalone: false
 })
 export class AppkeyComponent implements OnInit {
   status: string = '';

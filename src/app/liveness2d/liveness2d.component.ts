@@ -4,9 +4,10 @@ import { Crypto } from '../crypto/crypto';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-liveness2d',
-  templateUrl: './liveness2d.component.html',
-  styleUrls: ['./liveness2d.component.scss']
+    selector: 'app-liveness2d',
+    templateUrl: './liveness2d.component.html',
+    styleUrls: ['./liveness2d.component.scss'],
+    standalone: false
 })
 export class Liveness2dComponent implements OnInit {
   EnvironmentIcon: string = "/assets/img/environment-icon.png";
