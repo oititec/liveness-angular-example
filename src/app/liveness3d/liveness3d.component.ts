@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SampleApp } from 'src/assets/sample-app';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { FacetecHostService } from '../facetec-host.service';
     selector: 'app-liveness3d',
     templateUrl: './liveness3d.component.html',
     styleUrls: ['./liveness3d.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class Liveness3dComponent implements OnInit, OnDestroy {

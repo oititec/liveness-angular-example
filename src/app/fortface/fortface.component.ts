@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { FortfaceSdkElement } from './interfaces/types';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { FacecaptchaService } from '../backend/facecaptcha.service';
     selector: 'app-fortface',
     templateUrl: './fortface.component.html',
     styleUrls: ['./fortface.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FortfaceComponent implements AfterViewInit {

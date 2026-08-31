@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service'
 import { Crypto } from '../crypto/crypto';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
     selector: 'app-liveness2d',
     templateUrl: './liveness2d.component.html',
     styleUrls: ['./liveness2d.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class Liveness2dComponent implements OnInit {

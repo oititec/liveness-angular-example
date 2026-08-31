@@ -1,4 +1,4 @@
-import { Component, ElementRef, VERSION, ViewChild } from '@angular/core';
+import { Component, ElementRef, VERSION, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { FacecaptchaService } from './backend/facecaptcha.service';
@@ -8,6 +8,7 @@ import { Modal } from 'bootstrap';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent {

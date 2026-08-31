@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import "../../assets/iproov/web-sdk"
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { lastValueFrom } from 'rxjs';
     selector: 'app-iproov',
     templateUrl: './iproov.component.html',
     styleUrls: ['./iproov.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IproovComponent implements OnInit {

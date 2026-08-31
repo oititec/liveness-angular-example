@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FaceTecSDK } from "../../assets/core-sdk-v10/core-sdk/FaceTecSDK.js/FaceTecSDK";
 import { Config } from "../../assets/facetec-v10/Config";
@@ -13,6 +13,7 @@ import { Facetecv10UiService } from './facetec-v10-ui.service';
     selector: 'app-facetec-v10',
     templateUrl: './facetec-v10.component.html',
     styleUrls: ['./facetec-v10.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FacetecV10Component implements OnInit {
