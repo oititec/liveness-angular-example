@@ -19,10 +19,6 @@
     "target": "es2015",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "es2018",
-      "dom"
-    ],
     "types": [
       "node"
     ]
