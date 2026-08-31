@@ -36,69 +36,77 @@
   </div>
 </div>
 
-<div *ngIf="liveness2DArea" class="liveness-2d">
-  <div id="overlay" class="overlay"></div>
-
-  <div class="liveness-area">
-    <div id="divCloseButton" class="divCloseButton">
-      <button type="button" class="btn btn-light btn-rounded" (click)="closeLiveness2D('')">
-        X
-      </button>
-    </div>
-
-    <div id="content-video" class="content-video">
-      <video *ngIf="video" id="video"></video>
-    </div>
-
-    <div *ngIf="divLoader" id="divLoader">
-      <div class="loader"></div>
-    </div>
-
-    <div *ngIf="divMsg" id="divMsg" class="divMsg">
-      <img id="imgChallenge" [src]="emojiBase64" alt="" />
-      <img id="imgMsg" [src]="msgBase64" alt="" />
-      <span *ngIf="spanMsg" id="spanMsg">{{message}}</span>
-    </div>
-
-    <div id="divButton" class="divButton">
-      <button type="button" class="btn btn-success btn-rounded" (click)="startCapture()">
-        Começar
-      </button>
+@if (liveness2DArea) {
+  <div class="liveness-2d">
+    <div id="overlay" class="overlay"></div>
+    <div class="liveness-area">
+      <div id="divCloseButton" class="divCloseButton">
+        <button type="button" class="btn btn-light btn-rounded" (click)="closeLiveness2D('')">
+          X
+        </button>
+      </div>
+      <div id="content-video" class="content-video">
+        @if (video) {
+          <video id="video"></video>
+        }
+      </div>
+      @if (divLoader) {
+        <div id="divLoader">
+          <div class="loader"></div>
+        </div>
+      }
+      @if (divMsg) {
+        <div id="divMsg" class="divMsg">
+          <img id="imgChallenge" [src]="emojiBase64" alt="" />
+          <img id="imgMsg" [src]="msgBase64" alt="" />
+          @if (spanMsg) {
+            <span id="spanMsg">{{message}}</span>
+          }
+        </div>
+      }
+      <div id="divButton" class="divButton">
+        <button type="button" class="btn btn-success btn-rounded" (click)="startCapture()">
+          Começar
+        </button>
+      </div>
     </div>
   </div>
-</div>
+}
 
 <!-- Modal sucesso -->
-<div *ngIf="livenessSuccess" id="liveness-2d-result" class="liveness-2d-result">
-  <div class="overlay success"></div>
-
-  <div class="result-text position-absolute t-0 l-0 d-flex align-items-center justify-content-center w-100 h-100">
-    <div class="text-center">
-      <img [src]="SuccessIcon" alt="" aria-hidden="true" class="mb-3" />
-      <br />
-      Tudo certo!
+@if (livenessSuccess) {
+  <div id="liveness-2d-result" class="liveness-2d-result">
+    <div class="overlay success"></div>
+    <div class="result-text position-absolute t-0 l-0 d-flex align-items-center justify-content-center w-100 h-100">
+      <div class="text-center">
+        <img [src]="SuccessIcon" alt="" aria-hidden="true" class="mb-3" />
+        <br />
+        Tudo certo!
+      </div>
     </div>
   </div>
-</div>
+}
 
 <!-- Modal erro -->
-<div *ngIf="handleShowModal" id="handleShowModal" role="dialog" aria-modal="true"
-  style="display: block; background-color: rgba(0,0,0,.8);" [class]="modalCssClasses" tabindex="-1">
-  <div class="modal-dialog modal-sm modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title h4"></div>
-        <button type="button" class="btn-close" aria-label="Close"></button>
-      </div>
-      <div class="text-center modal-body">
-        <img [src]="ErrorIcon" class="mb-3" alt="" aria-hidden="true">
-        <p class="m-0">Não foi possível concluir.<br>{{errorMessage}}</p>
-      </div>
-      <div class="mt-3 modal-footer">
-        <button type="button" class="w-100 btn-rounded btn btn-secondary" (click)="handleCloseModal()">Fechar</button>
+@if (handleShowModal) {
+  <div id="handleShowModal" role="dialog" aria-modal="true"
+    style="display: block; background-color: rgba(0,0,0,.8);" [class]="modalCssClasses" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title h4"></div>
+          <button type="button" class="btn-close" aria-label="Close"></button>
+        </div>
+        <div class="text-center modal-body">
+          <img [src]="ErrorIcon" class="mb-3" alt="" aria-hidden="true">
+          <p class="m-0">Não foi possível concluir.<br>{{errorMessage}}</p>
+        </div>
+        <div class="mt-3 modal-footer">
+          <button type="button" class="w-100 btn-rounded btn btn-secondary" (click)="handleCloseModal()">Fechar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+}
 
 <canvas id="fc_canvas" style="display: none"></canvas>

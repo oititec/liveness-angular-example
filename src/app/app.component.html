@@ -11,58 +11,56 @@
       </button>
 
       <div class="navbar-collapse collapse justify-content-end" [class.show]="menuOpen">
-        <div *ngIf="exibirBotoesMenu" class="header-actions">
+        @if (exibirBotoesMenu) {
+          <div class="header-actions">
+            @if (statusAppkey) {
+              <span>
+                <strong>{{ statusAppkey }}</strong>
+              </span>
+            }
+            <button class="btn btn-success btn-rounded" (click)="gerarAppKey()">
+              <strong>Gerar nova AppKey</strong>
+            </button>
+            <button class="btn btn-success btn-rounded" (click)="alterarDados()">
+              <strong>Alterar dados</strong>
+            </button>
+            <button class="btn btn-success btn-rounded" (click)="novaSessao()">
+              <strong>Nova sessão</strong>
+            </button>
+          </div>
+        }
 
-          <span *ngIf="statusAppkey">
-            <strong>{{ statusAppkey }}</strong>
-          </span>
-
-          <button class="btn btn-success btn-rounded" (click)="gerarAppKey()">
-            <strong>Gerar nova AppKey</strong>
-          </button>
-
-          <button class="btn btn-success btn-rounded" (click)="alterarDados()">
-            <strong>Alterar dados</strong>
-          </button>
-
-          <button class="btn btn-success btn-rounded" (click)="novaSessao()">
-            <strong>Nova sessão</strong>
-          </button>
-
-        </div>
-
-        <div *ngIf="exibirBotaoResult" class="header-actions">
-
-          <span *ngIf="result.message">
-            <strong>{{ result.message }}</strong>
-          </span>
-
-          <button class="btn btn-success btn-rounded" (click)="abrirModal()">
-            <strong>Obter Resultado</strong>
-          </button>
-
-          <div #resultadoModal class="modal fade" id="resultModal" tabindex="-1">
-            <div class="modal-dialog modal-result">
-              <div class="modal-content">
-                <div class="custom-modal-header">
-                  <h2>Resultado Liveness</h2>
-                  <button type="button" class="btn btn-success btn-rounded" data-bs-dismiss="modal">
-                    Fechar
-                  </button>
-                </div>
-
-                <div class="modal-body">
-                  <pre *ngIf="result.data" class="result-json">
-                  {{ result.data | json }}
-                </pre>
-
+        @if (exibirBotaoResult) {
+          <div class="header-actions">
+            @if (result.message) {
+              <span>
+                <strong>{{ result.message }}</strong>
+              </span>
+            }
+            <button class="btn btn-success btn-rounded" (click)="abrirModal()">
+              <strong>Obter Resultado</strong>
+            </button>
+            <div #resultadoModal class="modal fade" id="resultModal" tabindex="-1">
+              <div class="modal-dialog modal-result">
+                <div class="modal-content">
+                  <div class="custom-modal-header">
+                    <h2>Resultado Liveness</h2>
+                    <button type="button" class="btn btn-success btn-rounded" data-bs-dismiss="modal">
+                      Fechar
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    @if (result.data) {
+                      <pre class="result-json">
+                        {{ result.data | json }}
+                      </pre>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
-
           </div>
-
-        </div>
+        }
       </div>
 
     </div>

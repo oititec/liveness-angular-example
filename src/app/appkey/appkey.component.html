@@ -12,9 +12,11 @@
 
         <form class="form-horizontal" [formGroup]="formulario">
           <div class="mb-3">
-            <span *ngIf="status" class="align-self-center" [ngStyle]="{'color': 'red'}">
-              <strong>{{ status }}</strong>
-            </span>
+            @if (status) {
+              <span class="align-self-center" [ngStyle]="{'color': 'red'}">
+                <strong>{{ status }}</strong>
+              </span>
+            }
           </div>
 
           <div class="mb-3">
