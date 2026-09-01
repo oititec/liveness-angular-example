@@ -18,6 +18,12 @@ Para visualizar a documentação de cada módulo, utilize os links abaixo:
 
 - [Guia rápido de atualização](https://github.com/oititec/liveness-angular-example/blob/main/src/app/update-guide/README.md)
 
+### [Fortface SDK: 2.6.0](https://github.com/oititec/liveness-angular-example/blob/main/src/app/fortface/README.md)
+
+_data: 01/09/2026_
+
+- Liveness 3D da Fortface utilizando versão 2.6.0
+
 ### [Fortface SDK: 2.5.0](https://github.com/oititec/liveness-angular-example/blob/main/src/app/fortface/README.md)
 
 _data: 10/07/2026_
