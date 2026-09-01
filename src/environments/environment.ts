@@ -5,6 +5,9 @@
 export const environment = {
   production: false,
   apiUrl: 'https://hml.certiface.com.br',
+  // apiUrl: 'http://localhost:8080',
+  // apiUrl: 'https://facecaptchav2.internal.dev.certiface.io',
+  // apiUrl: 'https://www.certiface.com.br:8443',
 
   DeviceKeyIdentifier: 'dF2CabwQ6OCLFJaV2QqZhP7OUErHv0uz',
   PublicFaceScanEncryptionKey:
