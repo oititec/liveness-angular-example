@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-senddocument',
-  templateUrl: './senddocument.component.html',
-  styleUrls: ['./senddocument.component.scss'],
+    selector: 'app-senddocument',
+    templateUrl: './senddocument.component.html',
+    styleUrls: ['./senddocument.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class SenddocumentComponent implements OnInit {
   ImgIcon = '/assets/img/img-icon.png';

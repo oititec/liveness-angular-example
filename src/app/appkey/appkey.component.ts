@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-appkey',
-  templateUrl: './appkey.component.html',
-  styleUrls: ['./appkey.component.css'],
+    selector: 'app-appkey',
+    templateUrl: './appkey.component.html',
+    styleUrls: ['./appkey.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AppkeyComponent implements OnInit {
   status: string = '';

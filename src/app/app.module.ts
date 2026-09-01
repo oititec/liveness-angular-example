@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,33 +17,26 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FortfaceComponent } from './fortface/fortface.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    AppkeyComponent,
-    Liveness2dComponent,
-    Liveness3dComponent,
-    SenddocumentComponent,
-    SendDigitalCnhComponent,
-    SenddocumentComponent,
-    IproovComponent,
-    FacetecV10Component,
-    LoginComponent,
-    FortfaceComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        AppkeyComponent,
+        Liveness2dComponent,
+        Liveness3dComponent,
+        SenddocumentComponent,
+        SendDigitalCnhComponent,
+        SenddocumentComponent,
+        IproovComponent,
+        FacetecV10Component,
+        LoginComponent,
+        FortfaceComponent
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule], providers: [provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 export class AppModule { }
 
 declare global {

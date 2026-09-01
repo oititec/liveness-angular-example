@@ -78,90 +78,111 @@
   <img id="img-mobile" src="" aria-hidden="true" style="display: none;" />
 </div>
 
-<div *ngIf="sendDocument">
-  <div *ngIf="!isMobile()" class="overlay"></div>
-
-  <div class="send-document-area">
-    <div class="container">
-      <div *ngIf="message !== ''" class="div-msg">
-        <span id="spanMsg">{{message}}</span>
-      </div>
-
-      <video *ngIf="!showUpload && !isMobile()" id="video" class="object-fit-contain"></video>
-
-      <div *ngIf="snapTempDOM !== ''" id="thumb-picture"
-        [class]="isMobile() ? 'thumb-picture mobile-thumb' : 'thumb-picture'">
-        <div [class]="isMobile() ? 'thumb-group-card mobile-thumb' : 'thumb-group-card'">
-          <p>A foto do documento ficou boa?</p>
-          <div>
-            <img id="imgCamera" [src]="snapTempDOM" alt="" />
+@if (sendDocument) {
+  <div>
+    @if (!isMobile()) {
+      <div class="overlay"></div>
+    }
+    <div class="send-document-area">
+      <div class="container">
+        @if (message !== '') {
+          <div class="div-msg">
+            <span id="spanMsg">{{message}}</span>
           </div>
-        </div>
-      </div>
-
-      <div *ngIf="showUpload && !rotateCamera" [class]="isMobile() ? 'thumbs-group mobile-thumb' : 'thumbs-group'">
-        <div [class]="isMobile() ? 'thumb-group-card mobile-group' : 'thumb-group-card'">
-          <p>
-            Deseja enviar ou trocar
-            {{snapsCaptures.length === 2 ? 'as' : 'a'}}
-            {{snapsCaptures.length === 2 ? 'fotos' : 'foto'}}?
-          </p>
-
-          <div *ngFor="let snap of snapsCaptures; let i = index" class="thumbGroupCard">
-            <img id="imgCamera" [src]="snap" />
-            <button type="button" (click)="removeSnapFromLists(i)"
-              class="badge rounded-pill text-bg-primary border border-0 btnImage fadeIn left btnImage fadeIn left d-flex align-content-center justify-content-center mx-auto mt-2 mb-4">
+        }
+        @if (!showUpload && !isMobile()) {
+          <video id="video" class="object-fit-contain"></video>
+        }
+        @if (snapTempDOM !== '') {
+          <div id="thumb-picture"
+            [class]="isMobile() ? 'thumb-picture mobile-thumb' : 'thumb-picture'">
+            <div [class]="isMobile() ? 'thumb-group-card mobile-thumb' : 'thumb-group-card'">
+              <p>A foto do documento ficou boa?</p>
+              <div>
+                <img id="imgCamera" [src]="snapTempDOM" alt="" />
+              </div>
+            </div>
+          </div>
+        }
+        @if (showUpload && !rotateCamera) {
+          <div [class]="isMobile() ? 'thumbs-group mobile-thumb' : 'thumbs-group'">
+            <div [class]="isMobile() ? 'thumb-group-card mobile-group' : 'thumb-group-card'">
+              <p>
+                Deseja enviar ou trocar
+                {{snapsCaptures.length === 2 ? 'as' : 'a'}}
+                {{snapsCaptures.length === 2 ? 'fotos' : 'foto'}}?
+              </p>
+              @for (snap of snapsCaptures; track snap; let i = $index) {
+                <div class="thumbGroupCard">
+                  <img id="imgCamera" [src]="snap" />
+                  <button type="button" (click)="removeSnapFromLists(i)"
+                    class="badge rounded-pill text-bg-primary border border-0 btnImage fadeIn left btnImage fadeIn left d-flex align-content-center justify-content-center mx-auto mt-2 mb-4">
+                    <i class="material-icons me-2" aria-hidden="true">
+                      loop
+                    </i>
+                    Trocar foto
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        }
+        @if (btnControllers) {
+          <div class="d-flex btn-controllers">
+            <button type="button" class="btn btn-primary d-flex align-items-center btnImage fadeIn right mt-2 me-2"
+              (click)="snapTick()">
               <i class="material-icons me-2" aria-hidden="true">
-                loop
+                insert_photo
               </i>
-              Trocar foto
+              Usar foto
+            </button>
+            <button type="button" class="btn btn-primary d-flex align-items-center btnImage fadeIn right mt-2"
+              (click)="resetSnap()">
+              <i class="material-icons me-2" aria-hidden="true">
+                add_photo_alternate
+              </i>
+              Tirar nova foto
             </button>
           </div>
-        </div>
-      </div>
-
-      <div *ngIf="btnControllers" class="d-flex btn-controllers">
-        <button type="button" class="btn btn-primary d-flex align-items-center btnImage fadeIn right mt-2 me-2"
-          (click)="snapTick()">
-          <i class="material-icons me-2" aria-hidden="true">
-            insert_photo
-          </i>
-          Usar foto
-        </button>
-        <button type="button" class="btn btn-primary d-flex align-items-center btnImage fadeIn right mt-2"
-          (click)="resetSnap()">
-          <i class="material-icons me-2" aria-hidden="true">
-            add_photo_alternate
-          </i>
-          Tirar nova foto
-        </button>
-      </div>
-
-      <div *ngIf="rotateCamera === false" class="d-flex btn-controllers">
-        <button *ngIf="showIniciar && !btnControllers && !showUpload && !isMobile()" type="button" id="btnIniciar"
-          class="btn btn-primary d-flex align-items-center btnImage btnCapture fadeIn mt-2 me-2"
-          (click)="startCapture()">
-          <i class="material-icons me-2" aria-hidden="true">
-            camera_alt
-          </i>
-          Tirar foto
-        </button>
-
-        <button *ngIf="showUpload && !uploadRequest"
-          class="btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2" (click)="uploadPictures()"
-          [disabled]="isLoaded">
-          <i *ngIf="isLoaded" class="material-icons me-2" aria-hidden="true">
-            cloud_upload
-          </i>
-          <i *ngIf="!isLoaded" class="material-icons me-2" aria-hidden="true">
-            outbox
-          </i>
-          <span *ngIf="isLoaded">Carregando...</span>
-          <span *ngIf="!isLoaded">Enviar foto{{snapsCaptures.length === 2 ? 's' : ''}}</span>
-        </button>
+        }
+        @if (rotateCamera === false) {
+          <div class="d-flex btn-controllers">
+            @if (showIniciar && !btnControllers && !showUpload && !isMobile()) {
+              <button type="button" id="btnIniciar"
+                class="btn btn-primary d-flex align-items-center btnImage btnCapture fadeIn mt-2 me-2"
+                (click)="startCapture()">
+                <i class="material-icons me-2" aria-hidden="true">
+                  camera_alt
+                </i>
+                Tirar foto
+              </button>
+            }
+            @if (showUpload && !uploadRequest) {
+              <button
+                class="btn btn-primary d-flex align-items-center btnImage btnUpload fadeIn mt-2" (click)="uploadPictures()"
+                [disabled]="isLoaded">
+                @if (isLoaded) {
+                  <i class="material-icons me-2" aria-hidden="true">
+                    cloud_upload
+                  </i>
+                }
+                @if (!isLoaded) {
+                  <i class="material-icons me-2" aria-hidden="true">
+                    outbox
+                  </i>
+                }
+                @if (isLoaded) {
+                  <span>Carregando...</span>
+                }
+                @if (!isLoaded) {
+                  <span>Enviar foto{{snapsCaptures.length === 2 ? 's' : ''}}</span>
+                }
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
+    <canvas id="fc_canvas" style="display: none;"></canvas>
   </div>
-
-  <canvas id="fc_canvas" style="display: none;"></canvas>
-</div>
+}

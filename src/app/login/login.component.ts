@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacecaptchaService } from '../backend/facecaptcha.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class LoginComponent {
   formulario: FormGroup<any>;
