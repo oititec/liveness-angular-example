@@ -71,17 +71,15 @@ _data: 04/11/2025_
 - Ajustes para alguns problemas de câmera específicos com o navegador Chrome no desktop
 - [Consulte também a documentação da Iproov](https://github.com/iProov/web)
 
-### [FaceTec SDK: 9.7.118](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.118)
+### [FaceTec SDK: 9.7.136](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.136)
 
-_data: 18/05/2026_
-- Melhorias nas verificações de injeção de vídeo no dispositivo e no servidor para mitigar ameaças de IA generativa.
+_data: 22/09/2026_
+- Aprimoramentos nas verificações de injeção de vídeo no dispositivo e no servidor para mitigar ameaças relacionadas à IA generativa.
 - Melhorias na taxa de sucesso e na compatibilidade com dispositivos.
-- Melhorias no desempenho/velocidade.
-- Melhorias na precisão do OCR.
-- Atualização/aprimoramento dos modelos oficiais de OCR.
-- Aprimoramento da precisão do OCR para a maioria dos tipos de documentos.
-
-### [FaceTec SDK: 9.7.127](https://github.com/oititec/liveness-angular-example/blob/main/src/assets/9.7.127)
+- Melhorias de desempenho e velocidade.
+- Aprimoramentos na precisão do OCR.
+- Atualização e aprimoramento dos modelos oficiais de OCR.
+- Melhoria da precisão do OCR para a maioria dos tipos de documentos.
 
 _data: 20/07/2026_
 - Aprimoramentos nas verificações de injeção de vídeo no dispositivo e no servidor para mitigar ameaças relacionadas à IA generativa.
@@ -90,6 +88,14 @@ _data: 20/07/2026_
 - Aprimoramentos na precisão do OCR.
 - Atualização e aprimoramento dos modelos oficiais de OCR.
 - Melhoria da precisão do OCR para a maioria dos tipos de documentos.
+
+_data: 18/05/2026_
+- Melhorias nas verificações de injeção de vídeo no dispositivo e no servidor para mitigar ameaças de IA generativa.
+- Melhorias na taxa de sucesso e na compatibilidade com dispositivos.
+- Melhorias no desempenho/velocidade.
+- Melhorias na precisão do OCR.
+- Atualização/aprimoramento dos modelos oficiais de OCR.
+- Aprimoramento da precisão do OCR para a maioria dos tipos de documentos.
 
 _data: 16/03/2026_
 - Melhorias nas Verificações de Injeção de Vídeo no Lado do Dispositivo e no Lado do Servidor para mitigar Ameaças de IA Generativa.
